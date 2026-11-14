@@ -8,4 +8,4 @@ La presentación suaviza con CSS el borde inferior de esta composición para int
 
 `Luffy2.svg` es una copia íntegra de `../../../../Luffy2.svg`, proporcionada por la autora. Aparece debajo del texto en el lateral derecho de su presentación, sin marco y con su transparencia y proporción originales. Sus imágenes están incorporadas en el SVG. La interfaz suaviza los bordes inferior y derecho con una máscara CSS y añade el bocadillo «guau guau»; el archivo original permanece intacto.
 
-Luffy se limita a 180 px de ancho, junto a los controles finales en escritorio y debajo en móvil. Su espacio de composición aprovecha el margen transparente superior del SVG para que no alargue la página.
+Luffy se limita a 140 px de ancho, superpuesto en el lateral derecho del cierre en escritorio y debajo de los controles en móvil. Su espacio de composición aprovecha el margen transparente superior del SVG para que no alargue la página.

@@ -126,9 +126,10 @@ main:focus { outline: none; }
 .portrait-leaf { min-width: 0; }
 .portrait-leaf img { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom,#000 94%,transparent); mask-image: linear-gradient(to bottom,#000 94%,transparent); }
 .page-about .page-turn { margin-top: 12px; }
-.about-ending { display: flex; align-items: flex-end; gap: 16px; width: 100%; margin-top: 12px; }
-.about-actions { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; padding-bottom: 12px; }
-.author-companion { position: relative; flex: 0 0 38%; max-width: 180px; aspect-ratio: 868/800; }
+.about-ending { position: relative; display: flex; align-items: flex-start; width: 100%; min-height: 90px; }
+.about-actions { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; padding-right: min(45%,160px); }
+.about-actions .page-number { margin-top: 8px; }
+.author-companion { position: absolute; top: -40px; right: 0; width: 38%; max-width: 140px; aspect-ratio: 868/800; }
 .author-companion img { position: absolute; bottom: 0; display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom,#000 75%,transparent),linear-gradient(to right,#000 85%,transparent); mask-image: linear-gradient(to bottom,#000 75%,transparent),linear-gradient(to right,#000 85%,transparent); -webkit-mask-composite: source-in; mask-composite: intersect; pointer-events: none; }
 .author-companion figcaption { position: absolute; top: 22%; left: -58px; padding: 7px 11px; border-radius: 20px 20px 3px 20px; background: var(--yellow); color: var(--plum); font-size: 13px; font-weight: 500; line-height: 1.4; white-space: nowrap; transform: rotate(-6deg); box-shadow: 0 4px 24px #fddd4629; }
 .book-leaf { min-width: 0; padding: 47px 42px 32px; display: flex; flex-direction: column; align-items: flex-start; }
@@ -137,7 +138,7 @@ main:focus { outline: none; }
 .book-leaf h1 em { line-height: 1; display: inline-block; margin-top: 6px; }
 .book-leaf h2 { margin: 22px 0 30px; }
 .book-leaf p { font-size: 16px; line-height: 1.95; margin-bottom: 23px; color: #dfdef0; }
-.book-leaf .author-invitation { font: italic clamp(26px,2.8vw,34px)/1.35 var(--expressive); color: var(--pink); max-width: 26ch; margin: 6px 0 12px; }
+.book-leaf .author-invitation { font: italic clamp(26px,2.8vw,34px)/1.35 var(--expressive); color: var(--pink); max-width: 26ch; margin: 6px 0 4px; }
 .page-turn { margin-top: auto; max-width: 100%; }
 .page-number { font-size: 11px; color: var(--muted); margin-top: 29px; }
 .introduction-leaf { background: linear-gradient(145deg,#fca4bc08,transparent 60%); }
@@ -259,6 +260,8 @@ footer { border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; alig
   .gateway, .notebook, .game { background: #36134f; }
 }
 @media (max-width: 1000px) {
+  .about-ending { min-height: 120px; }
+  .author-companion { top: -8px; width: 32%; }
   .book-leaf { padding: 35px 28px 25px; }
   .controls { padding: 32px 25px 25px; }
   .board-area { padding: 15px 15px 25px; }
@@ -286,8 +289,8 @@ footer { border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; alig
 }
 @media (max-width: 560px) {
   .about-ending { flex-wrap: wrap; }
-  .about-actions { flex-basis: 100%; padding-bottom: 0; }
-  .author-companion { flex-basis: 48%; margin: 8px 0 0 auto; }
+  .about-actions { flex-basis: 100%; padding-right: 0; }
+  .author-companion { position: relative; top: auto; right: auto; width: 44%; margin: -20px 0 0 auto; }
   .author-companion figcaption { left: -45px; }
   .cover-author { width: 100%; }
   .cover-author-button { padding: 12px 18px; }
