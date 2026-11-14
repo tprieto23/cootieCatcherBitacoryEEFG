@@ -1,27 +1,40 @@
-# cootieCatcherBitacoryEEFG
-Log of writings and readings for the course Metodologia Feministas II
+# Bitácory · Una bitácora feminista
 
-## Juego de notas secretas
+Bitácora de reflexiones y escrituras automáticas del curso Metodologías Feministas II, de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia. Curso dirigido por Mara Viveros, con acompañamiento tutorial de Paula Giraldo.
 
-La primera versión del juego está en `juego/`. Es una aplicación pequeña de React con Vite: un comecocos con textura de papel, un dado animado y ocho notas que se descubren jugando.
+La aplicación React y Vite está en `juego/`. Manzanita del Perú invita a descubrir los escritos de Tania mediante un comecocos de ocho pliegues y un dado.
 
-### Ejecutar
+## Desarrollo
 
-Requiere Node.js 20.19 o posterior.
+Requiere Node.js 20.19 o posterior. Desde este repositorio:
 
 ```sh
 cd juego
-npm install
-npm run dev
+npm ci
+npm run dev -- --open
 ```
 
-Para compilar: `npm run build`. Para comprobar la mecánica: `npm test`.
+Mantener la terminal activa para usar la web local. Abrir la dirección que imprime Vite. `npm test` comprueba la mecánica y el guardado personal; `npm run build` genera `dist/`. `npm run preview` permite revisar la compilación local.
 
-### Publicar en Vercel
+## Recorrido y contenido
 
-La configuración de despliegue está en `juego/vercel.json`. Antes de importar el repositorio, subir a GitHub la carpeta `juego/`, incluido su `package-lock.json`.
+La bienvenida ofrece Introducción, Saber más sobre mí e Iniciar. El cuaderno une la presentación de Tania con la introducción; después aparecen el aviso del bolsillo feminista, la elección de alias y el juego.
 
-En Vercel, crear un proyecto e importar `tprieto23/cootieCatcherBitacoryEEFG` con estos valores:
+Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva el orden de las ocho clases. Los pliegues 5 y 8 invitan a volver a jugar mientras se terminan sus contenidos. Las notas anteriores se conservan en `src/legacy-notes.js`.
+
+Los enlaces a PDF locales se conservan en los Markdown fuente; no se muestran como enlaces públicos porque esas lecturas no están alojadas en la web.
+
+Después de leer se puede elegir una palabra provisional, sin responder preguntas ni escribir. El bolsillo reúne esas palabras y permite releer los relatos abiertos. El cierre recapitula el recorrido; la conclusión final sigue pendiente de escritura. La presentación y la introducción publicadas son la primera versión acordada durante el diseño. La fotografía está pendiente: consultar `src/assets/README.md`.
+
+## Guardado personal
+
+No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, posición, pliegues abiertos y palabras se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
+
+## Vercel
+
+Proyecto: `bitacory`, equipo `tania pojects`. La primera versión se publicó en https://bitacory-coral.vercel.app/.
+
+Importar `tprieto23/cootieCatcherBitacoryEEFG` con:
 
 | Opción | Valor |
 | --- | --- |
@@ -31,26 +44,6 @@ En Vercel, crear un proyecto e importar `tprieto23/cootieCatcherBitacoryEEFG` co
 | Output Directory | `dist` |
 | Install Command | `npm ci` |
 
-Esta versión no necesita variables de entorno. Tras desplegar, abrir la URL de producción y comprobar una tirada, la apertura de una nota y la recarga de la página. Con la integración de GitHub, los siguientes cambios enviados a `main` actualizarán la publicación.
+`juego/vercel.json` fija framework, compilación y salida. Esta versión no necesita variables de entorno. La rama de producción es `main`. Comprobar el despliegue correspondiente al commit nuevo y abrir la URL para verificar la bienvenida, el alias, una tirada y el guardado al recargar; un push por sí solo no confirma la publicación.
 
-La web publicada funciona sin mantener encendido el computador. El servidor de `npm run dev` sirve únicamente para editar y revisar localmente.
-
-### Dinámica
-
-1. La partida empieza antes de la pestaña 1.
-2. Lanza un dado de seis caras. El resultado indica cuántas pestañas avanzar en sentido horario.
-3. Al pasar de la pestaña 8, vuelves a la 1. Las siguientes tiradas parten desde tu última posición.
-4. Abre la pestaña donde caíste para leer su nota. Las demás permanecen cerradas.
-5. Vuelve a lanzar para seguir descubriendo notas. El contador registra notas distintas abiertas durante esa partida.
-
-El progreso vive en memoria: recargar la página o pulsar «Empezar de nuevo» reinicia la partida.
-
-### Escribir las notas
-
-Reemplaza los ocho objetos de `juego/src/notes.js` con las notas de la autora. Cada objeto tiene `title` y `text`; el orden corresponde a las pestañas 1–8. Los textos actuales son ejemplos, no escritos de la autora. Al sustituirlos, actualiza también los rótulos de ejemplo del pie de página y del diálogo en `juego/src/main.jsx`.
-
-«Secretas» describe la experiencia de descubrirlas jugando; la aplicación no utiliza cuentas ni un servidor para proteger los textos.
-
-### Documentación del proyecto
-
-La documentación general se mantiene en `../.agent/` dentro de la carpeta de trabajo Bitacory.
+La web pública funciona sin mantener encendido el computador. La documentación de continuidad está en `../.agent/`.

@@ -1,0 +1,184 @@
+import React, { useEffect, useReducer, useRef, useState } from 'react';
+import { gameReducer } from './game.js';
+import { notes } from './notes.js';
+import { eraseJourney, readJourney, wordChoices, writeJourney } from './journey.js';
+
+const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', bolsillo: 'notice', alias: 'alias', jugar: 'game', cierre: 'recap' };
+function currentRoute() { return routes[window.location.hash.replace(/^#\/?/, '')] ?? 'home'; }
+function getStorage() { try { return window.localStorage; } catch { return null; } }
+const portraits = import.meta.glob('./assets/portrait.{jpg,jpeg,png,webp,avif}', { eager: true, query: '?url', import: 'default' });
+const portrait = Object.values(portraits)[0];
+
+function Arrow() { return <span aria-hidden="true">↗</span>; }
+
+function InlineText({ text }) {
+  return text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/).map((part, index) => part.startsWith('**') && part.endsWith('**')
+    ? <strong key={index}>{part.slice(2, -2)}</strong>
+    : part.startsWith('*') && part.endsWith('*') ? <em key={index}>{part.slice(1, -1)}</em> : part);
+}
+
+function StoryText({ text }) {
+  let references = false;
+  return <div className="story-text">{text.split(/\n\s*\n/).map((block, index) => {
+    // The source files retain their local PDF links. Do not publish broken local links.
+    if (/^\[Lectura de referencia\]\(/.test(block)) return null;
+    if (/^(García-Santesmases,|Falconí Abad,|Osorio-Cabrera,|Smith,|Gregorio Gil,|Corona Berkin,|Briones,|\*\*Referencia\*\*)/.test(block)) references = true;
+    return <p key={index} className={references ? 'reference' : ''}><InlineText text={block} /></p>;
+  })}</div>;
+}
+
+function Dialog({ title, eyebrow, onClose, children, wide = false }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const dialog = ref.current;
+    const previousOverflow = document.body.style.overflow;
+    dialog.showModal();
+    document.body.style.overflow = 'hidden';
+    return () => { if (dialog.open) dialog.close(); document.body.style.overflow = previousOverflow; };
+  }, []);
+  return <dialog ref={ref} className={`modal ${wide ? 'reading-modal' : ''}`} aria-labelledby="dialog-title" onCancel={event => { event.preventDefault(); onClose(); }} onClick={event => { if (event.target === ref.current) onClose(); }}>
+    <div className="modal-inner"><button className="close-button" onClick={onClose} aria-label="Cerrar ventana">×</button><span className="eyebrow">{eyebrow}</span><h2 id="dialog-title">{title}</h2>{children}</div>
+  </dialog>;
+}
+
+function WordNotes({ words, large = false }) {
+  return <div className={`word-notes ${large ? 'large-notes' : ''}`}>{Object.entries(words).map(([index, word]) => <div className="word-note" key={index}><span>{word}</span><small>Pliegue {Number(index) + 1}</small></div>)}</div>;
+}
+
+function ReadEntry({ note, selected, onSave, onReturn }) {
+  const [choices] = useState(() => wordChoices(selected));
+  return <>
+    <StoryText text={note.text} />
+    {note.available && <section className="word-invitation" aria-label="Llevar una palabra del relato"><span className="eyebrow">UN PEQUEÑO RECUERDO</span><h3>Me llevo una palabra</h3><p>Elige una para tu bolsillo, si te apetece.</p><div className="word-choices">{choices.map(word => <button type="button" key={word} aria-pressed={word === selected} onClick={() => onSave(word)}>{word}{word === selected && <span aria-hidden="true"> ✓</span>}</button>)}</div><p className="word-saved" role="status">{selected ? `«${selected}» va contigo.` : ''}</p></section>}
+    <button className="primary" onClick={onReturn}>Volver al papel <Arrow /></button>
+  </>;
+}
+
+function AuthorPortrait({ Flower }) {
+  return <figure className="portrait-frame">{portrait ? <img src={portrait} alt="Tania, autora de Bitácory" /> : <div className="portrait-type"><Flower className="portrait-flower" /><span>Tania</span><small>entre ciencias,<br />artes y feminismos</small></div>}<figcaption>una bitácora para compartir</figcaption></figure>;
+}
+
+function Notebook({ page, onAbout, onIntroduction, onExplore, Flower }) {
+  return <section className={`notebook page-${page}`} key={page} aria-label="Cuaderno de Tania">
+    {page === 'about' ? <>
+      <div className="book-leaf portrait-leaf"><span className="eyebrow">SABER MÁS SOBRE MÍ</span><AuthorPortrait Flower={Flower} /><span className="handwritten">el lugar desde el que miro</span></div>
+      <div className="book-leaf"><span className="eyebrow">MI PRESENTACIÓN</span><h1>Desde dónde<br /><em>escribo.</em></h1><p>Soy Tania, una mujer que transita entre las ciencias naturales y exactas, las ciencias de datos y la tecnología.</p><p>Soy feminista y amante de las artes. Esos encuentros también forman parte del lugar desde el que aprendo y escribo.</p><p>En estas páginas comparto reflexiones que han acompañado mi recorrido por las metodologías feministas.</p><button className="primary page-turn" onClick={onIntroduction}>Pasar a la introducción <Arrow /></button><span className="page-number">01 · Mi presentación</span></div>
+    </> : <>
+      <div className="book-leaf"><span className="eyebrow">INTRODUCCIÓN</span><h1>De dónde nace<br />esta <em>bitácora.</em></h1><p>Esta bitácora reúne reflexiones y escrituras automáticas construidas en el marco del curso Metodologías Feministas II de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia, dirigido por Mara Viveros y con el acompañamiento tutorial de Paula Giraldo.</p><p>En sus pliegues comparto aprendizajes que toman forma entre las lecturas del curso y mis experiencias.</p><button className="text-button" onClick={onAbout}>← Volver a mi presentación</button><span className="page-number">02 · Introducción</span></div>
+      <div className="book-leaf introduction-leaf"><Flower className="book-flower" /><span className="eyebrow">LEER, ENCONTRARNOS, JUGAR</span><h2>Un papel que<br />se abre contigo.</h2><p>Te invito a acercarte a estos escritos a través de Manzanita del Perú: abrir un pliegue, encontrar un relato y detenerte en aquello que te acompañe.</p><p>Mientras juegas, podrás reunir palabras en tu bolsillo feminista y volver a encontrarlas al cerrar el recorrido.</p><button className="primary page-turn" onClick={onExplore}>Explora jugando Manzanita del Perú <Arrow /></button><span className="page-number">03 · La invitación</span></div>
+    </>}
+  </section>;
+}
+
+export function Experience({ Paper, Die, Flower }) {
+  const [storage] = useState(getStorage);
+  const [saved] = useState(() => readJourney(storage));
+  const [alias, setAlias] = useState(saved.alias);
+  const [aliasDraft, setAliasDraft] = useState(saved.alias);
+  const [state, dispatch] = useReducer(gameReducer, saved.game);
+  const [words, setWords] = useState(saved.words);
+  const [route, setRoute] = useState(currentRoute);
+  const [modal, setModal] = useState(null);
+  const [visualDie, setVisualDie] = useState(saved.game.die ?? 1);
+  const [storageAvailable, setStorageAvailable] = useState(Boolean(storage));
+  const mainRef = useRef(null);
+  const busy = ['rolling', 'moving'].includes(state.phase);
+  const screen = ['game', 'recap'].includes(route) && !alias ? 'alias' : route;
+  const openedStories = state.discovered.filter(index => notes[index].available);
+  const collectedCount = Object.keys(words).length;
+
+  function navigate(next) {
+    setModal(null);
+    const slug = Object.keys(routes).find(key => routes[key] === next) ?? 'inicio';
+    window.location.hash = `/${slug}`;
+    setRoute(next);
+  }
+
+  useEffect(() => {
+    const onHash = () => { setModal(null); setRoute(currentRoute()); };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  useEffect(() => {
+    mainRef.current?.focus({ preventScroll: true });
+    window.scrollTo(0, 0);
+  }, [screen]);
+
+  useEffect(() => {
+    if (alias && !busy) setStorageAvailable(writeJourney(storage, { alias, game: state, words }));
+  }, [alias, busy, state, words, storage]);
+
+  useEffect(() => {
+    if (state.phase !== 'rolling') return;
+    const interval = setInterval(() => setVisualDie(Math.floor(Math.random() * 6) + 1), 85);
+    const timeout = setTimeout(() => {
+      const value = Math.floor(Math.random() * 6) + 1;
+      setVisualDie(value); dispatch({ type: 'land', value });
+    }, 800);
+    return () => { clearInterval(interval); clearTimeout(timeout); };
+  }, [state.phase]);
+
+  useEffect(() => {
+    if (state.phase !== 'moving') return;
+    const timeout = setTimeout(() => dispatch({ type: 'step' }), 280);
+    return () => clearTimeout(timeout);
+  }, [state.phase, state.remaining]);
+
+  function openNote(index = state.position) {
+    if (index === state.position && state.phase === 'ready') dispatch({ type: 'read' });
+    else if (!state.discovered.includes(index)) return;
+    if (index >= 0 && index < notes.length) setModal({ kind: 'note', index });
+  }
+
+  function begin(event) {
+    event.preventDefault();
+    const input = event.currentTarget.elements.alias;
+    const nextAlias = aliasDraft.trim();
+    if (!nextAlias) { input.setCustomValidity('Elige un alias para acompañar tu recorrido.'); input.reportValidity(); return; }
+    setAlias(nextAlias.slice(0, 40)); navigate('game');
+  }
+
+  function resetJourney() {
+    const erased = eraseJourney(storage);
+    setAlias(''); setAliasDraft(''); setWords({}); dispatch({ type: 'reset' }); setVisualDie(1);
+    setStorageAvailable(erased && Boolean(storage)); navigate('alias');
+  }
+
+  const status = state.phase === 'idle' ? 'Tu primer encuentro está a una tirada.'
+    : state.phase === 'rolling' ? 'Un poquito de azar…'
+    : state.phase === 'moving' ? `Salió ${state.die}. El papel sigue los pliegues…`
+    : `Salió ${state.die}. Puedes abrir el pliegue ${state.position + 1}.`;
+
+  return <>
+    <a className="skip-link" href="#main-content">Saltar al contenido</a>
+    <header className="site-header"><button className="brand" onClick={() => navigate('home')} aria-label="Bitácory, inicio"><span aria-hidden="true">✳</span>bitácory<span className="brand-dot">.</span></button><nav aria-label="Navegación principal"><button onClick={() => navigate('introduction')} aria-current={screen === 'introduction' ? 'page' : undefined}>Introducción</button><button onClick={() => navigate('about')} aria-current={screen === 'about' ? 'page' : undefined}>Saber más sobre mí</button><button className="nav-start" onClick={() => navigate('notice')}>Iniciar <Arrow /></button>{alias && <button className="pocket-button" onClick={() => setModal({ kind: 'pocket' })}>Mi bolsillo <span>{collectedCount}</span></button>}</nav></header>
+
+    <main id="main-content" ref={mainRef} tabIndex={-1}>
+      {screen === 'home' && <section className="welcome"><div className="welcome-copy"><span className="eyebrow">APRENDER ENTRE PLIEGUES</span><h1>Una bitácora<br /><em>feminista.</em></h1><p className="welcome-description">Un recorrido construido a partir de reflexiones y escrituras automáticas en el marco del curso <strong>Metodologías Feministas II</strong> de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia.</p><p className="course-credits">Curso dirigido por Mara Viveros, con el acompañamiento tutorial de Paula Giraldo.</p><p className="welcome-promise">Un espacio para aprender con confianza, encontrarnos en la diversidad y explorar con libertad.</p><div className="welcome-actions"><button className="primary" onClick={() => navigate('introduction')}>Abrir la introducción <Arrow /></button><button className="text-button" onClick={() => navigate('notice')}>Ir a jugar <Arrow /></button></div></div><div className="welcome-art" aria-hidden="true"><span className="paper-caption">MANZANITA DEL PERÚ</span><div className="cover-paper"><span>VIDAS</span><span>SABERES</span><span>ENCUENTROS</span><span>MEMORIAS</span></div><Flower className="cover-flower" /><span className="handwritten">un papel que se abre contigo</span></div></section>}
+
+      {['about', 'introduction'].includes(screen) && <Notebook page={screen} onAbout={() => navigate('about')} onIntroduction={() => navigate('introduction')} onExplore={() => navigate('notice')} Flower={Flower} />}
+
+      {screen === 'notice' && <section className="gateway"><span className="eyebrow">ANTES DE JUGAR</span><div className="pocket-illustration" aria-hidden="true"><span>✿</span></div><h1>Tu bolsillo<br /><em>feminista.</em></h1><p>A lo largo del juego podrás guardar palabras clave y pequeñas reflexiones que iremos construyendo juntas, entre mis relatos y tu lectura.</p><p>Al final volverás a encontrarlas, junto al cierre de la bitácora, como recuerdo de tu recorrido.</p><p className="quiet-note">Podrás llevarte una palabra con un toque o simplemente seguir jugando.</p><button className="primary" onClick={() => navigate('alias')}>Preparar mi bolsillo <Arrow /></button></section>}
+
+      {screen === 'alias' && <section className="gateway alias-screen"><span className="eyebrow">ESTE RECORRIDO ES TUYO</span><h1>Un nombre<br /><em>para jugar.</em></h1><form onSubmit={begin}><label htmlFor="player-alias">Elige tu alias</label><input id="player-alias" name="alias" value={aliasDraft} onChange={event => { event.target.setCustomValidity(''); setAliasDraft(event.target.value); }} maxLength={40} autoComplete="off" required placeholder="Puede ser un nombre inventado" /><p className="quiet-note">Tu alias y tu bolsillo se quedan en este navegador. No se envían a Tania y puedes borrarlos cuando quieras.</p><button className="primary" type="submit">{alias ? 'Volver a jugar' : 'Comenzar a jugar'} <Arrow /></button></form></section>}
+
+      {screen === 'game' && <>
+        <section className="game-heading"><div><span className="eyebrow">MANZANITA DEL PERÚ</span><h1>{alias},<br /><em>vamos a jugar.</em></h1></div><p>Un dado, ocho pliegues y muchas formas de encontrarnos.<br />Lanza, abre un relato y llévate algo de él.</p></section>
+        <section className="game" aria-label="Juego de Manzanita del Perú"><div className="board-area"><div className="board-topline"><span>EL PAPEL SE ABRE CONTIGO</span><button className="text-button" onClick={() => setModal({ kind: 'help' })}>Cómo se juega ↗</button></div><Paper state={state} onOpen={() => openNote()} /><p className="board-caption">ocho pliegues, muchas formas de encontrarnos</p></div><aside className="controls" aria-label="Controles del juego"><span className="eyebrow">QUE DECIDA EL AZAR</span><h2>Todo empieza<br />con una tirada.</h2><div className="dice-tray"><Die value={visualDie} rolling={state.phase === 'rolling'} /><span className="dice-doodle" aria-hidden="true">✧</span></div><button className="primary roll-button" disabled={busy} onClick={() => dispatch({ type: 'roll' })}>{state.phase === 'rolling' ? 'Lanzando…' : state.phase === 'moving' ? 'Siguiendo los pliegues…' : 'Lanzar el dado'} <Arrow /></button><p className="status" role="status" aria-live="polite" aria-atomic="true">{status}</p>{state.phase === 'ready' && <button className="open-note" onClick={() => openNote()}>Abrir el pliegue {state.position + 1} →</button>}<div className="collection"><span className="eyebrow">TUS ENCUENTROS</span><div className="discovery-dots" aria-label={`${openedStories.length} relatos abiertos`}>{notes.map((note, index) => <span key={index} className={state.discovered.includes(index) && note.available ? 'found' : ''} aria-hidden="true">{state.discovered.includes(index) && note.available ? '✦' : '·'}</span>)}</div><p>{openedStories.length === 6 ? 'Ya encontraste los seis relatos de esta edición.' : 'Cada relato es un encuentro. Puedes volver a él desde tu bolsillo.'}</p></div></aside></section>
+        <section className="pocket-strip"><div><span className="eyebrow">TU BOLSILLO FEMINISTA</span>{collectedCount ? <WordNotes words={words} /> : <p>Aquí caben las palabras que decidas llevarte.</p>}</div><button className="text-button" onClick={() => navigate('recap')}>Desplegar mi cierre <Arrow /></button></section>
+      </>}
+
+      {screen === 'recap' && <section className="recap-screen"><span className="eyebrow">UN ÚLTIMO PLIEGUE</span><h1>Lo que te llevas,<br /><em>{alias}.</em></h1><p>Un puñado de palabras que encontraste entre estos pliegues.</p>{collectedCount ? <WordNotes words={words} large /> : <p className="empty-pocket">Tu bolsillo también puede guardar el tiempo que te tomaste para leer. Puedes volver al papel y elegir palabras si te apetece.</p>}<div className="recap-columns"><section><h2>Los relatos que abriste</h2>{openedStories.length ? <ul className="story-list">{openedStories.map(index => <li key={index}><span>{String(index + 1).padStart(2, '0')}</span><button onClick={() => openNote(index)}>{notes[index].title}</button></li>)}</ul> : <p>El papel sigue abierto para tu primer encuentro.</p>}</section><section className="closing-note"><span className="eyebrow">UNA BITÁCORA QUE SIGUE CRECIENDO</span><Flower className="closing-flower" /><h2>El cierre también<br />tiene su tiempo.</h2><p>La conclusión de esta bitácora está en escritura. Mientras toma forma, aquí queda el recuerdo de tu recorrido.</p></section></div><div className="recap-actions"><button className="primary" onClick={() => navigate('game')}>Volver al papel <Arrow /></button><button className="text-button" onClick={() => setModal({ kind: 'reset' })}>Borrar mi recorrido de este navegador</button></div></section>}
+
+      {!storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}
+    </main>
+
+    <footer><span>BITÁCORY · UNA BITÁCORA ENTRE PLIEGUES</span><span>Metodologías Feministas II · Una bitácora en construcción</span></footer>
+
+    {modal?.kind === 'note' && <Dialog title={notes[modal.index].title} eyebrow={`PLIEGUE ${String(modal.index + 1).padStart(2, '0')} · ${notes[modal.index].available ? 'UN RELATO PARA ENCONTRARNOS' : 'OTRA TIRADA, OTRO ENCUENTRO'}`} wide onClose={() => setModal(null)}><ReadEntry key={modal.index} note={notes[modal.index]} selected={words[modal.index]} onSave={word => setWords(previous => ({ ...previous, [modal.index]: word }))} onReturn={() => { setModal(null); navigate('game'); }} /></Dialog>}
+    {modal?.kind === 'help' && <Dialog title="Un pequeño ritual" eyebrow="CÓMO SE JUEGA" onClose={() => setModal(null)}><ol className="instructions"><li><strong>Lanza el dado.</strong> El papel se mueve tantos pasos como indique la tirada.</li><li><strong>Abre el pliegue.</strong> La pestaña de llegada guarda un relato o una invitación a volver a jugar.</li><li><strong>Llévate una palabra.</strong> Después de leer puedes tocar una de las palabras para guardarla en tu bolsillo.</li></ol><p>Avanzas desde tu última posición; después del pliegue ocho, vuelves al primero. Tu cierre está disponible cuando quieras hacer una pausa.</p><button className="primary" onClick={() => setModal(null)}>Vamos a jugar <Arrow /></button></Dialog>}
+    {modal?.kind === 'pocket' && <Dialog title="Tu bolsillo feminista" eyebrow="LAS PALABRAS QUE TE ACOMPAÑAN" onClose={() => setModal(null)}>{collectedCount ? <WordNotes words={words} /> : <p>Aquí caben las palabras que decidas llevarte después de cada relato.</p>}{openedStories.length > 0 && <ul className="story-list">{openedStories.map(index => <li key={index}><span>{String(index + 1).padStart(2, '0')}</span><button onClick={() => openNote(index)}>{notes[index].title}</button></li>)}</ul>}<p className="quiet-note">Este bolsillo se guarda solo en tu navegador. Tania no recibe tu alias ni tus elecciones.</p><button className="primary" onClick={() => navigate('recap')}>Desplegar mi cierre <Arrow /></button><button className="text-button erase-button" onClick={() => setModal({ kind: 'reset' })}>Borrar mi recorrido</button></Dialog>}
+    {modal?.kind === 'reset' && <Dialog title="Vaciar mi bolsillo" eyebrow="TU RECORRIDO PERSONAL" onClose={() => setModal(null)}><p>Se borrarán de este navegador tu alias, tus palabras y los pliegues abiertos. Podrás empezar otra vez.</p><div className="reset-actions"><button className="primary" onClick={resetJourney}>Borrar mi recorrido</button><button className="text-button" onClick={() => setModal(null)}>Conservarlo</button></div></Dialog>}
+  </>;
+}

@@ -1,6 +1,6 @@
-import React, { useEffect, useReducer, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
-import { gameReducer, initialState } from './game.js';
+import { Experience } from './experience.jsx';
 import { notes } from './notes.js';
 import './styles.css';
 
@@ -27,7 +27,7 @@ function Paper({ state, onOpen }) {
   useEffect(() => {
     if (state.phase === 'ready') activeRef.current?.focus({ preventScroll: true });
   }, [state.phase]);
-  return <div className={`paper ${state.phase === 'moving' ? 'is-moving' : ''}`}>
+  return <div className={`paper ${state.phase === 'moving' ? 'is-moving' : state.phase === 'rolling' ? 'is-folding' : ''}`}>
     <svg viewBox="0 0 600 600" className="paper-shape" aria-hidden="true">
       <defs>
         <filter id="paper-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="3" dy="16" stdDeviation="12" floodColor="#493728" floodOpacity=".18" /></filter>
@@ -56,88 +56,4 @@ function Paper({ state, onOpen }) {
   </div>;
 }
 
-function Modal({ kind, noteIndex, onClose, onPlay }) {
-  const ref = useRef(null);
-  useEffect(() => {
-    const dialog = ref.current;
-    dialog.showModal();
-    return () => { if (dialog.open) dialog.close(); };
-  }, []);
-  const isNote = kind === 'note';
-  return <dialog ref={ref} className={`modal ${isNote ? 'note-modal' : ''}`} aria-labelledby="modal-title" onCancel={event => { event.preventDefault(); onClose(); }} onClick={event => { if (event.target === ref.current) onClose(); }}>
-    <div className="modal-inner">
-      <button className="close-button" onClick={onClose} aria-label="Cerrar">×</button>
-      <span className="eyebrow">{isNote ? `PLIEGUE ${String(noteIndex + 1).padStart(2, '0')} · NOTA DE EJEMPLO` : 'UN PEQUEÑO RITUAL'}</span>
-      <Flower className="modal-flower" />
-      <h2 id="modal-title">{isNote ? notes[noteIndex].title : 'Cómo se juega'}</h2>
-      {isNote ? <><p className="note-text">{notes[noteIndex].text}</p><p className="note-signature">hasta el próximo pliegue ♡</p><button className="primary" onClick={onPlay}>Seguir jugando <span aria-hidden="true">↗</span></button></> : <>
-        <ol className="instructions"><li><strong>Lanza el dado.</strong> El azar decide cuántos pasos darás.</li><li><strong>Sigue los pliegues.</strong> Avanzas en sentido horario desde tu última posición. Después del 8, vuelves al 1.</li><li><strong>Abre tu nota.</strong> Solo puedes abrir la pestaña en la que caíste. Vuelve a lanzar para descubrir otras.</li></ol>
-        <p className="small-print">Empiezas justo antes de la pestaña 1. Si sale un 3 en tu primera tirada, llegarás a la pestaña 3.</p>
-        <button className="primary" onClick={onClose}>Vamos a jugar <span aria-hidden="true">↗</span></button>
-      </>}
-    </div>
-  </dialog>;
-}
-
-function App() {
-  const [state, dispatch] = useReducer(gameReducer, initialState);
-  const [visualDie, setVisualDie] = useState(1);
-  const [modal, setModal] = useState(null);
-  const busy = ['rolling', 'moving'].includes(state.phase);
-  useEffect(() => {
-    if (state.phase !== 'rolling') return;
-    const interval = setInterval(() => setVisualDie(Math.floor(Math.random() * 6) + 1), 85);
-    const timeout = setTimeout(() => {
-      const result = Math.floor(Math.random() * 6) + 1;
-      setVisualDie(result);
-      dispatch({ type: 'land', value: result });
-    }, 800);
-    return () => { clearInterval(interval); clearTimeout(timeout); };
-  }, [state.phase]);
-  useEffect(() => {
-    if (state.phase !== 'moving') return;
-    const timeout = setTimeout(() => dispatch({ type: 'step' }), 280);
-    return () => clearTimeout(timeout);
-  }, [state.phase, state.remaining]);
-
-  function roll() { dispatch({ type: 'roll' }); }
-  function openNote() {
-    if (state.phase !== 'ready') return;
-    dispatch({ type: 'read' });
-    setModal('note');
-  }
-  const message = state.phase === 'idle' ? 'Tu primera nota está a una tirada.'
-    : state.phase === 'rolling' ? 'Un poquito de azar…'
-    : state.phase === 'moving' ? `Salió ${state.die}. Avanzando ${state.die} ${state.die === 1 ? 'paso' : 'pasos'}…`
-    : `Salió ${state.die}. Llegaste a la pestaña ${state.position + 1}.`;
-  return <>
-    <header className="site-header"><a className="brand" href="./" aria-label="Bitácory, inicio"><span aria-hidden="true">✳</span> bitácory<span className="brand-dot">.</span></a><span className="header-caption">PALABRAS QUE SE GUARDAN EN PAPEL</span><button className="text-button" onClick={() => setModal('help')}>Cómo se juega <span aria-hidden="true">↗</span></button></header>
-    <main>
-      <section className="intro" aria-labelledby="page-title">
-        <div className="intro-label"><span className="tiny-line" /> UNA BITÁCORA PARA DESCUBRIR</div>
-        <h1 id="page-title">Hay notas que esperan<br />un poco de <em>azar.</em><span className="title-star" aria-hidden="true">✧</span></h1>
-        <p>Lanza un dado, sigue los pliegues y encuentra<br className="desktop-break" /> algo que estaba escrito para ser descubierto.</p>
-        <Flower className="intro-flower" />
-        <div className="margin-note">ocho pliegues,<br />muchas formas<br />de encontrarnos <span aria-hidden="true">⤵</span></div>
-      </section>
-      <section className="game" aria-label="Juego del comecocos">
-        <div className="board-area"><div className="board-topline"><span>01 — EL COMECOCOS</span><span>DE PAPEL Y PALABRAS</span></div><Paper state={state} onOpen={openNote} /><p className="board-caption">un pliegue, una pequeña sorpresa <span aria-hidden="true">✦</span></p></div>
-        <aside className="controls" aria-label="Controles del juego">
-          <span className="eyebrow">QUE DECIDA EL AZAR</span>
-          <h2>Todo empieza<br />con una tirada.</h2>
-          <p className="controls-intro">Un dado. Ocho pestañas.<br />Una nota esperando por ti.</p>
-          <div className="dice-tray"><Die value={visualDie} rolling={state.phase === 'rolling'} /><span className="dice-doodle" aria-hidden="true">✧</span></div>
-          <button className="primary roll-button" onClick={roll} disabled={busy}>{state.phase === 'rolling' ? 'Lanzando…' : state.phase === 'moving' ? 'Siguiendo los pliegues…' : state.phase === 'idle' ? 'Lanzar el dado' : 'Volver a lanzar'}<span aria-hidden="true">↗</span></button>
-          <p className="status" role="status" aria-live="polite" aria-atomic="true">{message}</p>
-          {state.phase === 'ready' && <button className="open-note" onClick={openNote}>Abrir la nota {state.position + 1} <span aria-hidden="true">→</span></button>}
-          <div className="collection"><div><span>TUS DESCUBRIMIENTOS</span><span>{state.discovered.length} / 8</span></div><div className="progress" aria-label={`${state.discovered.length} de 8 notas descubiertas`}>{notes.map((_, i) => <span key={i} className={state.discovered.includes(i) ? 'found' : ''} aria-hidden="true">{state.discovered.includes(i) ? '✦' : '·'}</span>)}</div><p>{state.discovered.length === 8 ? 'Encontraste todos los secretos. Puedes volver a leerlos jugando.' : 'Cada nota descubierta deja una pequeña huella.'}</p></div>
-        </aside>
-      </section>
-      <div className="under-game"><span><span aria-hidden="true">♡</span> Hecho para jugar sin prisa.</span><button className="text-button reset-button" disabled={busy || state.phase === 'idle'} onClick={() => { dispatch({ type: 'reset' }); setVisualDie(1); }}>Empezar de nuevo <span aria-hidden="true">↺</span></button></div>
-    </main>
-    <footer><span>BITÁCORY · UNA BITÁCORA ENTRE PLIEGUES</span><span>Primera edición · Notas de ejemplo</span></footer>
-    {modal && <Modal kind={modal} noteIndex={state.position} onClose={() => setModal(null)} onPlay={() => { setModal(null); roll(); }} />}
-  </>;
-}
-
-createRoot(document.getElementById('root')).render(<React.StrictMode><App /></React.StrictMode>);
+createRoot(document.getElementById('root')).render(<React.StrictMode><Experience Paper={Paper} Die={Die} Flower={Flower} /></React.StrictMode>);

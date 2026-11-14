@@ -1,0 +1,17 @@
+# Lo que sigue conversando
+
+Mi mamá me cuenta que algunas de las cosas que hablamos llegan después a sus conversaciones con amigas. Una reflexión que compartimos en casa encuentra otras voces y experiencias, continúa en espacios donde yo no estoy. Su interés hace posible que aprendamos juntas y que ese aprendizaje siga moviéndose. Al escucharla, pienso en los lugares donde se construye conocimiento y en las personas a quienes he aprendido a reconocer como capaces de producirlo.
+
+Durante mi formación en Física, aprendí a valorar la posibilidad de comprobar y explicar fenómenos de la naturaleza. También fui reconociendo el prestigio de unas bases teóricas cuya autoridad encontraba principalmente en tradiciones europeas y del norte global. Ese horizonte de legitimidad me lleva hoy a preguntarme qué lugar damos a lo que aprendemos desde nuestras propias vidas. Leer a Falconí Abad amplía esa pregunta al reconocer un conocimiento que explicita desde qué cuerpos, historias y territorios se construye (2022, pp. 104–107).
+
+En mi ensayo, los recuerdos surgieron de los momentos que más marcaron mi trayectoria universitaria. Muchas de las violencias que narro ocurrieron durante mi primer año, cuando todavía tenía pocas herramientas para comprenderlas. Entre lo que podía entender entonces y lo que alcanzo a interpretar ahora están las mujeres con quienes encontré espacios seguros para hablar, los encuentros feministas y las teorías que fueron dando otros sentidos a mi historia.
+
+Al leer a Osorio-Cabrera, Gandarias y Fulladosa, me detengo en la «cocina» de la investigación: hacer visibles las decisiones y las incomodidades que participan en la producción de conocimiento (2021, pp. 51–52). Vuelvo entonces a cómo elegí mis recuerdos y a las conversaciones desde las que aprendí a interpretarlos. Mi historia es mía porque la viví, y la mirada con la que hoy la cuento lleva las huellas de quienes me acompañaron.
+
+Ese aprendizaje circula también entre mis amigas y en la militancia feminista. Conversamos sobre la Física que estudio y sobre lo complejo que resulta aprenderla en espacios atravesados por jerarquías que distribuyen de manera desigual la palabra y el reconocimiento. Con mis amigos, tomando una cerveza, la discusión puede encontrarse con preguntas que desbordan las fronteras de una disciplina. En casa, mi mamá se interesa, conversamos y ella vuelve a llevar lo aprendido hacia sus propios vínculos. Reconozco allí una reciprocidad que circula y amplía las redes donde compartimos saberes, como plantean Osorio-Cabrera y sus compañeras (2021, p. 61).
+
+Las epistemologías feministas amplían mi manera de conocer porque dan lugar a mis preguntas, ideas, dudas y miedos, y me acercan a reflexiones construidas desde cuerpos y territorios diversos. Escribo desde esa posibilidad de aprender y compartir. Quiero que mi experiencia encuentre a otras mujeres, que puedan ponerla en diálogo con sus vidas y continuar la conversación. Pienso en mi mamá hablando con sus amigas: algo de lo que aprendemos juntas sigue encontrando caminos.
+
+Falconí Abad, M. (2022). La epistemología feminista: una forma alternativa de generación de conocimiento y práctica. *Contribuciones desde Coatepec*, 37, 101–114.
+
+Osorio-Cabrera, D., Gandarias Goikoetxea, I., & Fulladosa Leal, K. (2021). Consideraciones ético-político-afectivas en investigaciones feministas: articulaciones situadas entre academia y activismo. *EMPIRIA*, 50, 43–66.
