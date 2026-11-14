@@ -1,5 +1,5 @@
-# Fotografía de Tania
+# Imagen de presentación de Tania
 
-Cuando la autora comparta y elija su fotografía, guardarla aquí como `portrait.jpg`, `portrait.jpeg`, `portrait.png`, `portrait.webp` o `portrait.avif`. Mantener una sola de esas variantes. La aplicación la incorporará al cuaderno al compilar.
+`sobreTania.svg` es la composición proporcionada por la autora para acompañar su presentación. Es una copia íntegra de `../../../../sobreTania.svg`, en la carpeta de trabajo Bitacory. Contiene sus fotografías incorporadas y no depende de enlaces externos.
 
-Mientras no haya fotografía, se muestra una composición tipográfica con su nombre; no es una imagen de la autora.
+Se importa desde `experience.jsx` y se publica al compilar. Conservar su proporción vertical y mostrarla completa, sin recortarla ni sustituirla por una imagen generada. Para actualizarla, reemplazar esta copia con la versión que indique la autora.

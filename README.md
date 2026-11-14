@@ -28,7 +28,7 @@ Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`
 
 Los enlaces a PDF locales se conservan en los Markdown fuente; no se muestran como enlaces públicos porque esas lecturas no están alojadas en la web.
 
-Después de leer se puede elegir una palabra provisional, sin responder preguntas ni escribir. El bolsillo reúne esas palabras y permite releer los relatos abiertos. El cierre recapitula el recorrido; la conclusión final sigue pendiente de escritura. La presentación y la introducción publicadas son la primera versión acordada durante el diseño. La fotografía está pendiente: consultar `src/assets/README.md`.
+Después de leer se puede elegir una palabra provisional, sin responder preguntas ni escribir. El bolsillo reúne esas palabras y permite releer los relatos abiertos. El cierre recapitula el recorrido; la conclusión final sigue pendiente de escritura. La presentación y la introducción usan la primera versión acordada durante el diseño. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
 
 ## Guardado personal
 

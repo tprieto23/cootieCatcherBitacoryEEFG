@@ -2,12 +2,11 @@ import React, { useEffect, useReducer, useRef, useState } from 'react';
 import { gameReducer } from './game.js';
 import { notes } from './notes.js';
 import { eraseJourney, readJourney, wordChoices, writeJourney } from './journey.js';
+import portrait from './assets/sobreTania.svg';
 
 const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', bolsillo: 'notice', alias: 'alias', jugar: 'game', cierre: 'recap' };
 function currentRoute() { return routes[window.location.hash.replace(/^#\/?/, '')] ?? 'home'; }
 function getStorage() { try { return window.localStorage; } catch { return null; } }
-const portraits = import.meta.glob('./assets/portrait.{jpg,jpeg,png,webp,avif}', { eager: true, query: '?url', import: 'default' });
-const portrait = Object.values(portraits)[0];
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
@@ -109,14 +108,14 @@ function ReadEntry({ note, selected, onSave, onReturn }) {
   </>;
 }
 
-function AuthorPortrait({ Flower }) {
-  return <figure className="portrait-frame">{portrait ? <img src={portrait} alt="Tania, autora de NEBULA-F23" /> : <div className="portrait-type"><Flower className="portrait-flower" /><span>Tania</span><small>entre ciencias,<br />artes y feminismos</small></div>}<figcaption>una bitácora para compartir</figcaption></figure>;
+function AuthorPortrait() {
+  return <figure className="portrait-frame"><img src={portrait} alt="Composición de fotografías de Tania Prieto, autora de NEBULA-F23" /><figcaption>una bitácora para compartir</figcaption></figure>;
 }
 
 function Notebook({ page, onAbout, onIntroduction, onExplore, Flower }) {
   return <section className={`notebook page-${page}`} key={page} aria-label="Cuaderno de Tania">
     {page === 'about' ? <>
-      <div className="book-leaf portrait-leaf"><span className="eyebrow">SABER MÁS SOBRE MÍ</span><AuthorPortrait Flower={Flower} /><span className="handwritten">el lugar desde el que miro</span></div>
+      <div className="book-leaf portrait-leaf"><span className="eyebrow">SABER MÁS SOBRE MÍ</span><AuthorPortrait /><span className="handwritten">el lugar desde el que miro</span></div>
       <div className="book-leaf"><span className="eyebrow">MI PRESENTACIÓN</span><h1>Desde dónde<br /><em>escribo.</em></h1><p>Soy Tania, una mujer que transita entre las ciencias naturales y exactas, las ciencias de datos y la tecnología.</p><p>Soy feminista y amante de las artes. Esos encuentros también forman parte del lugar desde el que aprendo y escribo.</p><p>En estas páginas comparto reflexiones que han acompañado mi recorrido por las metodologías feministas.</p><button className="cover-open page-turn" onClick={onIntroduction}>Abrir Bitácora <Arrow /></button><span className="page-number">01 · Mi presentación</span></div>
     </> : <>
       <div className="book-leaf"><span className="eyebrow">INTRODUCCIÓN</span><h1>De dónde nace<br />esta <em>bitácora.</em></h1><p>Esta bitácora reúne reflexiones y escrituras automáticas construidas en el marco del Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia, dirigido por Mara Viveros y con el acompañamiento tutorial de Paula Giraldo.</p><p>En sus pliegues comparto aprendizajes que toman forma entre las lecturas del curso y mis experiencias.</p><button className="text-button" onClick={onAbout}>← Volver a mi presentación</button><span className="page-number">02 · Introducción</span></div>
