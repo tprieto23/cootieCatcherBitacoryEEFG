@@ -11,6 +11,46 @@ const portrait = Object.values(portraits)[0];
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
+const cosmicNoise = seed => {
+  const value = Math.sin(seed * 127.1 + 311.7) * 43758.5453;
+  return value - Math.floor(value);
+};
+const galaxyArms = [0, Math.PI].map(offset => Array.from({ length: 100 }, (_, index) => {
+  const t = index / 99;
+  const angle = t * Math.PI * 3 + offset;
+  const radius = 8 + t * 164;
+  return `${index ? 'L' : 'M'}${200 + Math.cos(angle) * radius},${200 + Math.sin(angle) * radius}`;
+}).join(' '));
+
+function SpiralGalaxy({ side }) {
+  return <div className={`spiral-galaxy galaxy-${side}`}><svg className="galaxy-disc" viewBox="0 0 400 400">
+    <defs>
+      <radialGradient id={`galaxy-core-${side}`}><stop stopColor="#fff8de" /><stop offset=".12" stopColor="#FDDD46" stopOpacity=".8" /><stop offset=".38" stopColor="#FCA4BC" stopOpacity=".6" /><stop offset="1" stopColor="#FCA4BC" stopOpacity="0" /></radialGradient>
+      <filter id={`galaxy-mist-${side}`} x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="7" /></filter>
+    </defs>
+    <g className="galaxy-spin">
+      <g fill="none" stroke="#FCA4BC" strokeWidth="22" opacity=".24" filter={`url(#galaxy-mist-${side})`}>{galaxyArms.map((d,index) => <path key={index} d={d} />)}</g>
+      <g fill="none" stroke="#d4dcf3" strokeWidth="3" opacity=".23" filter={`url(#galaxy-mist-${side})`}>{galaxyArms.map((d,index) => <path key={index} d={d} />)}</g>
+      {Array.from({ length: 360 }, (_, index) => {
+        const t = (index % 180) / 179;
+        const angle = t * Math.PI * 3 + (index < 180 ? 0 : Math.PI);
+        const spread = 4 + t * 14;
+        const radius = 8 + t * 164 + (cosmicNoise(index + 1) - .5) * spread;
+        return <circle key={index} cx={200 + Math.cos(angle) * radius + (cosmicNoise(index + 401) - .5) * spread} cy={200 + Math.sin(angle) * radius + (cosmicNoise(index + 701) - .5) * spread} r={.5 + cosmicNoise(index + 901) * 1.35} fill={index % 7 ? '#e8d7ed' : '#FDDD46'} opacity={.25 + cosmicNoise(index + 1101) * .65} />;
+      })}
+    </g>
+    <circle cx="200" cy="200" r="65" fill={`url(#galaxy-core-${side})`} />
+  </svg></div>;
+}
+
+function DeepSpace() {
+  return <>
+    <div className="space-nebula" />
+    <svg className="deep-stars" viewBox="0 0 1440 1000" preserveAspectRatio="xMidYMid slice">{Array.from({length: 170}, (_,index) => <circle key={index} cx={cosmicNoise(index + 12) * 1440} cy={cosmicNoise(index + 812) * 1000} r={.45 + cosmicNoise(index + 1612) * 1.05} opacity={.2 + cosmicNoise(index + 2412) * .65} />)}</svg>
+    <SpiralGalaxy side="left" /><SpiralGalaxy side="right" />
+  </>;
+}
+
 function Constellation({ side }) {
   const stars = side === 'left'
     ? [[42,72],[118,126],[75,211],[151,271],[109,352],[31,401],[70,491],[153,545],[114,641],[48,723],[157,755]]
@@ -173,6 +213,7 @@ export function Experience({ Paper, Die, Flower }) {
 
     <main id="main-content" className={isCover ? 'cover-main' : undefined} ref={mainRef} tabIndex={-1}>
       {isCover && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
+        <DeepSpace />
         {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
           <Constellation side={side} />
           <span className="lateral-spark spark-one">✦</span><span className="lateral-spark spark-two">✧</span><span className="lateral-spark spark-three">✦</span>
