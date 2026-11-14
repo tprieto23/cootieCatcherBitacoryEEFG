@@ -222,11 +222,11 @@ export function Experience({ Paper, Die, Flower }) {
       {isCover && <section className="welcome" aria-labelledby="cover-title">
         <div className="cover-orbit" aria-hidden="true" />
         <div className="welcome-copy">
-          <h1 className="welcome-title" id="cover-title">NEBULA<span className="title-code">-F23</span></h1>
-          <p className="cover-author">Bitácora por: Tania Prieto</p>
+          <h1 className="welcome-title" id="cover-title"><span className="cover-greeting">Bienvenide a</span>NEBULA<span className="title-code">-F23</span></h1>
+          <p className="cover-author">Bitácora por:<strong>Tania Prieto</strong></p>
           <div className="cover-rule" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 1C13.5 8.5 15.5 10.5 23 12C15.5 13.5 13.5 15.5 12 23C10.5 15.5 8.5 13.5 1 12C8.5 10.5 10.5 8.5 12 1Z" /></svg></div>
           <p className="welcome-description">Un recorrido construido a partir de reflexiones y escrituras automáticas en el marco del curso <strong>Metodologías Feministas II</strong> de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia.</p>
-          <p className="welcome-promise">un espacio para leernos diferente</p>
+          <p className="welcome-promise">¿Quieres saber qué pasa cuando dos galaxias se chocan?</p>
           <p className="course-credits">Curso dirigido por Mara Viveros,<br />con el acompañamiento tutorial de Paula Giraldo.</p>
           <button className="cover-open" onClick={() => navigate('about')}>Abrir la bitácora <Arrow /></button>
         </div>
