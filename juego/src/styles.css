@@ -126,7 +126,9 @@ main:focus { outline: none; }
 .portrait-leaf { min-width: 0; }
 .portrait-leaf img { display: block; width: 100%; height: auto; }
 .page-about .page-turn { margin-top: 12px; }
-.author-companion { display: block; width: min(100%,300px); height: auto; align-self: flex-end; margin-top: 24px; }
+.author-companion { position: relative; width: min(100%,300px); align-self: flex-end; margin-top: 24px; }
+.author-companion img { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom,#000 83%,transparent),linear-gradient(to right,#000 91%,transparent); mask-image: linear-gradient(to bottom,#000 83%,transparent),linear-gradient(to right,#000 91%,transparent); -webkit-mask-composite: source-in; mask-composite: intersect; }
+.author-companion figcaption { position: absolute; top: 30%; left: 0; max-width: 65%; padding: 9px 16px; border-radius: 20px 20px 3px 20px; background: var(--yellow); color: var(--plum); font-size: 16px; font-weight: 500; line-height: 1.4; transform: rotate(-6deg); box-shadow: 0 4px 24px #fddd4629; }
 .book-leaf { min-width: 0; padding: 47px 42px 32px; display: flex; flex-direction: column; align-items: flex-start; }
 .book-leaf:first-child { border-right: 1px solid var(--line); }
 .book-leaf h1 { font-size: clamp(32px,3.7vw,46px); margin: 26px 0 33px; line-height: 1.3; }
