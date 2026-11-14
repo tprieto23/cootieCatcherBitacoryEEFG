@@ -76,8 +76,6 @@ main:focus { outline: none; }
 .welcome::before { top: -135px; left: calc(50% - 95px); }
 .welcome::after { bottom: -135px; left: calc(50% - 95px); border-color: #fca4bc40; }
 .welcome-copy { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: min(590px,100%); margin-inline: auto; }
-.cover-emblem { margin-bottom: 18px; filter: drop-shadow(0 0 24px #fca4bc44); }
-.welcome-copy > .eyebrow { font-size: 10px; letter-spacing: .22em; color: var(--silver); }
 .welcome-title { font-size: clamp(37px,7.5vw,76px); line-height: 1.13; margin: 22px 0 18px; letter-spacing: -.075em; }
 .welcome-title em { display: inline-block; font-size: 1.6em; padding: 0 .12em 0 .02em; line-height: 1; margin-top: 5px; color: var(--pink); text-shadow: 0 0 60px #fca4bc35; }
 .welcome-title::first-line { color: var(--silver); }
@@ -265,7 +263,6 @@ footer { border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; just
   .welcome-title em { font-size: 1.6em; }
   .welcome-description { font-size: 13px; line-height: 1.85; }
   .welcome-promise { font-size: 24px; }
-  .welcome-copy > .eyebrow { font-size: 9px; letter-spacing: .14em; }
   .site-header, main:not(.cover-main), footer { width: 90%; }
   .site-header nav { width: 100%; gap: 0 13px; }
   .site-header nav button { font-size: 11px; }

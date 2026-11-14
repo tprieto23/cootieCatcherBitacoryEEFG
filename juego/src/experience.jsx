@@ -159,13 +159,11 @@ export function Experience({ Paper, Die, Flower }) {
       {isCover && <section className="welcome" aria-labelledby="cover-title">
         <div className="cover-orbit" aria-hidden="true" />
         <div className="welcome-copy">
-          <img className="cover-emblem" src="/manzanita.svg" width="52" height="52" alt="" aria-hidden="true" />
-          <span className="eyebrow">UNA BITÁCORA FEMINISTA</span>
           <h1 className="welcome-title" id="cover-title">Manzanita<br /><em>feminista.</em></h1>
-          <p className="cover-author">Por Tania</p>
+          <p className="cover-author">Bitácora por: Tania Prieto</p>
           <div className="cover-rule" aria-hidden="true"><span>✧</span></div>
           <p className="welcome-description">Un recorrido construido a partir de reflexiones y escrituras automáticas en el marco del curso <strong>Metodologías Feministas II</strong> de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia.</p>
-          <p className="welcome-promise">Un espacio para aprender con confianza, encontrarnos en la diversidad y explorar con libertad.</p>
+          <p className="welcome-promise">un espacio para leernos diferente</p>
           <p className="course-credits">Curso dirigido por Mara Viveros,<br />con el acompañamiento tutorial de Paula Giraldo.</p>
           <button className="cover-open" onClick={() => navigate('about')}>Abrir la bitácora <Arrow /></button>
         </div>
