@@ -109,13 +109,13 @@ function ReadEntry({ note, selected, onSave, onReturn }) {
 }
 
 function AuthorPortrait() {
-  return <figure className="portrait-frame"><img src={portrait} alt="Composición de fotografías de Tania Prieto, autora de NEBULA-F23" /><figcaption>una bitácora para compartir</figcaption></figure>;
+  return <figure className="portrait-leaf"><img src={portrait} alt="Composición de fotografías de Tania Prieto, autora de NEBULA-F23" /></figure>;
 }
 
 function Notebook({ page, onAbout, onIntroduction, onExplore, Flower }) {
   return <section className={`notebook page-${page}`} key={page} aria-label="Cuaderno de Tania">
     {page === 'about' ? <>
-      <div className="book-leaf portrait-leaf"><span className="eyebrow">SABER MÁS SOBRE MÍ</span><AuthorPortrait /><span className="handwritten">el lugar desde el que miro</span></div>
+      <AuthorPortrait />
       <div className="book-leaf"><span className="eyebrow">MI PRESENTACIÓN</span><h1>Desde dónde<br /><em>escribo.</em></h1><p>Soy Tania, una mujer que transita entre las ciencias naturales y exactas, las ciencias de datos y la tecnología.</p><p>Soy feminista y amante de las artes. Esos encuentros también forman parte del lugar desde el que aprendo y escribo.</p><p>En estas páginas comparto reflexiones que han acompañado mi recorrido por las metodologías feministas.</p><button className="cover-open page-turn" onClick={onIntroduction}>Abrir Bitácora <Arrow /></button><span className="page-number">01 · Mi presentación</span></div>
     </> : <>
       <div className="book-leaf"><span className="eyebrow">INTRODUCCIÓN</span><h1>De dónde nace<br />esta <em>bitácora.</em></h1><p>Esta bitácora reúne reflexiones y escrituras automáticas construidas en el marco del Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia, dirigido por Mara Viveros y con el acompañamiento tutorial de Paula Giraldo.</p><p>En sus pliegues comparto aprendizajes que toman forma entre las lecturas del curso y mis experiencias.</p><button className="text-button" onClick={onAbout}>← Volver a mi presentación</button><span className="page-number">02 · Introducción</span></div>
@@ -140,6 +140,7 @@ export function Experience({ Paper, Die, Flower }) {
   const busy = ['rolling', 'moving'].includes(state.phase);
   const screen = ['game', 'recap'].includes(route) && !alias ? 'alias' : route;
   const isCover = screen === 'home';
+  const hasSpace = isCover || screen === 'about';
   const openedStories = state.discovered.filter(index => notes[index].available);
   const collectedCount = Object.keys(words).length;
 
@@ -210,7 +211,7 @@ export function Experience({ Paper, Die, Flower }) {
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
 
     <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : undefined} ref={mainRef} tabIndex={-1}>
-      {isCover && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
+      {hasSpace && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
         <DeepSpace />
         {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
           <Constellation side={side} />
@@ -227,7 +228,7 @@ export function Experience({ Paper, Die, Flower }) {
           <p className="course-credits">Seminario dirigido por Mara Viveros,<br />con el acompañamiento tutorial de Paula Giraldo.</p>
         </div>
       </section>}
-      {isCover && <button className="cover-motion-toggle" onClick={() => setCoverMotion(value => !value)} aria-label={coverMotion ? 'Pausar animaciones de la portada' : 'Activar animaciones de la portada'} title={coverMotion ? 'Pausar movimiento' : 'Activar movimiento'}><span aria-hidden="true">{coverMotion ? 'Ⅱ' : '▷'}</span></button>}
+      {hasSpace && <button className="cover-motion-toggle" onClick={() => setCoverMotion(value => !value)} aria-label={coverMotion ? 'Pausar animaciones del fondo' : 'Activar animaciones del fondo'} title={coverMotion ? 'Pausar movimiento' : 'Activar movimiento'}><span aria-hidden="true">{coverMotion ? 'Ⅱ' : '▷'}</span></button>}
 
       {['about', 'introduction'].includes(screen) && <Notebook page={screen} onAbout={() => navigate('about')} onIntroduction={() => navigate('introduction')} onExplore={() => navigate('notice')} Flower={Flower} />}
 
