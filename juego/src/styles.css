@@ -126,10 +126,10 @@ main:focus { outline: none; }
 .portrait-leaf { min-width: 0; }
 .portrait-leaf img { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom,#000 94%,transparent); mask-image: linear-gradient(to bottom,#000 94%,transparent); }
 .page-about .page-turn { margin-top: 12px; }
-.about-ending { position: relative; display: flex; align-items: flex-start; width: 100%; min-height: 140px; }
-.about-actions { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; padding-right: min(45%,160px); }
+.about-ending { position: relative; display: flex; align-items: flex-start; width: 100%; min-height: clamp(180px,21vw,280px); }
+.about-actions { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; padding-right: min(54%,320px); }
 .about-actions .page-number { margin-top: 8px; }
-.author-companion { position: absolute; top: -40px; right: 0; width: 38%; max-width: 190px; aspect-ratio: 868/800; }
+.author-companion { position: absolute; top: -12px; right: 0; width: 52%; max-width: 310px; aspect-ratio: 868/800; }
 .author-companion img { position: absolute; bottom: 0; display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom,#000 75%,transparent),linear-gradient(to right,#000 85%,transparent); mask-image: linear-gradient(to bottom,#000 75%,transparent),linear-gradient(to right,#000 85%,transparent); -webkit-mask-composite: source-in; mask-composite: intersect; pointer-events: none; }
 .author-companion figcaption { position: absolute; top: 22%; left: -58px; padding: 7px 11px; border-radius: 20px 20px 3px 20px; background: var(--yellow); color: var(--plum); font-size: 13px; font-weight: 500; line-height: 1.4; white-space: nowrap; transform: rotate(-6deg); box-shadow: 0 4px 24px #fddd4629; }
 .book-leaf { min-width: 0; padding: 47px 42px 32px; display: flex; flex-direction: column; align-items: flex-start; }
@@ -261,6 +261,7 @@ footer { border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; alig
 }
 @media (max-width: 1000px) {
   .about-ending { min-height: 120px; }
+  .about-actions { padding-right: min(45%,160px); }
   .author-companion { top: -8px; width: 32%; max-width: 140px; }
   .book-leaf { padding: 35px 28px 25px; }
   .controls { padding: 32px 25px 25px; }
@@ -290,7 +291,7 @@ footer { border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; alig
 @media (max-width: 560px) {
   .about-ending { flex-wrap: wrap; }
   .about-actions { flex-basis: 100%; padding-right: 0; }
-  .author-companion { position: relative; top: auto; right: auto; width: 44%; margin: -20px 0 0 auto; }
+  .author-companion { position: relative; top: auto; right: auto; width: 60%; max-width: 220px; margin: -20px 0 0 auto; }
   .author-companion figcaption { left: -45px; }
   .cover-author { width: 100%; }
   .cover-author-button { padding: 12px 18px; }
