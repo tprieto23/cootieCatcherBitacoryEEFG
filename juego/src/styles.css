@@ -51,7 +51,7 @@ p { font-size: 16px; line-height: 1.9; }
 main, footer { width: min(1200px, 91%); margin: 0 auto; }
 main { min-height: calc(100dvh - 100px); }
 main:focus { outline: none; }
-.presentation-main { isolation: isolate; position: relative; min-height: calc(100svh - 100px); padding-top: clamp(8px,2vw,24px); }
+.presentation-main { isolation: isolate; position: relative; width: min(1360px,94%); min-height: calc(100svh - 100px); padding-top: clamp(8px,2vw,24px); }
 .presentation-main .notebook { margin-top: 24px; }
 .eyebrow, .paper-caption, .board-topline { font-size: 10px; font-weight: 500; letter-spacing: .14em; line-height: 1.8; color: #c6c8e2; }
 .primary { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid #fca4bc70; background: linear-gradient(115deg,var(--pink),var(--yellow)); color: var(--on-accent); padding: 16px 23px; min-height: 52px; border-radius: 30px; text-align: left; font-size: 13px; line-height: 1.6; box-shadow: inset 0 1px 0 #ffffff40, 0 10px 35px #fca4bc34; }
@@ -126,10 +126,10 @@ main:focus { outline: none; }
 .portrait-leaf { min-width: 0; }
 .portrait-leaf img { display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom,#000 94%,transparent); mask-image: linear-gradient(to bottom,#000 94%,transparent); }
 .page-about .page-turn { margin-top: 12px; }
-.about-ending { position: relative; display: flex; align-items: flex-start; width: 100%; min-height: 90px; }
+.about-ending { position: relative; display: flex; align-items: flex-start; width: 100%; min-height: 140px; }
 .about-actions { display: flex; flex: 1; min-width: 0; flex-direction: column; align-items: flex-start; padding-right: min(45%,160px); }
 .about-actions .page-number { margin-top: 8px; }
-.author-companion { position: absolute; top: -40px; right: 0; width: 38%; max-width: 140px; aspect-ratio: 868/800; }
+.author-companion { position: absolute; top: -40px; right: 0; width: 38%; max-width: 190px; aspect-ratio: 868/800; }
 .author-companion img { position: absolute; bottom: 0; display: block; width: 100%; height: auto; -webkit-mask-image: linear-gradient(to bottom,#000 75%,transparent),linear-gradient(to right,#000 85%,transparent); mask-image: linear-gradient(to bottom,#000 75%,transparent),linear-gradient(to right,#000 85%,transparent); -webkit-mask-composite: source-in; mask-composite: intersect; pointer-events: none; }
 .author-companion figcaption { position: absolute; top: 22%; left: -58px; padding: 7px 11px; border-radius: 20px 20px 3px 20px; background: var(--yellow); color: var(--plum); font-size: 13px; font-weight: 500; line-height: 1.4; white-space: nowrap; transform: rotate(-6deg); box-shadow: 0 4px 24px #fddd4629; }
 .book-leaf { min-width: 0; padding: 47px 42px 32px; display: flex; flex-direction: column; align-items: flex-start; }
@@ -261,7 +261,7 @@ footer { border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; alig
 }
 @media (max-width: 1000px) {
   .about-ending { min-height: 120px; }
-  .author-companion { top: -8px; width: 32%; }
+  .author-companion { top: -8px; width: 32%; max-width: 140px; }
   .book-leaf { padding: 35px 28px 25px; }
   .controls { padding: 32px 25px 25px; }
   .board-area { padding: 15px 15px 25px; }
