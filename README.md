@@ -1,10 +1,10 @@
-# Manzanita feminista
+# NEBULA-F23
 
 Bitácora de reflexiones y escrituras automáticas del curso Metodologías Feministas II, de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia. Curso dirigido por Mara Viveros, con acompañamiento tutorial de Paula Giraldo.
 
 La identidad visual combina morado `#4A1B70`, rosa `#FCA4BC` y amarillo `#FDDD46`, con detalles plateados, tipografía futurista con acentos expresivos y superficies de vidrio.
 
-La aplicación React y Vite está en `juego/`. Manzanita del Perú invita a descubrir los escritos de Tania mediante un comecocos de ocho pliegues y un dado.
+La aplicación React y Vite está en `juego/`. NEBULA-F23 es una bitácora feminista que invita a descubrir los escritos de Tania. La dirección elegida es un viaje entre galaxias; la nueva mecánica sigue en diseño. El prototipo funcional conserva por ahora el comecocos de ocho pliegues y el dado.
 
 ## Desarrollo
 
@@ -20,7 +20,7 @@ Mantener la terminal activa para usar la web local. Abrir la dirección que impr
 
 ## Recorrido y contenido
 
-La bienvenida ofrece Introducción, Saber más sobre mí e Iniciar. El cuaderno une la presentación de Tania con la introducción; después aparecen el aviso del bolsillo feminista, la elección de alias y el juego.
+La portada centrada presenta el trabajo y ofrece un único acceso: Abrir la bitácora. La navegación Introducción, Saber más sobre mí e Iniciar aparece después de abrirla. El cuaderno une la presentación de Tania con la introducción; después aparecen el aviso del bolsillo feminista, la elección de alias y el juego.
 
 Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva el orden de las ocho clases. Los pliegues 5 y 8 invitan a volver a jugar mientras se terminan sus contenidos. Las notas anteriores se conservan en `src/legacy-notes.js`.
 

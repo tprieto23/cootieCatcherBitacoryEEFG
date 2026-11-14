@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>NEBULA-F23</title>
+  <rect width="64" height="64" rx="18" fill="#4A1B70"/>
+  <ellipse cx="32" cy="32" rx="26" ry="13" transform="rotate(-35 32 32)" fill="none" stroke="#D4DCF3" stroke-width="1.5"/>
+  <path d="M32 10C35 25 39 29 54 32C39 35 35 39 32 54C29 39 25 35 10 32C25 29 29 25 32 10Z" fill="#FDDD46"/>
+  <circle cx="51" cy="18" r="4" fill="#FCA4BC"/>
+</svg>
