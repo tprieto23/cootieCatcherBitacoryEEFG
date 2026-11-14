@@ -226,7 +226,6 @@ export function Experience({ Paper, Die, Flower }) {
           <p className="cover-author">Bitácora por:<button type="button" className={`cover-author-button ${coverMotion ? '' : 'is-paused'}`} onClick={() => navigate('about')} aria-label="Saber más sobre Tania Prieto"><span>Tania Prieto</span></button></p>
           <div className="cover-rule" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 1C13.5 8.5 15.5 10.5 23 12C15.5 13.5 13.5 15.5 12 23C10.5 15.5 8.5 13.5 1 12C8.5 10.5 10.5 8.5 12 1Z" /></svg></div>
           <p className="welcome-description">Un recorrido construido a partir de reflexiones y escrituras automáticas en el marco del curso <strong>Metodologías Feministas II</strong> de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia.</p>
-          <p className="welcome-promise">¿Quieres saber qué pasa cuando dos galaxias se chocan?</p>
           <p className="course-credits">Curso dirigido por Mara Viveros,<br />con el acompañamiento tutorial de Paula Giraldo.</p>
           <button className="cover-open" onClick={() => navigate('about')}>Abrir la bitácora <Arrow /></button>
         </div>
