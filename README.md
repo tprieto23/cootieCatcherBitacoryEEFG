@@ -1,6 +1,6 @@
 # NEBULA-F23
 
-Bitácora de reflexiones y escrituras automáticas del curso Metodologías Feministas II, de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia. Curso dirigido por Mara Viveros, con acompañamiento tutorial de Paula Giraldo.
+Bitácora de reflexiones y escrituras automáticas del Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II, de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia. Seminario dirigido por Mara Viveros, con acompañamiento tutorial de Paula Giraldo.
 
 La identidad visual combina morado `#4A1B70`, rosa `#FCA4BC` y amarillo `#FDDD46`, con detalles plateados, tipografía futurista con acentos expresivos y superficies de vidrio.
 
@@ -20,7 +20,9 @@ Mantener la terminal activa para usar la web local. Abrir la dirección que impr
 
 ## Recorrido y contenido
 
-La portada centrada presenta el trabajo y ofrece un único acceso: Abrir la bitácora. La navegación Introducción, Saber más sobre mí e Iniciar aparece después de abrirla. El cuaderno une la presentación de Tania con la introducción; después aparecen el aviso del bolsillo feminista, la elección de alias y el juego.
+La portada centrada presenta el trabajo y permite entrar mediante el botón Tania Prieto. Su presentación se muestra sin barra de navegación y termina con Abrir Bitácora, que conduce a la introducción. El cuaderno une la presentación de Tania con la introducción; después aparecen el aviso del bolsillo feminista, la elección de alias y el juego.
+
+El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
 Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva el orden de las ocho clases. Los pliegues 5 y 8 invitan a volver a jugar mientras se terminan sus contenidos. Las notas anteriores se conservan en `src/legacy-notes.js`.
 
