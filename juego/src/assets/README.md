@@ -4,4 +4,8 @@
 
 Se importa desde `experience.jsx` y se publica al compilar. Conservar su proporción vertical y mostrarla completa, sin recortarla ni sustituirla por una imagen generada. Para actualizarla, reemplazar esta copia con la versión que indique la autora.
 
+La presentación suaviza con CSS el borde inferior de esta composición para integrarla al fondo, sin alterar el archivo.
+
 `Luffy2.svg` es una copia íntegra de `../../../../Luffy2.svg`, proporcionada por la autora. Aparece debajo del texto en el lateral derecho de su presentación, sin marco y con su transparencia y proporción originales. Sus imágenes están incorporadas en el SVG. La interfaz suaviza los bordes inferior y derecho con una máscara CSS y añade el bocadillo «guau guau»; el archivo original permanece intacto.
+
+Luffy se limita a 180 px de ancho, junto a los controles finales en escritorio y debajo en móvil. Su espacio de composición aprovecha el margen transparente superior del SVG para que no alargue la página.
