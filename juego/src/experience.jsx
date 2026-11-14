@@ -11,6 +11,21 @@ const portrait = Object.values(portraits)[0];
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
+function Constellation({ side }) {
+  const stars = side === 'left'
+    ? [[42,72],[118,126],[75,211],[151,271],[109,352],[31,401],[70,491],[153,545],[114,641],[48,723],[157,755]]
+    : [[149,57],[78,142],[128,218],[39,289],[92,368],[161,428],[118,517],[41,584],[76,661],[147,731],[31,773]];
+  return <svg className="constellation-map" viewBox="0 0 200 800" preserveAspectRatio="xMidYMid slice">
+    <g className="constellation-links">{stars.slice(1).map((star, index) => index === 4 || index === 8 ? null : <line key={index} x1={stars[index][0]} y1={stars[index][1]} x2={star[0]} y2={star[1]} />)}</g>
+    {stars.map(([x, y], index) => <g key={index} className={`constellation-star ${index % 3 === 0 ? 'star-bright' : ''}`} style={{ animationDelay: `${index * -1.7}s` }}>
+      {index % 3 === 0 && <circle className="star-halo" cx={x} cy={y} r="8" />}
+      <circle cx={x} cy={y} r={index % 3 === 0 ? 2.8 : 1.5} />
+      {index % 3 === 0 && <path d={`M${x - 6} ${y}h12M${x} ${y - 6}v12`} />}
+    </g>)}
+    <g className="distant-stars">{[[22,167],[175,101],[161,389],[23,565],[181,684],[98,35],[18,324],[179,612],[102,778]].map(([cx,cy],index) => <circle key={index} cx={cx} cy={cy} r=".85" />)}</g>
+  </svg>;
+}
+
 function InlineText({ text }) {
   return text.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/).map((part, index) => part.startsWith('**') && part.endsWith('**')
     ? <strong key={index}>{part.slice(2, -2)}</strong>
@@ -159,16 +174,16 @@ export function Experience({ Paper, Die, Flower }) {
     <main id="main-content" className={isCover ? 'cover-main' : undefined} ref={mainRef} tabIndex={-1}>
       {isCover && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
         {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
-          <i className="lateral-orbit" /><i className="lateral-orbit" /><i className="lateral-orbit" />
+          <Constellation side={side} />
           <span className="lateral-spark spark-one">✦</span><span className="lateral-spark spark-two">✧</span><span className="lateral-spark spark-three">✦</span>
         </div>)}
       </div>}
       {isCover && <section className="welcome" aria-labelledby="cover-title">
         <div className="cover-orbit" aria-hidden="true" />
         <div className="welcome-copy">
-          <h1 className="welcome-title" id="cover-title">Manzanita<br /><em>feminista.</em></h1>
+          <h1 className="welcome-title" id="cover-title">Manzanita<br /><em>feminista</em></h1>
           <p className="cover-author">Bitácora por: Tania Prieto</p>
-          <div className="cover-rule" aria-hidden="true"><span>✧</span></div>
+          <div className="cover-rule" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 1C13.5 8.5 15.5 10.5 23 12C15.5 13.5 13.5 15.5 12 23C10.5 15.5 8.5 13.5 1 12C8.5 10.5 10.5 8.5 12 1Z" /></svg></div>
           <p className="welcome-description">Un recorrido construido a partir de reflexiones y escrituras automáticas en el marco del curso <strong>Metodologías Feministas II</strong> de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia.</p>
           <p className="welcome-promise">un espacio para leernos diferente</p>
           <p className="course-credits">Curso dirigido por Mara Viveros,<br />con el acompañamiento tutorial de Paula Giraldo.</p>
