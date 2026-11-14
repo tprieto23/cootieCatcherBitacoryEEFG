@@ -84,6 +84,7 @@ export function Experience({ Paper, Die, Flower }) {
   const mainRef = useRef(null);
   const busy = ['rolling', 'moving'].includes(state.phase);
   const screen = ['game', 'recap'].includes(route) && !alias ? 'alias' : route;
+  const isCover = screen === 'home';
   const openedStories = state.discovered.filter(index => notes[index].available);
   const collectedCount = Object.keys(words).length;
 
@@ -152,10 +153,24 @@ export function Experience({ Paper, Die, Flower }) {
 
   return <>
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
-    <header className="site-header"><button className="brand" onClick={() => navigate('home')} aria-label="Manzanita feminista, inicio"><img src="/manzanita.svg" width="42" height="42" alt="" aria-hidden="true" /><span className="brand-type"><span className="brand-name">Manzanita</span><span className="brand-script">feminista</span></span></button><nav aria-label="Navegación principal"><button onClick={() => navigate('introduction')} aria-current={screen === 'introduction' ? 'page' : undefined}>Introducción</button><button onClick={() => navigate('about')} aria-current={screen === 'about' ? 'page' : undefined}>Saber más sobre mí</button><button className="nav-start" onClick={() => navigate('notice')}>Iniciar <Arrow /></button>{alias && <button className="pocket-button" onClick={() => setModal({ kind: 'pocket' })}>Mi bolsillo <span>{collectedCount}</span></button>}</nav></header>
+    {!isCover && <header className="site-header"><button className="brand" onClick={() => navigate('home')} aria-label="Manzanita feminista, inicio"><img src="/manzanita.svg" width="42" height="42" alt="" aria-hidden="true" /><span className="brand-type"><span className="brand-name">Manzanita</span><span className="brand-script">feminista</span></span></button><nav aria-label="Navegación principal"><button onClick={() => navigate('introduction')} aria-current={screen === 'introduction' ? 'page' : undefined}>Introducción</button><button onClick={() => navigate('about')} aria-current={screen === 'about' ? 'page' : undefined}>Saber más sobre mí</button><button className="nav-start" onClick={() => navigate('notice')}>Iniciar <Arrow /></button>{alias && <button className="pocket-button" onClick={() => setModal({ kind: 'pocket' })}>Mi bolsillo <span>{collectedCount}</span></button>}</nav></header>}
 
-    <main id="main-content" ref={mainRef} tabIndex={-1}>
-      {screen === 'home' && <section className="welcome"><div className="welcome-copy"><span className="eyebrow">UNA BITÁCORA FEMINISTA · APRENDER JUGANDO</span><h1 className="welcome-title">Manzanita<br /><em>feminista.</em></h1><div className="welcome-context"><p className="welcome-description">Un recorrido construido a partir de reflexiones y escrituras automáticas en el marco del curso <strong>Metodologías Feministas II</strong> de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia.</p><p className="course-credits">Curso dirigido por Mara Viveros, con el acompañamiento tutorial de Paula Giraldo.</p></div><p className="welcome-promise">Un espacio para aprender con confianza, encontrarnos en la diversidad y explorar con libertad.</p><div className="welcome-actions"><button className="primary" onClick={() => navigate('notice')}>Iniciar el juego <Arrow /></button><button className="text-button" onClick={() => navigate('introduction')}>Leer la introducción <Arrow /></button></div></div><div className="welcome-art" aria-hidden="true"><span className="paper-caption">CIENCIAS · ARTES · FEMINISMOS</span><div className="cover-paper"><span>VIDAS</span><span>SABERES</span><span>ENCUENTROS</span><span>MEMORIAS</span></div><Flower className="cover-flower" /><span className="handwritten">un universo que se abre contigo</span></div></section>}
+    <main id="main-content" className={isCover ? 'cover-main' : undefined} ref={mainRef} tabIndex={-1}>
+      {isCover && <section className="welcome" aria-labelledby="cover-title">
+        <div className="cover-orbit" aria-hidden="true" />
+        <div className="welcome-copy">
+          <img className="cover-emblem" src="/manzanita.svg" width="52" height="52" alt="" aria-hidden="true" />
+          <span className="eyebrow">UNA BITÁCORA FEMINISTA</span>
+          <h1 className="welcome-title" id="cover-title">Manzanita<br /><em>feminista.</em></h1>
+          <p className="cover-author">Por Tania</p>
+          <div className="cover-rule" aria-hidden="true"><span>✧</span></div>
+          <p className="welcome-description">Un recorrido construido a partir de reflexiones y escrituras automáticas en el marco del curso <strong>Metodologías Feministas II</strong> de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia.</p>
+          <p className="welcome-promise">Un espacio para aprender con confianza, encontrarnos en la diversidad y explorar con libertad.</p>
+          <p className="course-credits">Curso dirigido por Mara Viveros,<br />con el acompañamiento tutorial de Paula Giraldo.</p>
+          <button className="cover-open" onClick={() => navigate('about')}>Abrir la bitácora <Arrow /></button>
+        </div>
+      </section>}
+
 
       {['about', 'introduction'].includes(screen) && <Notebook page={screen} onAbout={() => navigate('about')} onIntroduction={() => navigate('introduction')} onExplore={() => navigate('notice')} Flower={Flower} />}
 
@@ -171,10 +186,10 @@ export function Experience({ Paper, Die, Flower }) {
 
       {screen === 'recap' && <section className="recap-screen"><span className="eyebrow">UN ÚLTIMO PLIEGUE</span><h1>Lo que te llevas,<br /><em>{alias}.</em></h1><p>Un puñado de palabras que encontraste entre estos pliegues.</p>{collectedCount ? <WordNotes words={words} large /> : <p className="empty-pocket">Tu bolsillo también puede guardar el tiempo que te tomaste para leer. Puedes volver al papel y elegir palabras si te apetece.</p>}<div className="recap-columns"><section><h2>Los relatos que abriste</h2>{openedStories.length ? <ul className="story-list">{openedStories.map(index => <li key={index}><span>{String(index + 1).padStart(2, '0')}</span><button onClick={() => openNote(index)}>{notes[index].title}</button></li>)}</ul> : <p>El papel sigue abierto para tu primer encuentro.</p>}</section><section className="closing-note"><span className="eyebrow">UNA BITÁCORA QUE SIGUE CRECIENDO</span><Flower className="closing-flower" /><h2>El cierre también<br />tiene su tiempo.</h2><p>La conclusión de esta bitácora está en escritura. Mientras toma forma, aquí queda el recuerdo de tu recorrido.</p></section></div><div className="recap-actions"><button className="primary" onClick={() => navigate('game')}>Volver al papel <Arrow /></button><button className="text-button" onClick={() => setModal({ kind: 'reset' })}>Borrar mi recorrido de este navegador</button></div></section>}
 
-      {!storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}
+      {!isCover && !storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}
     </main>
 
-    <footer><span>MANZANITA FEMINISTA · CIENCIAS, ARTES Y TECNOLOGÍA</span><span>Metodologías Feministas II · Una bitácora en construcción</span></footer>
+    {!isCover && <footer><span>MANZANITA FEMINISTA · CIENCIAS, ARTES Y TECNOLOGÍA</span><span>Metodologías Feministas II · Una bitácora en construcción</span></footer>}
 
     {modal?.kind === 'note' && <Dialog title={notes[modal.index].title} eyebrow={`PLIEGUE ${String(modal.index + 1).padStart(2, '0')} · ${notes[modal.index].available ? 'UN RELATO PARA ENCONTRARNOS' : 'OTRA TIRADA, OTRO ENCUENTRO'}`} wide onClose={() => setModal(null)}><ReadEntry key={modal.index} note={notes[modal.index]} selected={words[modal.index]} onSave={word => setWords(previous => ({ ...previous, [modal.index]: word }))} onReturn={() => { setModal(null); navigate('game'); }} /></Dialog>}
     {modal?.kind === 'help' && <Dialog title="Un pequeño ritual" eyebrow="CÓMO SE JUEGA" onClose={() => setModal(null)}><ol className="instructions"><li><strong>Lanza el dado.</strong> El papel se mueve tantos pasos como indique la tirada.</li><li><strong>Abre el pliegue.</strong> La pestaña de llegada guarda un relato o una invitación a volver a jugar.</li><li><strong>Llévate una palabra.</strong> Después de leer puedes tocar una de las palabras para guardarla en tu bolsillo.</li></ol><p>Avanzas desde tu última posición; después del pliegue ocho, vuelves al primero. Tu cierre está disponible cuando quieras hacer una pausa.</p><button className="primary" onClick={() => setModal(null)}>Vamos a jugar <Arrow /></button></Dialog>}
