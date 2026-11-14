@@ -2,7 +2,7 @@
 
 Bitácora de reflexiones y escrituras automáticas del curso Metodologías Feministas II, de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia. Curso dirigido por Mara Viveros, con acompañamiento tutorial de Paula Giraldo.
 
-La identidad visual combina azul `#23316E`, rosa `#E3AEC8` y lila rosado `#FBA9FC`, con detalles plateados, tipografía futurista con acentos expresivos y superficies de vidrio.
+La identidad visual combina morado `#4A1B70`, rosa `#FCA4BC` y amarillo `#FDDD46`, con detalles plateados, tipografía futurista con acentos expresivos y superficies de vidrio.
 
 La aplicación React y Vite está en `juego/`. Manzanita del Perú invita a descubrir los escritos de Tania mediante un comecocos de ocho pliegues y un dado.
 

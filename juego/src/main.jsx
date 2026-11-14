@@ -20,7 +20,7 @@ function Die({ value, rolling }) {
 }
 
 const ring = [[300, 40], [430, 170], [560, 300], [430, 430], [300, 560], [170, 430], [40, 300], [170, 170]];
-const colors = ['#E3AEC8', '#FBA9FC', '#23316E', '#23316E', '#c5cee5', '#23316E', '#E3AEC8', '#FBA9FC'];
+const colors = ['#FCA4BC', '#FDDD46', '#4A1B70', '#4A1B70', '#c5cee5', '#4A1B70', '#FCA4BC', '#FDDD46'];
 
 function Paper({ state, onOpen }) {
   const activeRef = useRef(null);
@@ -30,9 +30,9 @@ function Paper({ state, onOpen }) {
   return <div className={`paper ${state.phase === 'moving' ? 'is-moving' : state.phase === 'rolling' ? 'is-folding' : ''}`}>
     <svg viewBox="0 0 600 600" className="paper-shape" aria-hidden="true">
       <defs>
-        <filter id="paper-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="12" stdDeviation="17" floodColor="#FBA9FC" floodOpacity=".35" /></filter>
+        <filter id="paper-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="12" stdDeviation="17" floodColor="#FDDD46" floodOpacity=".35" /></filter>
         <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" stitchTiles="stitch" /><feColorMatrix type="saturate" values="0" /><feComponentTransfer><feFuncA type="linear" slope=".035" /></feComponentTransfer><feBlend in="SourceGraphic" mode="multiply" /></filter>
-        <linearGradient id="fold" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff" stopOpacity=".55" /><stop offset=".5" stopColor="#fff" stopOpacity="0" /><stop offset="1" stopColor="#060c36" stopOpacity=".3" /></linearGradient>
+        <linearGradient id="fold" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff" stopOpacity=".55" /><stop offset=".5" stopColor="#fff" stopOpacity="0" /><stop offset="1" stopColor="#301148" stopOpacity=".3" /></linearGradient>
       </defs>
       <g filter="url(#paper-shadow)">
         {ring.map((point, i) => <g key={i}>
