@@ -79,6 +79,7 @@ export function Experience({ Paper, Die, Flower }) {
   const [words, setWords] = useState(saved.words);
   const [route, setRoute] = useState(currentRoute);
   const [modal, setModal] = useState(null);
+  const [coverMotion, setCoverMotion] = useState(true);
   const [visualDie, setVisualDie] = useState(saved.game.die ?? 1);
   const [storageAvailable, setStorageAvailable] = useState(Boolean(storage));
   const mainRef = useRef(null);
@@ -156,6 +157,12 @@ export function Experience({ Paper, Die, Flower }) {
     {!isCover && <header className="site-header"><button className="brand" onClick={() => navigate('home')} aria-label="Manzanita feminista, inicio"><img src="/manzanita.svg" width="42" height="42" alt="" aria-hidden="true" /><span className="brand-type"><span className="brand-name">Manzanita</span><span className="brand-script">feminista</span></span></button><nav aria-label="Navegación principal"><button onClick={() => navigate('introduction')} aria-current={screen === 'introduction' ? 'page' : undefined}>Introducción</button><button onClick={() => navigate('about')} aria-current={screen === 'about' ? 'page' : undefined}>Saber más sobre mí</button><button className="nav-start" onClick={() => navigate('notice')}>Iniciar <Arrow /></button>{alias && <button className="pocket-button" onClick={() => setModal({ kind: 'pocket' })}>Mi bolsillo <span>{collectedCount}</span></button>}</nav></header>}
 
     <main id="main-content" className={isCover ? 'cover-main' : undefined} ref={mainRef} tabIndex={-1}>
+      {isCover && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
+        {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
+          <i className="lateral-orbit" /><i className="lateral-orbit" /><i className="lateral-orbit" />
+          <span className="lateral-spark spark-one">✦</span><span className="lateral-spark spark-two">✧</span><span className="lateral-spark spark-three">✦</span>
+        </div>)}
+      </div>}
       {isCover && <section className="welcome" aria-labelledby="cover-title">
         <div className="cover-orbit" aria-hidden="true" />
         <div className="welcome-copy">
@@ -168,7 +175,7 @@ export function Experience({ Paper, Die, Flower }) {
           <button className="cover-open" onClick={() => navigate('about')}>Abrir la bitácora <Arrow /></button>
         </div>
       </section>}
-
+      {isCover && <button className="cover-motion-toggle" onClick={() => setCoverMotion(value => !value)} aria-label={coverMotion ? 'Pausar movimiento de los laterales' : 'Activar movimiento de los laterales'} title={coverMotion ? 'Pausar movimiento' : 'Activar movimiento'}><span aria-hidden="true">{coverMotion ? 'Ⅱ' : '▷'}</span></button>}
 
       {['about', 'introduction'].includes(screen) && <Notebook page={screen} onAbout={() => navigate('about')} onIntroduction={() => navigate('introduction')} onExplore={() => navigate('notice')} Flower={Flower} />}
 
