@@ -20,7 +20,7 @@ function Die({ value, rolling }) {
 }
 
 const ring = [[300, 40], [430, 170], [560, 300], [430, 430], [300, 560], [170, 430], [40, 300], [170, 170]];
-const colors = ['#d9bfd8', '#c9b0ce', '#c0cbdc', '#b2c3d4', '#c8d2b5', '#b7c5a2', '#e7bcb2', '#e0aaa0'];
+const colors = ['#973bed', '#7235e9', '#3c54ed', '#173ba8', '#c5cee5', '#586697', '#ee2fc9', '#b81c9d'];
 
 function Paper({ state, onOpen }) {
   const activeRef = useRef(null);
@@ -30,17 +30,17 @@ function Paper({ state, onOpen }) {
   return <div className={`paper ${state.phase === 'moving' ? 'is-moving' : state.phase === 'rolling' ? 'is-folding' : ''}`}>
     <svg viewBox="0 0 600 600" className="paper-shape" aria-hidden="true">
       <defs>
-        <filter id="paper-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="3" dy="16" stdDeviation="12" floodColor="#493728" floodOpacity=".18" /></filter>
-        <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" stitchTiles="stitch" /><feColorMatrix type="saturate" values="0" /><feComponentTransfer><feFuncA type="linear" slope=".12" /></feComponentTransfer><feBlend in="SourceGraphic" mode="multiply" /></filter>
-        <linearGradient id="fold" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff" stopOpacity=".36" /><stop offset=".5" stopColor="#fff" stopOpacity="0" /><stop offset="1" stopColor="#4b3535" stopOpacity=".14" /></linearGradient>
+        <filter id="paper-shadow" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="12" stdDeviation="17" floodColor="#822bfa" floodOpacity=".35" /></filter>
+        <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="3" stitchTiles="stitch" /><feColorMatrix type="saturate" values="0" /><feComponentTransfer><feFuncA type="linear" slope=".035" /></feComponentTransfer><feBlend in="SourceGraphic" mode="multiply" /></filter>
+        <linearGradient id="fold" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#fff" stopOpacity=".55" /><stop offset=".5" stopColor="#fff" stopOpacity="0" /><stop offset="1" stopColor="#060c36" stopOpacity=".3" /></linearGradient>
       </defs>
       <g filter="url(#paper-shadow)">
         {ring.map((point, i) => <g key={i}>
           <polygon points={`300,300 ${point.join(',')} ${ring[(i + 1) % 8].join(',')}`} fill={colors[i]} filter="url(#grain)" />
           <polygon points={`300,300 ${point.join(',')} ${ring[(i + 1) % 8].join(',')}`} fill="url(#fold)" />
-          <path d={`M300 300 L${point.join(' ')}`} stroke="#fff9ef" strokeOpacity=".5" strokeWidth="1.5" />
+          <path d={`M300 300 L${point.join(' ')}`} stroke="#e6e7ff" strokeOpacity=".65" strokeWidth="1.5" />
         </g>)}
-        <path d="M300 40 L560 300 L300 560 L40 300 Z" fill="none" stroke="#775f58" strokeOpacity=".18" />
+        <path d="M300 40 L560 300 L300 560 L40 300 Z" fill="none" stroke="#dde3ff" strokeOpacity=".55" />
       </g>
     </svg>
     {notes.map((note, i) => {

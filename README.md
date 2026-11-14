@@ -1,6 +1,8 @@
-# Bitácory · Una bitácora feminista
+# Manzanita feminista
 
 Bitácora de reflexiones y escrituras automáticas del curso Metodologías Feministas II, de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia. Curso dirigido por Mara Viveros, con acompañamiento tutorial de Paula Giraldo.
+
+La identidad visual combina violeta y fucsia saturados, azul oscuro y plateados, tipografía futurista con acentos expresivos y superficies de vidrio.
 
 La aplicación React y Vite está en `juego/`. Manzanita del Perú invita a descubrir los escritos de Tania mediante un comecocos de ocho pliegues y un dado.
 
