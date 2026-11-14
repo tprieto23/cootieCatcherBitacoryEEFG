@@ -113,7 +113,14 @@ main:focus { outline: none; }
 .cover-greeting { display: block; margin-bottom: 16px; font: italic clamp(28px,3.5vw,40px)/1.35 var(--expressive); letter-spacing: -.025em; color: var(--pink); }
 .title-code { color: var(--pink); text-shadow: 0 0 50px #fca4bc35; }
 .cover-author { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13px; letter-spacing: .1em; color: var(--silver); }
-.cover-author strong { font: 500 clamp(22px,3vw,30px)/1.4 var(--tech); letter-spacing: -.04em; color: var(--ink); }
+.cover-author-button { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 12px; max-width: 100%; overflow: hidden; padding: 14px 24px; border: 1px solid #fddd4699; border-radius: 40px; background: linear-gradient(120deg,#ffffff12,#fca4bc1c); box-shadow: inset 0 1px 0 #fff4, 0 0 25px #fca4bc26; font: 500 clamp(22px,3vw,30px)/1.4 var(--tech); letter-spacing: -.04em; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
+.cover-author-button > span { position: relative; z-index: 1; }
+.cover-author-button > span:last-child { color: var(--yellow); font-size: 22px; }
+.cover-author-button .author-spark { color: var(--yellow); font: 400 17px/1 Georgia,serif; text-shadow: 0 0 12px #fddd4680; }
+.cover-author-button::before { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg,transparent 25%,#ffffff30 48%,transparent 72%); transform: translateX(-160%); animation: author-shimmer 8s ease-in-out infinite; pointer-events: none; }
+.cover-author-button.is-paused::before { animation-play-state: paused; }
+.cover-author-button:hover { border-color: var(--yellow); box-shadow: inset 0 1px 0 #fff5, 0 0 32px #fca4bc50; }
+@keyframes author-shimmer { 0%,65% { transform: translateX(-160%); } 100% { transform: translateX(160%); } }
 .cover-rule { display: flex; align-items: center; gap: 16px; width: 150px; margin: 23px 0; color: var(--yellow); }
 .cover-rule svg { flex-shrink: 0; fill: var(--yellow); }
 .cover-rule::before, .cover-rule::after { content: ''; height: 1px; flex: 1; background: linear-gradient(90deg,transparent,#fddd4680); }
@@ -292,6 +299,8 @@ footer { border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; just
   .closing-note { max-width: 570px; }
 }
 @media (max-width: 560px) {
+  .cover-author { width: 100%; }
+  .cover-author-button { gap: 8px; padding: 12px 14px; }
   .galaxy-left { width: 250px; left: -145px; top: -5%; opacity: .6; }
   .galaxy-right { width: 290px; right: -190px; bottom: -3%; opacity: .5; }
   .space-nebula { opacity: .6; }
