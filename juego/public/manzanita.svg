@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Manzanita del Perú · Bitácory</title>
+  <path d="M32 4 60 32 32 60 4 32Z" fill="#fff8ee" stroke="#823b57" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M32 6 32 32 6 32Z" fill="#e3aab8"/>
+  <path d="M32 6 58 32 32 32Z" fill="#c8b1d5"/>
+  <path d="M58 32 32 58 32 32Z" fill="#b9cea8"/>
+  <path d="M32 58 6 32 32 32Z" fill="#e9bd90"/>
+  <path d="M32 6 18 18 32 32Z" fill="#f0cbd3"/>
+  <path d="M58 32 46 18 32 32Z" fill="#ddcbe7"/>
+  <path d="M32 58 46 46 32 32Z" fill="#d8e3ca"/>
+  <path d="M6 32 18 46 32 32Z" fill="#f3d7b6"/>
+  <path d="M32 6V58M6 32H58" fill="none" stroke="#fff8ee" stroke-width="2"/>
+  <path d="M32 26 38 32 32 38 26 32Z" fill="#823b57"/>
+</svg>
