@@ -60,7 +60,7 @@ Los siete relatos aprobados están copiados en `juego/src/entries/`: entradas 1 
 
 Los enlaces locales se conservan en los Markdown fuente. La lectura de la primera estación se incluye íntegra como `src/assets/lectura-ultravioleta.pdf` y su enlace se publica con Vite. Las dos lecturas de la cuarta estación también se incluyen como PDF independientes de Corona Berkin y Briones. Los enlaces de otras lecturas permanecen ocultos hasta incluir sus archivos.
 
-Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. La conclusión de la autora y las interacciones propias de las estaciones 6 y 7 siguen pendientes. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
+Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. Las interacciones propias de las estaciones 6 y 7 siguen pendientes; la conclusión ya está disponible en el regreso a la órbita hogar. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
 
 ### Cuarta estación: dos galaxias cambian de rumbo
 
@@ -77,6 +77,12 @@ Después de recoger se abre la pregunta sobre decidir juntas y «Leer la bitáco
 Una huella del halo abre únicamente la cita de Cornejo y Rufer, «En diez años hemos logrado sistematizar…», con su atribución y enlace al PDF. «Recoger este fragmento» guarda la frase y enciende la estrella de la quinta; no hay casilla de escritura. Volver a tocar la huella permite releerla sin duplicarla. `mission.darkMatterObserved` conserva el descubrimiento y `mission.darkMatterFragments` el índice 0 recogido. La normalización retira el antiguo índice 1 y conserva la primera frase, la estrella completada y las conexiones anteriores. La otra cita permanece en el escrito y su lectura, fuera de la actividad y del bolsillo.
 
 «Leer la bitácora» permanece disponible desde el principio. El escrito se conserva completo y `StoryText` representa sus citas Markdown como bloques con atribución. Las lecturas `lectura-cornejo-rufer-introduccion.pdf` y `lectura-rufer-corona-apertura.pdf` se publican con Vite. La pausa y el movimiento reducido detienen órbitas y transiciones.
+
+### Salida de misión: agujero negro y órbita hogar
+
+Al final de la ruta del mapa aparece un agujero negro con el nombre **Órbita hogar**. Al seleccionarlo se abre `#/orbita-hogar`, con «Completaste la misión, astronauta [ALIAS]» y **«Tripulaste NEBULA-F23 satisfactoriamente»**. La nueva figura y su disco se dibujan en SVG con la paleta morada, rosa, amarilla y plateada; respetan pausa y movimiento reducido.
+
+`src/entries/conclusion.md` conserva los cuatro párrafos enviados por la autora. `src/mission-farewell.jsx/css` muestra la despedida, el agujero negro, la conclusión, el agradecimiento y «Regresar a mi órbita hogar», que vuelve a la portada. El bolsillo y el mapa siguen accesibles. La salida es un recurso narrativo de esta historia y está disponible desde el mapa: no añade una octava estrella, no entrega materiales ni modifica los recuerdos. Se conservan las siete estaciones, el alias y el avance al volver a casa.
 
 ## Guardado personal
 

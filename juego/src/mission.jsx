@@ -5,6 +5,7 @@ import { StationSilhouette } from './station-art.jsx';
 import { ConstellationBuilder } from './constellation-builder.jsx';
 import { StationStar } from './station-star.jsx';
 import { BrandName } from './brand-name.jsx';
+import { BlackHole } from './mission-farewell.jsx';
 import './expedition.css';
 import './mission.css';
 import './digital-map.css';
@@ -14,7 +15,7 @@ const navigationRoute = locations.slice(1).reduce((path, [x, y], index) => {
   const [previousX, previousY] = locations[index];
   const bend = (y - previousY) * .5;
   return `${path} C${previousX},${previousY + bend} ${x},${y - bend} ${x},${y}`;
-}, `M${locations[0].join(',')}`);
+}, `M${locations[0].join(',')}`) + ' C35,91 61,94 77,94';
 
 
 export function MissionEncounter({ scenery, onAccept, motion }) {
@@ -24,15 +25,15 @@ export function MissionEncounter({ scenery, onAccept, motion }) {
   </section>;
 }
 
-export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scenery, motion, approaching = false, destinationIndex = 0 }) {
+export function NavigationMap({ alias, stations, mission, onOpen, onPocket, onExit, scenery, motion, approaching = false, destinationIndex = 0 }) {
   const lights = completedStations(mission).length;
   const materials = stations.filter((_, index) => hasStationMaterial(mission, index)).length;
   return <section className={`navigation-universe ${motion ? '' : 'is-paused'} ${approaching ? 'is-approaching' : ''}`} aria-labelledby="map-title">
     {scenery}
     <header className="navigation-heading"><div><span className="eyebrow"><BrandName /> · MISIÓN COMANDADA POR ASTRONAUTA <span className="astronaut-name">{alias}</span></span><h1 id="map-title">Mapa de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo <span>{lights} / 7 estrellas</span></button></header>
     <div className="navigation-layout">
-      <section className={`navigation-device ${approaching ? 'is-approaching' : ''}`} aria-label="Mapa de las siete estaciones">
-        <div className="device-topline"><span className="device-label"><span className="device-light" aria-hidden="true" />SISTEMA DE NAVEGACIÓN</span><BrandName /></div><div className="device-viewport"><div className="device-scan" aria-hidden="true" /><div className="chart-display" tabIndex={0} role="region" aria-label="Pantalla del mapa. Desliza para explorar las siete estaciones.">
+      <section className={`navigation-device ${approaching ? 'is-approaching' : ''}`} aria-label="Mapa de las siete estaciones y el regreso a casa">
+        <div className="device-topline"><span className="device-label"><span className="device-light" aria-hidden="true" />SISTEMA DE NAVEGACIÓN</span><BrandName /></div><div className="device-viewport"><div className="device-scan" aria-hidden="true" /><div className="chart-display" tabIndex={0} role="region" aria-label="Pantalla del mapa. Desliza para explorar las siete estaciones y el agujero negro de regreso a casa.">
         <div className="chart-terrain" style={{ transformOrigin: `${locations[destinationIndex][0]}% ${locations[destinationIndex][1]}%` }}>
           <svg className="chart-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path className="route-glow" d={navigationRoute} /><path className="route-line" d={navigationRoute} /></svg>
           <ol className="station-route">{stations.map((note, index) => {
@@ -45,12 +46,13 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
               </button>
             </li>;
           })}</ol>
+          <button type="button" className="map-home-exit" onClick={onExit} disabled={approaching} aria-label="Entrar al agujero negro: regreso a la órbita hogar"><BlackHole /><span>Órbita hogar</span></button>
           <div className="screen-coordinates" aria-hidden="true"><span>F / 23</span><span>RUTA / 01—07</span></div>
         </div>
         </div></div>
         <div className="device-bottomline"><div><span>DESLIZA PARA EXPLORAR</span><span className="device-mission-label">Una misión · Siete destinos</span></div><div className="device-progress" aria-label={`${materials} de 7 materiales reunidos`}><div aria-hidden="true">{stations.map((_, index) => <span key={index} className={hasStationMaterial(mission, index) ? 'is-complete' : ''} />)}</div><span>{materials} / 7 materiales</span></div></div>
       </section>
-      <aside className="navigation-guide" aria-labelledby="guide-title"><span className="eyebrow">PRIMERA TRANSMISIÓN DE NAVEGACIÓN</span><h2 id="guide-title">Guía de <em>navegación</em></h2><p>Astronauta <span className="astronaut-name">{alias}</span>, aquí comienza tu recorrido. Selecciona una estación para abrir una página de mi bitácora. Cada estación te propone algo para llevar contigo: una reflexión, unos retazos, energía o fragmentos de materia oscura. Ese recuerdo le dará brillo a su estrella y quedará en tu bolsillo espacial feminista.</p><p>Cuando hayas recorrido las siete estaciones, abre el bolsillo. Allí podrás releer tus reflexiones y enlazar las estrellas. La energía de esa red formará la barrera que ayudará a la galaxia enana a cambiar de rumbo.</p><div className="navigation-progress"><span>{mission.visited.length} / 7 estaciones visitadas</span><span>{lights} / 7 estrellas encendidas</span></div><p className="quiet-note">Tu alias y tus reflexiones se guardan solo en este navegador. Tania no los recibe.</p></aside>
+      <aside className="navigation-guide" aria-labelledby="guide-title"><span className="eyebrow">PRIMERA TRANSMISIÓN DE NAVEGACIÓN</span><h2 id="guide-title">Guía de <em>navegación</em></h2><p>Astronauta <span className="astronaut-name">{alias}</span>, aquí comienza tu recorrido. Selecciona una estación para abrir una página de mi bitácora. Cada estación te propone algo para llevar contigo: una reflexión, unos retazos, energía o fragmentos de materia oscura. Ese recuerdo le dará brillo a su estrella y quedará en tu bolsillo espacial feminista.</p><p>Cuando hayas recorrido las siete estaciones, abre el bolsillo. Allí podrás releer tus reflexiones y enlazar las estrellas. La energía de esa red formará la barrera que ayudará a la galaxia enana a cambiar de rumbo. Después, entra en el agujero negro al final de la ruta para leer mi conclusión y volver a tu órbita hogar.</p><div className="navigation-progress"><span>{mission.visited.length} / 7 estaciones visitadas</span><span>{lights} / 7 estrellas encendidas</span></div><p className="quiet-note">Tu alias y tus reflexiones se guardan solo en este navegador. Tania no los recibe.</p></aside>
     </div>
   </section>;
 }
