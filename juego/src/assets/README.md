@@ -21,3 +21,7 @@ Luffy ocupa hasta el 52% del bloque final, con un máximo de 310 px en escritori
 Para regenerar ambos archivos, desde `juego/`: `python3 scripts/prepare-collision.py /ruta/choque.mp4` (requiere FFmpeg). El recorte está ajustado al video original de 1920 × 1080. La versión publicada es H.264, 720 × 720, 20 fps, 32,8 segundos y unos 6,9 MB. `collision-scene.jsx` lo usa solo en la escena de aceptación, con opacidad .85 y mezcla de aclarado para conservar el color y bordes difuminados. Estrellas, nebulosas suaves, una luna y un planeta con anillo acompañan la simulación. El botón queda en la parte inferior para dejar libre el centro. La reproducción se detiene al salir de vista, ocultar la pestaña, activar la pausa o preferir movimiento reducido; el póster permite mostrar la escena sin reproducción. No se precarga el video fuera de vista.
 
 Crédito indicado por la autora: simulación realizada por Tania Prieto en 2023 de la interacción entre una galaxia tipo Vía Láctea y una enana, con datos suministrados por el equipo de astronomía de la Universidad Nacional de Colombia. Se muestra debajo del botón de aceptación.
+
+## Lecturas de horizontalidad
+
+`lectura-horizontalidad-berkin.pdf` y `lectura-horizontalidad-briones.pdf` son copias binarias íntegras de los PDF aportados por la autora en `../../../../entrada4/`. Acompañan la cuarta entrada, se publican como archivos independientes mediante Vite y se enlazan en sus referencias. No se modificaron ni recomprimieron.

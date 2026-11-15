@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { REFLECTION_LIMIT, isStationComplete, completedStations, collectedStations } from './mission.js';
+import { REFLECTION_LIMIT, isStationComplete, completedStations, collectedStations, hasStationMaterial } from './mission.js';
 import { FabricPiece } from './fabric-workshop.jsx';
 import { StationSilhouette } from './station-art.jsx';
 import { ConstellationBuilder } from './constellation-builder.jsx';
@@ -26,6 +26,7 @@ export function MissionEncounter({ scenery, onAccept, motion }) {
 
 export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scenery, motion, approaching = false, destinationIndex = 0 }) {
   const lights = completedStations(mission).length;
+  const materials = stations.filter((_, index) => hasStationMaterial(mission, index)).length;
   return <section className={`navigation-universe ${motion ? '' : 'is-paused'} ${approaching ? 'is-approaching' : ''}`} aria-labelledby="map-title">
     {scenery}
     <header className="navigation-heading"><div><span className="eyebrow"><BrandName /> · MISIÓN: ASTRONAUTA {alias}</span><h1 id="map-title">Mapa de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo <span>{lights} / 7 estrellas</span></button></header>
@@ -38,7 +39,7 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
             const lit = isStationComplete(mission, index);
             const visited = mission.visited.includes(index);
             return <li key={note.number} style={{ left: `${locations[index][0]}%`, top: `${locations[index][1]}%` }}>
-              <button className={`station-node station-kind-${index % 3} ${lit ? 'is-lit' : ''} expedition-node`} disabled={approaching} onClick={() => onOpen(index)} aria-label={`Estación ${note.number}: ${note.title}${lit ? index === 0 ? ', Pulso recogido' : ', material recogido' : visited ? ', visitada' : ''}`}>
+              <button className={`station-node station-kind-${index % 3} ${lit ? 'is-lit' : ''} expedition-node`} disabled={approaching} onClick={() => onOpen(index)} aria-label={`Estación ${note.number}: ${note.title}${lit ? index === 0 ? ', Pulso recogido' : index === 3 ? ', estrella encendida' : ', material recogido' : visited ? ', visitada' : ''}`}>
                 <StationStar index={index} complete={lit} />
                 <span className="station-name">{note.title}</span>
               </button>
@@ -47,7 +48,7 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
           <div className="screen-coordinates" aria-hidden="true"><span>F / 23</span><span>RUTA / 01—07</span></div>
         </div>
         </div></div>
-        <div className="device-bottomline"><div><span>DESLIZA PARA EXPLORAR</span><span className="device-mission-label">Una misión · Siete destinos</span></div><div className="device-progress" aria-label={`${lights} de 7 materiales reunidos`}><div aria-hidden="true">{stations.map((_, index) => <span key={index} className={isStationComplete(mission, index) ? 'is-complete' : ''} />)}</div><span>{lights} / 7 materiales</span></div></div>
+        <div className="device-bottomline"><div><span>DESLIZA PARA EXPLORAR</span><span className="device-mission-label">Una misión · Siete destinos</span></div><div className="device-progress" aria-label={`${materials} de 7 materiales reunidos`}><div aria-hidden="true">{stations.map((_, index) => <span key={index} className={hasStationMaterial(mission, index) ? 'is-complete' : ''} />)}</div><span>{materials} / 7 materiales</span></div></div>
       </section>
       <aside className="navigation-guide" aria-labelledby="guide-title"><span className="eyebrow">PRIMERA TRANSMISIÓN DE NAVEGACIÓN</span><h2 id="guide-title">Guía de <em>navegación</em></h2><p>Astronauta {alias}, aquí comienza tu recorrido. Selecciona una estación para abrir una página de mi bitácora. Después de leerla, escribe una reflexión. Tu reflexión le dará brillo a una estrella que podrás guardar en tu bolsillo espacial feminista.</p><p>Cuando hayas recorrido las siete estaciones, abre el bolsillo. Allí podrás releer tus reflexiones y enlazar las estrellas. La energía de esa red formará la barrera que ayudará a la galaxia enana a cambiar de rumbo.</p><div className="navigation-progress"><span>{mission.visited.length} / 7 estaciones visitadas</span><span>{lights} / 7 estrellas encendidas</span></div><p className="quiet-note">Tu alias y tus reflexiones se guardan solo en este navegador. Tania no los recibe.</p></aside>
     </div>
@@ -80,8 +81,25 @@ export function PocketStars({ stations, mission, onOpen }) {
   const collected = collectedStations(mission);
   return collected.length ? <div className="reflection-collection">{collected.map(index => {
     const reflection = mission.reflections[index];
-    const complete = isStationComplete(mission, Number(index));
-    return <article className={`reflection-card ${complete ? 'has-material' : 'awaits-material'}`} key={index}><span className="pocket-star" aria-hidden="true">✦</span><span className="eyebrow">ESTACIÓN {Number(index) + 1}</span><h2>{stations[index].title}</h2><div className={`material-memory ${Number(index) === 0 ? 'ultraviolet-memory' : ''}`}><StationSilhouette kind={Number(index) === 0 ? 'pulse' : stations[index].silhouette} complete={complete} /><div><span>{stations[index].material}</span><small>{complete ? Number(index) === 0 ? 'Pulso recogido · Estrella encendida' : 'Material recogido · Estrella encendida' : 'Por sintonizar · Tu reflexión está a salvo'}</small></div></div>{index === 2 && mission.fabricPatch?.length > 0 && <FabricPiece indices={mission.fabricPatch} compact />}{reflection && <p>{reflection}</p>}{onOpen && <button className="text-button" onClick={() => onOpen(Number(index))}>Volver a esta página</button>}</article>;
+    const complete = isStationComplete(mission, index);
+    const material = hasStationMaterial(mission, index);
+    const energy = index === 3;
+    const status = energy
+      ? `${material ? 'Energía recogida' : 'Energía por recoger'} · ${complete ? 'Estrella encendida' : 'Estrella por encender con tu reflexión'}`
+      : complete ? index === 0 ? 'Pulso recogido · Estrella encendida' : 'Material recogido · Estrella encendida' : 'Por sintonizar · Tu reflexión está a salvo';
+    return <article className={`reflection-card ${material ? 'has-material' : 'awaits-material'}`} key={index}>
+      <span className={`pocket-star ${complete ? '' : 'is-unlit'}`} aria-hidden="true">✦</span>
+      <span className="eyebrow">ESTACIÓN {index + 1}</span>
+      <h2>{energy ? 'Energía disipada' : stations[index].title}</h2>
+      {energy && <p className="quiet-note">{stations[index].title}</p>}
+      <div className={`material-memory ${index === 0 ? 'ultraviolet-memory' : ''}`}>
+        <StationSilhouette kind={index === 0 ? 'pulse' : stations[index].silhouette} complete={material} />
+        <div><span>{energy ? 'Calor del encuentro galáctico' : stations[index].material}</span><small>{status}</small></div>
+      </div>
+      {index === 2 && mission.fabricPatch?.length > 0 && <FabricPiece indices={mission.fabricPatch} compact />}
+      {reflection && <p>{reflection}</p>}
+      {onOpen && <button className="text-button" onClick={() => onOpen(index)}>Volver a esta página</button>}
+    </article>;
   })}</div> : <p className="empty-pocket">Aquí aparecerán tus recuerdos: las estrellas, los materiales y las palabras que elijas llevar contigo.</p>;
 }
 

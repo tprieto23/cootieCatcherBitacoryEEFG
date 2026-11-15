@@ -15,5 +15,6 @@ export function StationSilhouette({ kind, complete = false, segments = [], class
     {kind === 'capsule' && <g className="outline-art"><rect x="31" y="16" width="58" height="94" rx="25" /><path d="M32 54H88M42 38H78M41 80H47L52 68L60 94L68 71L73 82H80" className="art-accent" /></g>}
     {kind === 'radar' && <g className="outline-art"><circle cx="60" cy="60" r="46" /><circle cx="60" cy="60" r="28" /><path d="M14 60H106M60 14V106M60 60L93 28M33 102Q20 83 39 76T69 69T87 43" /><circle cx="86" cy="43" r="5" className="art-accent" /></g>}
     {kind === 'pulse' && <g className="pulse-symbol"><circle cx="60" cy="60" r="44" /><circle cx="60" cy="60" r="30" /><circle className="pulse-core" cx="60" cy="60" r="12" /><path d="M4 60H32L42 43L53 79L65 48L76 65L85 60H116" /></g>}
+    {kind === 'thermal' && <g className="outline-art"><path className="art-fill" d="M61 12C79 35 100 48 98 73C96 98 77 110 58 108C33 106 18 90 23 68C27 50 48 43 42 27C55 33 59 45 59 56C75 45 67 30 61 12Z" /><path className="art-accent" d="M45 82Q35 70 47 58M61 88Q51 74 63 62M77 84Q68 73 79 59" /></g>}
   </svg>;
 }

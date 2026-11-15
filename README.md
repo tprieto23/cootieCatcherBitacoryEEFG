@@ -47,24 +47,32 @@ El receptor se retiró por completo de la primera visita y su arquitectura se re
 | Sintoniza Ultravioleta | Pulso de energía ultravioleta |
 | Sigue la señal de casa | Antena de relevo |
 | Aterriza en lo cotidiano | Hilo para la red de apoyo |
-| Deja que otra voz cambie el rumbo | Prisma de navegación |
+| Deja que otra voz cambie el rumbo | Energía disipada |
 | Comparte el timón | Brújula compartida |
 | Transmite con tu propia voz | Cápsula de transmisión |
 | Busca a las que faltan en mi radar | Filamento de materia oscura |
 
-Las tres primeras estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. Las estaciones 4–7 conservan su lectura en diálogo, con identidad y objetivo propios. El escrito de «Comparte el timón» sigue pendiente. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Este cierre está preparado para cuando las siete páginas estén disponibles; no se inventó la quinta entrada.
+Las cuatro primeras estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. La cuarta incorpora el encuentro entre galaxias descrito abajo. Las estaciones 5–7 conservan su lectura en diálogo, con identidad y objetivo propios. El escrito de «Comparte el timón» sigue pendiente. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Este cierre está preparado para cuando las siete páginas estén disponibles; no se inventó la quinta entrada.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
 Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva las ocho posiciones del prototipo anterior para mantener sus datos; el mapa usa únicamente las entradas 1 a 7. La quinta estación se llama «Comparte el timón» y muestra «Página en escritura», sin inventar su texto. La entrada 8 permanece fuera de la misión actual. Las notas anteriores se conservan en `src/legacy-notes.js`.
 
-Los enlaces locales se conservan en los Markdown fuente. La lectura de la primera estación se incluye íntegra como `src/assets/lectura-ultravioleta.pdf` y su enlace se publica con Vite. Los enlaces de otras lecturas permanecen ocultos hasta incluir sus archivos.
+Los enlaces locales se conservan en los Markdown fuente. La lectura de la primera estación se incluye íntegra como `src/assets/lectura-ultravioleta.pdf` y su enlace se publica con Vite. Las dos lecturas de la cuarta estación también se incluyen como PDF independientes de Corona Berkin y Briones. Los enlaces de otras lecturas permanecen ocultos hasta incluir sus archivos.
 
-Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. La conclusión de la autora y las interacciones propias de las estaciones 2 a 7 siguen pendientes. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
+Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. La conclusión de la autora y las interacciones propias de las estaciones 5 a 7 siguen pendientes. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
+
+### Cuarta estación: dos galaxias cambian de rumbo
+
+`#/estacion-4` presenta «Deja que otra voz cambie el rumbo». Antes de la lectura, `src/galactic-encounter.jsx/css` dibuja un encuentro hipotético entre Andrómeda y la Vía Láctea. El arrastre hacia su vecina, Enter sobre Andrómeda o «Acercar las galaxias» inicia el movimiento de ambas por curvas con estelas cortas. Son trayectorias ilustrativas, no una predicción astronómica ni una integración gravitatoria. Al contactar las nubes aparece calor localizado y «Recoger energía disipada». El resplandor viaja al botón del bolsillo. La pausa y el movimiento reducido muestran el resultado sin animación.
+
+`mission.dissipatedEnergy` conserva un único artículo de la estación 4, separado de la estrella: recogerlo no enciende la estación; guardar una reflexión sí. Repetir la escena conserva el artículo. El bolsillo agrupa energía y palabras en una ficha y distingue el material recogido de la estrella pendiente. El mapa cuenta por separado materiales y estrellas. Se conservan estrellas antiguas sin inventar energía no recogida.
+
+Después de recoger se abre la pregunta sobre decidir juntas y «Leer la bitácora» revela directamente *Que el asombro encuentre otras formas*, sin respuesta previa. Su texto y referencias permanecen íntegros; las lecturas locales de Corona Berkin y Briones se publican con Vite. Bolsillo y mapa siguen accesibles, con borradores intactos durante la consulta del bolsillo.
 
 ## Guardado personal
 
-No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, estaciones visitadas, reflexiones, borradores, señales sintonizadas, conexiones de estrellas y los datos del recorrido anterior se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. Las estrellas de Ultravioleta guardadas antes de incorporar el receptor conservan su progreso mediante una migración. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
+No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, estaciones visitadas, reflexiones, borradores, señales sintonizadas, retazos, energía disipada, conexiones de estrellas y los datos del recorrido anterior se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. Las estrellas de Ultravioleta guardadas antes de incorporar el receptor conservan su progreso mediante una migración. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
 
 ## Vercel
 

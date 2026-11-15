@@ -1,0 +1,51 @@
+.galactic-encounter { margin-bottom: 42px; }
+.galactic-encounter h2 { margin: 20px 0; color: var(--silver); font-size: clamp(23px,3vw,34px); line-height: 1.45; }
+.galactic-encounter h2 em { display: block; font: italic 1.55em/1.2 var(--expressive); color: var(--pink); }
+.galactic-encounter p { font-size: 17px; line-height: 1.85; }
+.encounter-viewport { position: relative; margin: 28px -26px 24px; overflow: hidden; border: 1px solid #d4dcf344; border-radius: 48% 48% 24px 24px / 15% 15% 24px 24px; background: radial-gradient(ellipse at 28% 70%,#793a7733,transparent 55%),radial-gradient(ellipse at 80% 25%,#a084da26,transparent 45%),#130d25; box-shadow: inset 0 0 45px #0008,0 0 35px #fca4bc0c; }
+.encounter-space { display: block; width: 100%; min-height: 260px; }
+.encounter-caption { display: block; padding: 0 15px 17px; text-align: center; font-size: 11px; color: var(--muted); }
+.encounter-galaxy text { fill: var(--silver); font: 500 23px 'Space Grotesk',sans-serif; paint-order: stroke; stroke: #130d25; stroke-width: 5px; stroke-linejoin: round; }
+.encounter-galaxy .galaxy-drag-hint { fill: var(--pink); font-size: 17px; }
+.encounter-galaxy.is-draggable { cursor: grab; touch-action: none; }
+.encounter-galaxy.is-draggable:active { cursor: grabbing; }
+.galaxy-drag-target { stroke: transparent; stroke-width: 2; }
+.encounter-galaxy:focus-visible { outline: none; }
+.encounter-galaxy:focus-visible .galaxy-drag-target { stroke: var(--yellow); stroke-dasharray: 5 7; }
+.encounter-orbits { fill: none; stroke: #d4dcf35c; stroke-width: 1.4; stroke-dasharray: 4 9; }
+.encounter-orbits .planned-orbit { opacity: .24; }
+.encounter-trails { fill: none; stroke-width: 3; stroke-linecap: round; filter: drop-shadow(0 0 5px #fca4bc66); }
+.trail-milky { stroke: #b7a6f2; }
+.trail-andromeda { stroke: #fca4bc; }
+.contact-heat { animation: contact-warmth 1.8s ease-in-out infinite alternate; }
+.contact-heat path { fill: none; stroke: #fff2c0; stroke-width: 1.5; opacity: .7; }
+.contact-heat.heat-collected { opacity: .65; }
+.encounter-controls { display: flex; flex-wrap: wrap; gap: 14px; }
+.galactic-encounter .primary { justify-content: center; max-width: 100%; text-align: center; font-size: 14px; }
+.encounter-discovery:empty { display: none; }
+.encounter-discovery { margin-top: 26px; }
+.energy-confirmation { color: var(--yellow); font-size: 14px !important; }
+.encounter-question { margin-top: 34px; padding-top: 24px; border-top: 1px solid #fca4bc40; animation: encounter-reveal .7s ease both; }
+.encounter-question strong { display: block; margin-top: 16px; color: var(--pink); font-weight: 500; }
+.energy-flight { position: fixed; z-index: 80; pointer-events: none; width: 18px; height: 18px; margin: -9px; border-radius: 50%; background: #fff1ae; box-shadow: 0 0 15px 7px #fddd4699,0 0 40px 20px #ff976f66; animation: energy-to-pocket 1.2s cubic-bezier(.35,.1,.3,1) both; }
+.reflection-card .pocket-star.is-unlit { color: #b6b5d060; text-shadow: none; }
+.art-thermal.is-collected .art-fill { fill: #fddd4633; stroke: var(--yellow); }
+.art-thermal.is-collected .art-accent { stroke: #ffbd83; }
+.station-reading-title { font-size: 23px; line-height: 1.5; color: var(--pink); }
+#station-reading-toggle { scroll-margin-top: 110px; }
+@keyframes contact-warmth { from { filter: brightness(.9); } to { filter: brightness(1.3); } }
+@keyframes energy-to-pocket { 0% { transform: translate(0,0) scale(1); } 55% { transform: translate(calc(var(--flight-x) * .35),calc(var(--flight-y) * .75)) scale(.8); } 90% { opacity: 1; } 100% { transform: translate(var(--flight-x),var(--flight-y)) scale(.2); opacity: 0; } }
+@keyframes encounter-reveal { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+.encounter-still .contact-heat,.encounter-still .encounter-question { animation: none; }
+@media (max-width: 560px) {
+  .encounter-viewport { margin-inline: -12px; }
+  .encounter-space { min-height: 0; }
+  .galactic-encounter p { font-size: 16px; }
+  .encounter-galaxy text { font-size: 30px; }
+  .encounter-galaxy .galaxy-drag-hint { font-size: 23px; }
+  .encounter-caption { font-size: 10px; padding: 0 12px 12px; }
+  .galactic-encounter .primary { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .contact-heat,.encounter-question,.energy-flight { animation: none; }
+}

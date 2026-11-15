@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { cleanMission, REFLECTION_LIMIT, updateDraft, saveReflection, chooseFabric, saveFabric, collectedStations } from './mission.js';
+import { cleanMission, REFLECTION_LIMIT, updateDraft, saveReflection, chooseFabric, saveFabric, collectedStations, collectDissipatedEnergy, hasStationMaterial } from './mission.js';
 import { readJourney, writeJourney } from './journey.js';
 import { readFileSync } from 'node:fs';
 import { tuneSignal, tuneHomeSignal, completedStations, isStationComplete, ULTRAVIOLET_SIGNALS, connectStars, hasProtectiveBarrier } from './mission.js';
@@ -26,7 +26,7 @@ test('a new map keeps only valid visited stations and bounded reflections', () =
   assert.equal(mission.reflections[0], '  Mi voz  ');
   assert.equal(mission.reflections[1].length, REFLECTION_LIMIT);
   assert.deepEqual(Object.keys(mission.reflections), ['0', '1']);
-  assert.deepEqual(cleanMission(null), { visited: [], reflections: {}, drafts: {}, ultravioletSignals: [], homeSignals: [], fabricDraft: [], fabricPatch: [], links: [] });
+  assert.deepEqual(cleanMission(null), { visited: [], reflections: {}, drafts: {}, ultravioletSignals: [], homeSignals: [], fabricDraft: [], fabricPatch: [], dissipatedEnergy: false, links: [] });
   assert.deepEqual(cleanMission({ visited: [], reflections: {} }, [0, 1]).visited, []);
 });
 
@@ -227,4 +227,52 @@ test('a single chosen scrap supplies the third star of the protective barrier wi
   assert.equal(hasProtectiveBarrier(mission), true);
   assert.equal(hasProtectiveBarrier(cleanMission(JSON.parse(JSON.stringify(mission)))), true);
   assert.deepEqual(cleanMission(JSON.parse(JSON.stringify(mission))).fabricPatch, [2]);
+});
+
+
+test('station four collects one energy item independently of the reflection star, including replay and reload', () => {
+  let stored;
+  const storage = { getItem: () => stored, setItem: (_, value) => { stored = value; } };
+  let mission = collectDissipatedEnergy(cleanMission(null));
+  assert.deepEqual(mission.visited, [3]);
+  assert.deepEqual(collectedStations(mission), [3]);
+  assert.equal(hasStationMaterial(mission, 3), true);
+  assert.equal(isStationComplete(mission, 3), false);
+  assert.equal(completedStations(mission).length, 0);
+  assert.strictEqual(collectDissipatedEnergy(mission), mission);
+  const draft = '  Cambiar juntas la pregunta.\n\nEscuchar antes de decidir.  ';
+  mission = updateDraft(mission, 3, draft);
+  writeJourney(storage, { alias: 'Luna', mission });
+  mission = readJourney(storage).mission;
+  assert.equal(mission.dissipatedEnergy, true);
+  assert.equal(mission.drafts[3], draft);
+  assert.equal(isStationComplete(mission, 3), false);
+  mission = saveReflection(mission, 3, draft);
+  assert.deepEqual(completedStations(mission), [3]);
+  assert.deepEqual(collectedStations(mission), [3]);
+  mission = saveReflection(collectDissipatedEnergy(mission), 3, 'Otra mirada.');
+  writeJourney(storage, { alias: 'Luna', mission });
+  mission = readJourney(storage).mission;
+  assert.equal(mission.dissipatedEnergy, true);
+  assert.equal(mission.reflections[3], 'Otra mirada.');
+  assert.deepEqual(collectedStations(mission), [3]);
+});
+
+test('old fourth stars survive without inventing energy; energy alone does not unlock the final barrier', () => {
+  const old = cleanMission({ visited: [3], reflections: { 3: 'Una estrella que ya tenía.' } });
+  assert.equal(isStationComplete(old, 3), true);
+  assert.equal(hasStationMaterial(old, 3), false);
+  assert.equal(cleanMission({ dissipatedEnergy: 'true' }).dissipatedEnergy, false);
+  assert.deepEqual(cleanMission({ dissipatedEnergy: true }).visited, [3]);
+  let mission = collectDissipatedEnergy(cleanMission(null));
+  for (const index of [0,1,2,4,5,6]) mission = saveReflection(mission, index, `Mi reflexión ${index}`);
+  for (const index of [0,1]) mission = tuneHomeSignal(mission, index);
+  assert.equal(completedStations(mission).length, 6);
+  assert.equal(hasProtectiveBarrier(mission), false);
+  assert.strictEqual(connectStars(mission, 0, 1), mission);
+  mission = saveReflection(mission, 3, 'Las dos podemos cambiar de rumbo.');
+  for (let index = 0; index < 6; index++) mission = connectStars(mission, index, index + 1);
+  const restored = cleanMission(JSON.parse(JSON.stringify(mission)));
+  assert.equal(hasProtectiveBarrier(restored), true);
+  assert.equal(restored.dissipatedEnergy, true);
 });

@@ -4,7 +4,7 @@ export const DESTINATIONS = [
   { title: 'Sintoniza Ultravioleta', hint: 'Sintoniza las voces de la colectiva y recupera un pulso de energía ultravioleta.', objective: 'Recupera un pulso de energía ultravioleta', material: 'Pulso de energía ultravioleta', silhouette: 'antenna' },
   { title: 'Sigue la señal de casa', hint: 'Sigue una transmisión de voz en voz y recoge la antena de relevo.', objective: 'Recoge la antena de relevo', material: 'Antena de relevo', silhouette: 'relay' },
   { title: 'Aterriza en lo cotidiano', hint: 'Acércate a la mesa de encuentro y encuentra un hilo para la red de apoyo.', objective: 'Encuentra un hilo para la red de apoyo', material: 'Hilo para la red de apoyo', silhouette: 'table' },
-  { title: 'Deja que otra voz cambie el rumbo', hint: 'Gira un prisma, cambia el ángulo de la luz y recoge el prisma de navegación.', objective: 'Recoge el prisma de navegación', material: 'Prisma de navegación', silhouette: 'prism' },
+  { title: 'Deja que otra voz cambie el rumbo', hint: 'Acerca Andrómeda y la Vía Láctea y observa cómo cambia el rumbo de ambas.', objective: 'Recoge energía disipada en un encuentro galáctico', material: 'Energía disipada', silhouette: 'thermal' },
   { title: 'Comparte el timón', hint: 'Reúne las dos mitades de una brújula que se orienta entre dos personas.', objective: 'Reúne las dos mitades de una brújula compartida', material: 'Brújula compartida', silhouette: 'compass' },
   { title: 'Transmite con tu propia voz', hint: 'Registra una señal con tus propias palabras y llévate la cápsula de transmisión.', objective: 'Recoge la cápsula de transmisión', material: 'Cápsula de transmisión', silhouette: 'capsule' },
   { title: 'Busca a las que faltan en mi radar', hint: 'Ajusta el radar y localiza, por el rastro que deja, un filamento de materia oscura.', objective: 'Localiza un filamento de materia oscura', material: 'Filamento de materia oscura', silhouette: 'radar' },
@@ -47,7 +47,13 @@ export function saveFabric(mission) {
 }
 
 export function collectedStations(mission) {
-  return DESTINATIONS.map((_, index) => index).filter(index => Boolean(mission.reflections[index]) || (index === 2 && cleanFabric(mission.fabricPatch).length > 0));
+  return DESTINATIONS.map((_, index) => index).filter(index => Boolean(mission.reflections[index]) || (index === 2 && cleanFabric(mission.fabricPatch).length > 0) || (index === 3 && mission.dissipatedEnergy === true));
+}
+
+// One persistent item, independent of the star earned by writing a reflection.
+export function collectDissipatedEnergy(mission) {
+  if (mission.dissipatedEnergy === true) return mission;
+  return { ...mission, visited: [...new Set([...mission.visited, 3])], dissipatedEnergy: true };
 }
 
 const validStation = index => Number.isInteger(index) && index >= 0 && index < STATION_COUNT;
@@ -69,6 +75,10 @@ export function isStationComplete(mission, index) {
 
 export function completedStations(mission) {
   return DESTINATIONS.map((_, index) => index).filter(index => isStationComplete(mission, index));
+}
+
+export function hasStationMaterial(mission, index) {
+  return index === 3 ? mission.dissipatedEnergy === true : isStationComplete(mission, index);
 }
 
 export function connectStars(mission, first, second) {
@@ -125,7 +135,9 @@ export function cleanMission(value, legacyDiscovered = []) {
   const fabricPatch = savedFabric;
   const fabricDraft = cleanFabric(value?.fabricDraft ?? fabricPatch);
   if ((fabricPatch.length || fabricDraft.length) && !visited.includes(2)) visited.push(2);
-  let mission = { visited, reflections, drafts, ultravioletSignals, homeSignals, fabricDraft, fabricPatch, links: [] };
+  const dissipatedEnergy = value?.dissipatedEnergy === true;
+  if (dissipatedEnergy && !visited.includes(3)) visited.push(3);
+  let mission = { visited, reflections, drafts, ultravioletSignals, homeSignals, fabricDraft, fabricPatch, dissipatedEnergy, links: [] };
   for (const pair of Array.isArray(value?.links) ? value.links : []) {
     if (Array.isArray(pair) && pair.length === 2) mission = connectStars(mission, pair[0], pair[1]);
   }
