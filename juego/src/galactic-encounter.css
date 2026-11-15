@@ -1,6 +1,5 @@
 .galactic-encounter { margin-bottom: 42px; }
-.galactic-encounter h2 { margin: 20px 0; color: var(--silver); font-size: clamp(23px,3vw,34px); line-height: 1.45; }
-.galactic-encounter h2 em { display: block; font: italic 1.55em/1.2 var(--expressive); color: var(--pink); }
+.galactic-encounter .encounter-label { margin: 0 0 22px; color: #c6c8e2; font: 500 10px/1.8 'Space Grotesk',system-ui,sans-serif; letter-spacing: .14em; }
 .galactic-encounter p { font-size: 17px; line-height: 1.85; }
 .encounter-viewport { position: relative; margin: 28px -26px 24px; overflow: hidden; border: 1px solid #d4dcf344; border-radius: 48% 48% 24px 24px / 15% 15% 24px 24px; background: radial-gradient(ellipse at 28% 70%,#793a7733,transparent 55%),radial-gradient(ellipse at 80% 25%,#a084da26,transparent 45%),#130d25; box-shadow: inset 0 0 45px #0008,0 0 35px #fca4bc0c; }
 .encounter-space { display: block; width: 100%; min-height: 260px; }

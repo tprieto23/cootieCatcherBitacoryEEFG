@@ -103,8 +103,7 @@ export function GalacticEncounter({ collected, onCollect, onRead, motion }) {
   const heat = [(milky[0] + andromeda[0]) / 2, (milky[1] + andromeda[1]) / 2];
 
   return <section ref={rootRef} className={`galactic-encounter ${animate ? '' : 'encounter-still'}`} aria-labelledby="encounter-title">
-    <span className="eyebrow">ENCUENTRO HIPOTÉTICO · ANDRÓMEDA Y VÍA LÁCTEA</span>
-    <h2 id="encounter-title">Dos rumbos que <em>se encuentran</em></h2>
+    <h2 id="encounter-title" className="encounter-label">ENCUENTRO CREADO PARA ESTA HISTORIA · ANDRÓMEDA Y VÍA LÁCTEA</h2>
     <p>¿Qué cambia cuando dos galaxias se encuentran? Acerca Andrómeda a la Vía Láctea y observa el rumbo de las dos.</p>
     <div className="encounter-viewport">
       <svg viewBox="0 0 1000 570" className="encounter-space" role="group" aria-label="Encuentro ilustrativo entre dos galaxias con atracción mutua y trayectorias curvas">
