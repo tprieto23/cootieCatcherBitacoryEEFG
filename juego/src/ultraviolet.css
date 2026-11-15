@@ -9,7 +9,6 @@
 .ultraviolet-heading { position: relative; padding: 5px 0 36px; margin-bottom: 38px; border-bottom: 1px solid #fca4bc40; }
 .ultraviolet-heading h1 { position: relative; font-size: clamp(30px,5vw,56px); margin: 34px 0 20px; color: var(--silver); }
 .ultraviolet-heading h1 em { display: block; font-size: 1.65em; line-height: 1.05; }
-.ultraviolet-heading > p { color: var(--silver); font-size: 14px; }
 .ultraviolet-signal { position: absolute; top: 6px; right: 12px; width: 80px; height: 56px; overflow: hidden; transform: rotate(-18deg); opacity: .65; }
 .ultraviolet-signal span { position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); width: 50px; height: 50px; border: 1px solid var(--pink); border-radius: 50%; }
 .ultraviolet-signal span:nth-child(2) { width: 80px; height: 80px; }
@@ -19,8 +18,7 @@
 .ultraviolet-reading a { color: var(--pink); text-decoration: underline; text-underline-offset: 4px; }
 .ultraviolet-reading a:hover { color: var(--yellow); }
 .ultraviolet-reflection { margin-top: 42px; border-top: 1px solid #fca4bc45; padding-top: 35px; }
-.ultraviolet-reflection h2 { margin: 20px 0 30px; color: var(--pink); font: italic clamp(26px,3vw,34px)/1.4 var(--expressive); letter-spacing: 0; }
-.ultraviolet-reflection label { display: block; font-size: 14px; margin-bottom: 13px; }
+.ultraviolet-reflection label { display: block; color: var(--silver); font-size: 17px; line-height: 1.6; margin-bottom: 16px; }
 .ultraviolet-reflection textarea { width: 100%; display: block; min-height: 200px; resize: vertical; padding: 18px; border: 1px solid #d4dcf370; border-radius: 16px; background: #1b0e2b9e; color: var(--ink); font: 17px/1.8 'Space Grotesk',system-ui,sans-serif; }
 .ultraviolet-reflection textarea:focus-visible { outline: 3px solid var(--yellow); outline-offset: 4px; }
 .ultraviolet-reflection textarea::placeholder { color: var(--muted); }

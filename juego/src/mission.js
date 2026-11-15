@@ -16,7 +16,7 @@ export const ULTRAVIOLET_SIGNALS = [
 ];
 export const ULTRAVIOLET = {
   title: DESTINATIONS[0].title,
-  question: '¿Qué pudiste reconocer al escuchar juntas las experiencias de las mujeres de Ultravioleta?',
+  prompt: 'Comparte una palabra o una reflexión después de haber leído este pasaje',
   confirmation: 'Tu estrella de Ultravioleta ya está en tu bolsillo',
 };
 

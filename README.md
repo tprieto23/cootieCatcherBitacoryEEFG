@@ -30,7 +30,7 @@ El mapa contiene siete estaciones en el orden original de las entradas. La Guía
 
 La aproximación a esta estación muestra la antena intermitente y el objetivo «Recupera un pulso de energía ultravioleta». «Aterrizar» abre `#/estacion-1`: un receptor con tres señales débiles. Cada una revela un fragmento literal de «Una voz que aprendió acompañada» e ilumina una parte de la antena. Las tres reunidas producen un pulso violeta.
 
-El desplegable «Leer entrada», debajo del receptor, está disponible desde el principio, sin exigir sintonizar antes. Conserva el texto íntegro, citas, referencia y PDF original. Al final aparece «¿Qué pudiste reconocer al escuchar juntas las experiencias de las mujeres de Ultravioleta?». Se puede guardar antes de terminar de sintonizar: la reflexión queda a salvo, y la recogida se completa cuando existen tres señales y reflexión guardada, en cualquier orden.
+El desplegable «Leer entrada», debajo del receptor, está disponible desde el principio, sin exigir sintonizar antes. Conserva el texto íntegro, citas, referencia y PDF original. Al final, una única etiqueta invita a escribir: «Comparte una palabra o una reflexión después de haber leído este pasaje». Se puede guardar antes de terminar de sintonizar: la reflexión queda a salvo, y la recogida se completa cuando existen tres señales y reflexión guardada, en cualquier orden.
 
 El bolsillo reúne una sola ficha por visita, con estrella, material y palabras exactas. La primera contiene el pulso violeta y se actualiza al editar. Al volver al mapa aparece «Pulso recogido», con señal continua. «Mi bolsillo» permanece accesible en mapa, aproximación y visita; abrirlo sobre la lectura conserva su posición y borrador. El avance y las señales sobreviven a la recarga.
 
