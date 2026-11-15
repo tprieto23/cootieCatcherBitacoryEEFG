@@ -28,7 +28,6 @@
 .destination-preview > .primary { justify-content: center; width: 100%; font-size: 16px; margin-top: 10px; }
 .destination-actions { display: flex; justify-content: space-between; gap: 15px; margin-top: 20px; }
 .ultraviolet-receiver { display: grid; grid-template-columns: minmax(140px,.65fr) minmax(0,1.35fr); gap: 30px; margin: 10px 0 38px; padding-bottom: 30px; }
-.read-logbook-entry { margin-bottom: 30px; }
 .ultraviolet-logbook, .ultraviolet-receiver { scroll-margin-top: 110px; }
 .receiver-instrument { position: sticky; top: 110px; align-self: start; border: 1px solid #c88cff55; border-radius: 24px; background: radial-gradient(ellipse,#b76bff22,transparent 70%),#21102f99; padding: 24px 15px; text-align: center; overflow: hidden; }
 .receiver-instrument .eyebrow { font-size: 8px; letter-spacing: .08em; }
