@@ -19,11 +19,16 @@
 .contact-heat { animation: contact-warmth 1.8s ease-in-out infinite alternate; }
 .contact-heat path { fill: none; stroke: #fff2c0; stroke-width: 1.5; opacity: .7; }
 .contact-heat.heat-collected { opacity: .65; }
+.contact-heat.heat-ready { cursor: pointer; }
+.heat-hit-area { stroke: transparent; stroke-width: 2; }
+.contact-heat.heat-ready:hover,.contact-heat.heat-ready:focus-visible { filter: brightness(1.35); outline: none; }
+.contact-heat.heat-ready:focus-visible .heat-hit-area { stroke: var(--yellow); stroke-dasharray: 4 7; }
 .encounter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
 .encounter-controls .cover-open { margin-top: 0; max-width: 100%; text-align: center; }
 .galactic-encounter .primary { justify-content: center; max-width: 100%; text-align: center; font-size: 14px; }
 .encounter-discovery:empty { display: none; }
 .encounter-discovery { margin-top: 26px; }
+.galactic-encounter .energy-warning { padding: 14px 18px; border-left: 2px solid var(--yellow); background: #fddd460a; color: var(--yellow); font-size: 15px; }
 .energy-confirmation { color: var(--yellow); font-size: 14px !important; }
 .encounter-question { margin-top: 34px; padding-top: 24px; border-top: 1px solid #fca4bc40; animation: encounter-reveal .7s ease both; }
 .encounter-question strong { display: block; margin-top: 16px; color: var(--pink); font-weight: 500; }

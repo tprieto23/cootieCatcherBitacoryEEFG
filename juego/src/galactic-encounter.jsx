@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { GAS_CONTACT, encounterPosition, encounterTrail } from './galactic-encounter.js';
+import { GAS_CONTACT, encounterPosition, encounterTrail, canCollectEncounterEnergy } from './galactic-encounter.js';
 import './galactic-encounter.css';
 
 const grain = seed => { const n = Math.sin(seed * 127.1 + 23) * 43758.5453; return n - Math.floor(n); };
@@ -36,6 +36,7 @@ export function GalacticEncounter({ collected, onCollect, onRead, motion }) {
   const heatRef = useRef(null);
   const rootRef = useRef(null);
   const contacted = progress >= GAS_CONTACT;
+  const canCollect = canCollectEncounterEnergy(progress, collected);
   const animate = motion && !reduced;
 
   useEffect(() => {
@@ -92,7 +93,7 @@ export function GalacticEncounter({ collected, onCollect, onRead, motion }) {
     if (x - event.clientX > 12 || event.clientY - y > 12) start();
   }
   function collect() {
-    if (!contacted || collected) return;
+    if (!canCollect) return;
     const origin = heatRef.current?.getBoundingClientRect();
     const target = rootRef.current?.closest('.ultraviolet-visit')?.querySelector('.visit-pocket-button')?.getBoundingClientRect();
     if (animate && origin && target) setFlight({ x: origin.x + origin.width / 2, y: origin.y + origin.height / 2, dx: target.x + target.width / 2 - origin.x - origin.width / 2, dy: target.y + target.height / 2 - origin.y - origin.height / 2 });
@@ -123,13 +124,26 @@ export function GalacticEncounter({ collected, onCollect, onRead, motion }) {
         {progress > 0 && <g className="encounter-trails" aria-hidden="true"><path d={encounterTrail('milky', progress)} className="trail-milky" /><path d={encounterTrail('andromeda', progress)} className="trail-andromeda" /></g>}
         <Galaxy kind="milky" name="Vía Láctea" progress={progress} />
         <Galaxy kind="andromeda" name="Andrómeda" progress={progress} interactive={!running && progress === 0} onPointerDown={beginDrag} onPointerMove={drag} onPointerUp={() => { dragStart.current = null; }} onKeyDown={event => { if ((event.key === 'Enter' || event.key === ' ') && !running && progress === 0) { event.preventDefault(); start(); } }} />
-        {contacted && <g aria-hidden="true" className={`contact-heat ${collected ? 'heat-collected' : ''}`}><ellipse ref={heatRef} cx={heat[0]} cy={heat[1]} rx="78" ry="53" fill="url(#encounter-heat)" transform={`rotate(-25 ${heat[0]} ${heat[1]})`} /><path d={`M${heat[0] - 30} ${heat[1] + 9}q18 -26 32 -5t29 -13`} /></g>}
+        {contacted && <g
+          className={`contact-heat ${collected ? 'heat-collected' : ''} ${canCollect ? 'heat-ready' : ''}`}
+          role={canCollect ? 'button' : undefined}
+          tabIndex={canCollect ? 0 : undefined}
+          aria-label={canCollect ? 'Recoger energía disipada entre las dos galaxias' : undefined}
+          aria-describedby={canCollect ? 'energy-warning' : undefined}
+          aria-hidden={canCollect ? undefined : true}
+          onClick={collect}
+          onKeyDown={event => { if (canCollect && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); collect(); } }}
+        >
+          <ellipse ref={heatRef} cx={heat[0]} cy={heat[1]} rx="78" ry="53" fill="url(#encounter-heat)" transform={`rotate(-25 ${heat[0]} ${heat[1]})`} />
+          <path d={`M${heat[0] - 30} ${heat[1] + 9}q18 -26 32 -5t29 -13`} />
+          {canCollect && <ellipse className="heat-hit-area" cx={heat[0]} cy={heat[1]} rx="108" ry="90" fill="transparent" />}
+        </g>}
       </svg>
       <span className="encounter-caption">Una exploración visual de un encuentro posible</span>
     </div>
     <div className="encounter-controls"><button type="button" className="cover-open" onClick={start} disabled={running}>{running ? 'Las dos galaxias se acercan…' : progress > 0 ? 'Volver a observar el encuentro' : 'Acercar las galaxias'}<span aria-hidden="true">↗</span></button></div>
     <div className="encounter-discovery" aria-live="polite">
-      {contacted && <><p>Las nubes de gas de las dos galaxias chocan. Parte de la energía de su movimiento se transforma en energía térmica: el gas se calienta. En esta simulación puedes recoger parte de esa energía disipada.</p><button type="button" className="primary collect-heat" onClick={collect} disabled={collected}>Recoger energía disipada</button>{collected && <p className="energy-confirmation" role="status">Energía disipada · Guardada en tu bolsillo</p>}</>}
+      {contacted && <><p>Las nubes de gas de las dos galaxias chocan. Parte de la energía de su movimiento se transforma en energía térmica: el gas se calienta. En esta simulación puedes recoger parte de esa energía disipada.</p>{canCollect && <p id="energy-warning" className="energy-warning">Antes de que se pierda, recoge la energía disipada que se encuentra entre las dos galaxias.</p>}{collected && <p className="energy-confirmation" role="status">Energía disipada · Guardada en tu bolsillo</p>}</>}
     </div>
     {collected && showQuestion && <div className="encounter-question"><p>En este encuentro, las dos galaxias cambiaron de rumbo. Ahora imagina que tú y yo investigamos juntas. Yo llego con una pregunta y tú ves algo que a mí se me escapó. <strong>¿Qué podríamos decidir juntas para que tu observación cambie el rumbo del trabajo?</strong></p><button type="button" className="primary" onClick={onRead}>Leer la bitácora</button></div>}
     {flight && <span aria-hidden="true" className="energy-flight" style={{ left: flight.x, top: flight.y, '--flight-x': `${flight.dx}px`, '--flight-y': `${flight.dy}px` }} />}

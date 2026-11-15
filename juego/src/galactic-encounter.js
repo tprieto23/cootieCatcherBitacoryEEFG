@@ -1,5 +1,6 @@
 // An illustrative encounter, not a prediction or a numerical orbit calculation.
 export const GAS_CONTACT = .8;
+export const canCollectEncounterEnergy = (progress, collected) => progress >= 1 && !collected;
 const routes = {
   milky: [[215, 350], [335, 410], [420, 390], [480, 325]],
   andromeda: [[780, 170], [750, 300], [670, 340], [590, 280]],
