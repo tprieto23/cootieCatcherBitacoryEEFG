@@ -9,6 +9,7 @@ import { StationVisit } from './station-visit.jsx';
 import { FabricWorkshop } from './fabric-workshop.jsx';
 import ultravioletReading from './assets/lectura-ultravioleta.pdf?url';
 import { CollisionScene } from './collision-scene.jsx';
+import { BrandName } from './brand-name.jsx';
 
 const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', mision: 'mission', mapa: 'game', 'estacion-1': 'ultraviolet', 'estacion-2': 'homeSignal', 'estacion-3': 'everyday', jugar: 'game', alias: 'alias', bolsillo: 'recap', cierre: 'recap' };
 const stations = notes.slice(0, 7).map((note, index) => ({ ...note, ...DESTINATIONS[index], text: note.available ? note.text : 'Esta página de la bitácora todavía está en escritura. Puedes continuar el viaje y volver cuando esté lista.' }));
@@ -135,7 +136,7 @@ const brightWindowStars = [[69,98,2],[197,63,1.5],[329,111,2],[479,180,1.5],[489
 function SpaceWindow({ motion }) {
   return <figure className={`space-window ${motion ? '' : 'is-paused'}`}>
     <div className="cabin-shell">
-      <div className="cabin-plaque" aria-hidden="true"><span>CABINA · NÉBULA F23</span><span className="cabin-light" /></div>
+      <div className="cabin-plaque" aria-hidden="true"><span>CABINA · <BrandName /></span><span className="cabin-light" /></div>
       <div className="window-housing">
         <div className="hull-fittings" aria-hidden="true">
           {[[24,7],[76,7],[5,34],[95,34],[5,68],[95,68],[27,94],[73,94]].map(([left,top],index) => <span key={index} className="hull-fastener" style={{left: `${left}%`, top: `${top}%`}} />)}
@@ -190,10 +191,10 @@ function Introduction({ onStart, motion }) {
     <div className="transmission-heading"><span className="transmission-signal" aria-hidden="true" /><span>A BORDO · PRIMERA TRANSMISIÓN</span></div>
     <div className="departure-layout">
       <article className="transmission-page">
-        <header><span className="eyebrow">INTRODUCCIÓN</span><h1 id="introduction-title">NEBULA-<em>F23</em></h1></header>
+        <header><span className="eyebrow">INTRODUCCIÓN</span><h1 id="introduction-title"><BrandName /></h1></header>
         <div className="transmission-text">
           <blockquote className="transmission-call">«Estación siete a estación uno. ¿Todavía me escuchas?»</blockquote>
-          <p>Astronauta, te doy la bienvenida a Nébula F23, mi bitácora del Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II. Para nombrarla, me inspiré en los códigos con los que se identifican las nebulosas. La F es de feminista, el lugar desde donde escribo. El 23 es un número que me ha acompañado toda la vida.</p>
+          <p>Astronauta, te doy la bienvenida a <BrandName />, mi bitácora del Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II. Para nombrarla, me inspiré en los códigos con los que se identifican las nebulosas. La F es de feminista, el lugar desde donde escribo. El 23 es un número que me ha acompañado toda la vida.</p>
           <p>La voz que acabas de escuchar viene de una galaxia enana que se acerca a otra mucho mayor. Una galaxia enana puede pasar mucho tiempo orbitando a su vecina. Si pasa muy cerca, puede caer en el pozo gravitacional de la mayor, y esta puede empezar a arrancarle estrellas. Eso le ocurre a la galaxia enana de Sagitario mientras orbita nuestra Vía Láctea. <a href="https://science.nasa.gov/image-detail/panta-rhei-motion-in-the-milky-way/" target="_blank" rel="noopener noreferrer">Puedes ver un ejemplo de ese encuentro en esta imagen de la NASA y la ESA</a>. En este juego, tu misión es recorrer siete estaciones y reunir energía y materiales de navegación que ayuden a la galaxia enana a cambiar de rumbo antes de que la mayor termine por absorberla.</p>
           <p>¿Por qué queremos salvarla? En esta historia, la galaxia mayor representa a la academia tradicional. En su fuerza de atracción puedes reconocer cómo opera la academia cuando investiga con métodos extractivos. Quien investiga llega a un territorio, recoge saberes y experiencias y se los lleva para interpretarlos. La conversación se queda solo en aulas, artículos y congresos.</p>
           <p>En la galaxia enana viven distintas maneras de investigar desde los feminismos. Es pequeña y tiene una fuerza que conozco de cerca. Esas maneras de investigar me invitan a preguntarme quién soy yo, desde dónde hago mis preguntas y qué cambia cuando otras personas pueden hacer las suyas. Los afectos y el cuidado tienen que ver con decisiones muy concretas. Me pregunto qué confianza hay para contar algo que duele y con quién puedo compartir lo que escuché. Salvar esta galaxia significa cuidar esos vínculos para que quienes investigan puedan seguir haciendo preguntas propias.</p>
@@ -324,7 +325,7 @@ export function Experience() {
       {isCover && <section className="welcome" aria-labelledby="cover-title">
         <div className="cover-orbit" aria-hidden="true" />
         <div className="welcome-copy">
-          <h1 className="welcome-title" id="cover-title"><span className="cover-greeting">Bienvenide a</span>NEBULA<span className="title-code">-F23</span></h1>
+          <h1 className="welcome-title" id="cover-title"><span className="cover-greeting">Bienvenide a</span><BrandName /></h1>
           <p className="cover-author">Bitácora por:<button type="button" className={`cover-author-button ${coverMotion ? '' : 'is-paused'}`} onClick={() => navigate('about')} aria-label="Saber más sobre Tania Prieto"><span>Tania Prieto</span></button></p>
           <div className="cover-rule" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 1C13.5 8.5 15.5 10.5 23 12C15.5 13.5 13.5 15.5 12 23C10.5 15.5 8.5 13.5 1 12C8.5 10.5 10.5 8.5 12 1Z" /></svg></div>
           <p className="welcome-description">Un recorrido construido a partir de reflexiones y escrituras automáticas en el marco del <strong>Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II</strong> de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia.</p>
@@ -344,7 +345,7 @@ export function Experience() {
       {!isCover && !storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}
     </main>
 
-    <footer><button type="button" className="footer-home" onClick={() => navigate('home')} aria-label="Volver a la portada de NEBULA-F23">NEBULA-F23</button><span>Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II · Una bitácora en construcción</span></footer>
+    <footer><button type="button" className="footer-home" onClick={() => navigate('home')} aria-label="Volver a la portada de NEBULA-F23"><BrandName /></button><span>Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II · Una bitácora en construcción</span></footer>
 
     {modal?.kind === 'alias' && <Dialog title="Astronauta, ¿cuál es tu alias?" eyebrow="ANTES DE TRAZAR TU RUMBO" className="astronaut-alias" onClose={() => setModal(null)}><form className="alias-screen" onSubmit={begin}><label htmlFor="player-alias">Tu alias de astronauta</label><input autoFocus id="player-alias" name="alias" value={aliasDraft} onChange={event => { event.target.setCustomValidity(''); setAliasDraft(event.target.value); }} maxLength={40} autoComplete="off" required placeholder="Puede ser un nombre inventado" /><p className="quiet-note">Tu alias y tus reflexiones se quedan en este navegador. No se envían a Tania.</p><button className="primary" type="submit">Entrar al mapa</button></form></Dialog>}
     {modal?.kind === 'note' && <Dialog title={stations[modal.index].title} eyebrow={`ESTACIÓN ${String(modal.index + 1).padStart(2, '0')} · PÁGINA DE LA BITÁCORA`} wide onClose={() => setModal(null)}><button type="button" className="text-button" onClick={openPocket}>Mi bolsillo</button><MissionReflection key={modal.index} available={stations[modal.index].available} savedDraft={mission.drafts[modal.index]} onDraft={text => setMission(previous => updateDraft(previous, modal.index, text))} selected={mission.reflections[modal.index]} onSave={text => setMission(previous => saveReflection(previous, modal.index, text))} onReturn={() => { setModal(null); navigate('game'); }}><StoryText text={stations[modal.index].text} /></MissionReflection></Dialog>}
