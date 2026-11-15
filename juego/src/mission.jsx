@@ -19,8 +19,6 @@ export function MissionEncounter({ scenery, onAccept, motion }) {
   return <section className={`mission-encounter ${motion ? '' : 'is-paused'}`} aria-labelledby="encounter-title">
     {scenery}
     <div className="encounter-copy"><span className="eyebrow">AL OTRO LADO DE LA VENTANILLA</span><h2 id="encounter-title">Hay otro rumbo<br /><em>posible.</em></h2><button type="button" className="primary accept-mission" onClick={onAccept}>Aceptar misión</button></div>
-    <div className="galaxy-caption dwarf-caption"><span>01 / GALAXIA ENANA</span><p>Un universo por cuidar</p></div>
-    <div className="galaxy-caption giant-caption"><span>02 / GALAXIA MAYOR</span><p>La fuerza de la atracción</p></div>
   </section>;
 }
 

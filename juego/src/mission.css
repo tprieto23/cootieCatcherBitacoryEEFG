@@ -12,11 +12,6 @@
 .encounter-copy h2 { font-size: clamp(32px,4vw,54px); color: var(--silver); margin: 22px 0 35px; }
 .encounter-copy h2 em { font: italic 1.6em/.95 var(--expressive); color: var(--pink); }
 .accept-mission.primary { font-size: 18px; min-height: 70px; padding: 18px 42px; justify-content: center; box-shadow: 0 0 35px #fca4bc36,inset 0 1px 0 #fff9; }
-.galaxy-caption { position: absolute; bottom: 32px; max-width: 40%; }
-.dwarf-caption { left: 5%; }
-.giant-caption { right: 5%; text-align: right; }
-.galaxy-caption span { color: var(--silver); font-size: 10px; letter-spacing: .12em; }
-.galaxy-caption p { font: italic clamp(19px,2vw,27px)/1.5 var(--expressive); color: var(--pink); }
 .astronaut-alias.modal { background: linear-gradient(135deg,#4a1b70b8,#231135d9); backdrop-filter: blur(22px) saturate(125%); -webkit-backdrop-filter: blur(22px) saturate(125%); }
 .astronaut-alias.modal::backdrop { background: #150c294a; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
 .astronaut-alias .primary { width: 100%; justify-content: center; font-size: 15px; }
@@ -98,9 +93,6 @@
   .encounter-copy h2 { font-size: 28px; }
   .encounter-copy .eyebrow { font-size: 8px; }
   .accept-mission.primary { font-size: 16px; min-height: 64px; padding-inline: 32px; }
-  .galaxy-caption { bottom: 22px; }
-  .galaxy-caption span { font-size: 8px; }
-  .galaxy-caption p { font-size: 18px; }
   .chart-terrain { height: 760px; }
   .station-route li { width: 49%; }
   .station-name { font-size: 13px; }
