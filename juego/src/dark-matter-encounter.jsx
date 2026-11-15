@@ -90,7 +90,7 @@ export function DarkMatterEncounter({ observed, fragments, onObserve, onCollect,
       <a href={readings[fragment.reading]} target="_blank" rel="noopener noreferrer">Abrir la lectura de referencia</a>
       <div className="dark-matter-controls"><button type="button" className="cover-open" onClick={collect} disabled={fragments.includes(active)}>{fragments.includes(active) ? 'Fragmento en tu bolsillo' : 'Recoger este fragmento'}<span aria-hidden="true">↗</span></button></div>
     </div>}
-    <p className="dark-matter-status" role="status" aria-live="polite">{fragments.includes(0) ? 'Tu fragmento de materia oscura está en tu bolsillo. Tu estrella ya brilla.' : 'Encuentra tu fragmento de materia oscura en el halo.'}</p>
+    <p className={`dark-matter-status ${fragments.includes(0) ? '' : 'dark-matter-warning'}`} role="status" aria-live="polite">{fragments.includes(0) ? 'Tu fragmento de materia oscura está en tu bolsillo. Tu estrella ya brilla.' : 'Encuentra tu fragmento de materia oscura en el halo y guárdalo en tu bolsillo feminista espacial.'}</p>
     <button type="button" className="primary" onClick={onRead}>Leer la bitácora</button>
     {flight && <span aria-hidden="true" className="dark-matter-flight" style={{ left: flight.x, top: flight.y, '--fragment-x': `${flight.dx}px`, '--fragment-y': `${flight.dy}px` }} />}
   </section>;
