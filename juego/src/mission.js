@@ -19,6 +19,14 @@ export const ULTRAVIOLET = {
   prompt: 'Comparte una palabra o una reflexión después de haber leído este pasaje',
   confirmation: 'Tu estrella de Ultravioleta ya está en tu bolsillo',
 };
+export const HOME_SIGNAL = {
+  introduction: 'A veces, algo que converso con mi mamá en casa vuelve a aparecer cuando ella habla con sus amigas. Sintoniza las dos señales pensando en ese recorrido. ¿Qué aporta cada mujer a la conversación?',
+  prompt: 'Piensa en algo que aprendiste de otra persona y que después le contaste a alguien más. ¿Qué entendiste de otra manera al escuchar lo que esa persona tenía para decir?',
+  signals: [
+    { title: 'Señal 1 · ¿Desde dónde conocemos?', quote: 'Los feminismos plantean la necesidad de reconocer que todo conocimiento está situado', source: 'María Falconí Abad, pp. 107–108', href: 'https://revistacoatepec.uaemex.mx/article/download/19565/14506/' },
+    { title: 'Señal 2 · ¿Hasta dónde llega lo que compartimos?', introduction: 'Al hablar de los intercambios afectivos, las autoras proponen que', quote: 'no necesariamente tienen que ser bidireccionales, sino que dicha reciprocidad pueda circular', source: 'Osorio-Cabrera, Gandarias y Fulladosa, p. 61', href: 'https://dialnet.unirioja.es/descarga/articulo/7847906.pdf' },
+  ],
+};
 
 const validStation = index => Number.isInteger(index) && index >= 0 && index < STATION_COUNT;
 
@@ -27,8 +35,13 @@ export function tuneSignal(mission, index) {
   return { ...mission, visited: [...new Set([...mission.visited, 0])], ultravioletSignals: [...new Set([...mission.ultravioletSignals, index])] };
 }
 
+export function tuneHomeSignal(mission, index) {
+  if (!Number.isInteger(index) || index < 0 || index >= HOME_SIGNAL.signals.length) return mission;
+  return { ...mission, visited: [...new Set([...mission.visited, 1])], homeSignals: [...new Set([...(mission.homeSignals ?? []), index])] };
+}
+
 export function isStationComplete(mission, index) {
-  return validStation(index) && Boolean(mission.reflections[index]?.trim());
+  return validStation(index) && Boolean(mission.reflections[index]?.trim()) && (index !== 1 || mission.homeSignals?.length === HOME_SIGNAL.signals.length);
 }
 
 export function completedStations(mission) {
@@ -81,7 +94,11 @@ export function cleanMission(value, legacyDiscovered = []) {
   const ultravioletSignals = Array.isArray(value?.ultravioletSignals)
     ? [...new Set(value.ultravioletSignals.filter(index => Number.isInteger(index) && index >= 0 && index < 3))]
     : value && Object.hasOwn(value, 'ultravioletSignals') ? [] : reflections[0] ? [0, 1, 2] : [];
-  let mission = { visited, reflections, drafts, ultravioletSignals, links: [] };
+  // Stars earned before the second receiver was added remain complete.
+  const homeSignals = Array.isArray(value?.homeSignals)
+    ? [...new Set(value.homeSignals.filter(index => Number.isInteger(index) && index >= 0 && index < HOME_SIGNAL.signals.length))]
+    : value && Object.hasOwn(value, 'homeSignals') ? [] : reflections[1] ? [0, 1] : [];
+  let mission = { visited, reflections, drafts, ultravioletSignals, homeSignals, links: [] };
   for (const pair of Array.isArray(value?.links) ? value.links : []) {
     if (Array.isArray(pair) && pair.length === 2) mission = connectStars(mission, pair[0], pair[1]);
   }

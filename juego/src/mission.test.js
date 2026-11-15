@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { cleanMission, REFLECTION_LIMIT, updateDraft, saveReflection } from './mission.js';
 import { readJourney, writeJourney } from './journey.js';
 import { readFileSync } from 'node:fs';
-import { tuneSignal, completedStations, isStationComplete, ULTRAVIOLET_SIGNALS, connectStars, hasProtectiveBarrier } from './mission.js';
+import { tuneSignal, tuneHomeSignal, completedStations, isStationComplete, ULTRAVIOLET_SIGNALS, connectStars, hasProtectiveBarrier } from './mission.js';
 
 test('old visits and words survive the transition to the seven-station map', () => {
   let stored = JSON.stringify({ version: 1, alias: 'Luna', game: { position: 6, discovered: [0, 5, 6, 7] }, words: { 0: 'Voz', 5: 'Escucha' } });
@@ -26,7 +26,7 @@ test('a new map keeps only valid visited stations and bounded reflections', () =
   assert.equal(mission.reflections[0], '  Mi voz  ');
   assert.equal(mission.reflections[1].length, REFLECTION_LIMIT);
   assert.deepEqual(Object.keys(mission.reflections), ['0', '1']);
-  assert.deepEqual(cleanMission(null), { visited: [], reflections: {}, drafts: {}, ultravioletSignals: [], links: [] });
+  assert.deepEqual(cleanMission(null), { visited: [], reflections: {}, drafts: {}, ultravioletSignals: [], homeSignals: [], links: [] });
   assert.deepEqual(cleanMission({ visited: [], reflections: {} }, [0, 1]).visited, []);
 });
 
@@ -63,13 +63,46 @@ test('the second station preserves its own draft and updates a single star acros
   const restored = readJourney(storage).mission;
   assert.equal(restored.drafts[1], draft);
   assert.equal(isStationComplete(restored, 1), false);
-  const saved = saveReflection(restored, 1, draft);
+  const saved = saveReflection(tuneHomeSignal(tuneHomeSignal(restored, 0), 1), 1, draft);
   assert.deepEqual(completedStations(saved), [0, 1]);
   writeJourney(storage, { alias: 'Luna', mission: saveReflection(saved, 1, 'Otra conexión.\n\nCon mis propias palabras.') });
   const edited = readJourney(storage).mission;
   assert.equal(edited.reflections[0], first.reflections[0]);
   assert.equal(edited.reflections[1], 'Otra conexión.\n\nCon mis propias palabras.');
   assert.equal(Object.keys(edited.reflections).length, 2);
+});
+
+test('the second receiver needs two distinct signals and a reflection, without affecting station one', () => {
+  let mission = saveReflection(cleanMission(null), 0, 'Mi estrella de Ultravioleta.');
+  mission = saveReflection(mission, 1, '  Mi reflexión de casa.\n\nDe voz en voz.  ');
+  assert.equal(isStationComplete(mission, 0), true);
+  assert.equal(isStationComplete(mission, 1), false);
+  for (const index of [1, 1, -1, 2, '0']) mission = tuneHomeSignal(mission, index);
+  assert.deepEqual(mission.homeSignals, [1]);
+  assert.deepEqual(mission.ultravioletSignals, []);
+  assert.equal(isStationComplete(mission, 1), false);
+  mission = tuneHomeSignal(mission, 0);
+  assert.deepEqual(completedStations(mission), [0, 1]);
+  assert.equal(mission.reflections[1], '  Mi reflexión de casa.\n\nDe voz en voz.  ');
+  const signalsFirst = tuneHomeSignal(tuneHomeSignal(cleanMission(null), 0), 1);
+  assert.equal(isStationComplete(signalsFirst, 1), false);
+  assert.equal(isStationComplete(saveReflection(signalsFirst, 1, 'Otra mirada.'), 1), true);
+});
+
+test('second receiver progress persists and older second stars keep their progress and barrier links', () => {
+  let stored;
+  const storage = { getItem: () => stored, setItem: (_, value) => { stored = value; } };
+  const partial = tuneHomeSignal(updateDraft(cleanMission(null), 1, 'Mi borrador intacto.'), 0);
+  writeJourney(storage, { alias: 'Luna', mission: partial });
+  const restored = readJourney(storage).mission;
+  assert.deepEqual(restored.homeSignals, [0]);
+  assert.equal(restored.drafts[1], 'Mi borrador intacto.');
+  assert.equal(isStationComplete(restored, 1), false);
+  const old = cleanMission({ visited: [0,1,2,3,4,5,6], reflections: Object.fromEntries(Array.from({ length: 7 }, (_, i) => [i, `Reflexión ${i}`])), links: [[0,1],[1,2],[2,3],[3,4],[4,5],[5,6]] });
+  assert.deepEqual(old.homeSignals, [0, 1]);
+  assert.equal(hasProtectiveBarrier(old), true);
+  assert.equal(isStationComplete(cleanMission({ visited: [1], reflections: { 1: 'Guardada antes de sintonizar.' }, homeSignals: [] }), 1), false);
+  assert.deepEqual(cleanMission({ homeSignals: [0,0,1,2,-1,'1'] }).homeSignals, [0, 1]);
 });
 
 test('receiver progress survives reload and earned stars migrate without losing reflections', () => {
@@ -95,6 +128,7 @@ test('the protective barrier needs all seven stars in one connected network and 
   for (let index = 0; index < 7; index++) mission = saveReflection(mission, index, `Reflexión ${index + 1}`);
   assert.equal(hasProtectiveBarrier(mission), false);
   for (const index of [0, 1, 2]) mission = tuneSignal(mission, index);
+  for (const index of [0, 1]) mission = tuneHomeSignal(mission, index);
   for (const [a, b] of [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 6]]) mission = connectStars(mission, a, b);
   assert.equal(hasProtectiveBarrier(mission), false);
   mission = connectStars(mission, 2, 3);

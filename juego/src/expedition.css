@@ -44,6 +44,14 @@
 .receiver-signal > button[aria-pressed="true"] { border-color: #c78dffc2; background: #a159e32e; box-shadow: inset 3px 0 0 #c78dff; }
 .receiver-signal blockquote { margin: 12px 0 0; padding: 5px 5px 5px 15px; border-left: 1px solid #c78dff66; color: #eadcf7; font: 15px/1.8 'Space Grotesk',system-ui,sans-serif; }
 .receiver-signals > .receiver-status { margin-top: 22px; color: #d3a4ff; min-height: 48px; }
+.relay-signal { stroke: #8d789e; transition: stroke .4s,filter .4s; }
+.relay-signal.is-tuned { stroke: #fca4bc; filter: drop-shadow(0 0 4px #fca4bc99); }
+.home-receiver .receiver-signal > button strong { font-weight: 500; line-height: 1.6; }
+.home-receiver .receiver-signal blockquote p { margin: 0 0 8px; }
+.home-receiver .receiver-signal blockquote a { color: var(--pink); font-size: 13px; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.home-receiver .receiver-signal blockquote a:hover { color: var(--yellow); }
+.home-receiver a:focus-visible, .home-receiver button:focus-visible { outline: 2px solid var(--yellow); outline-offset: 4px; }
+.ultraviolet-visit.is-paused .receiver-pulse { animation-play-state: paused; }
 .ultraviolet-logbook { border-top: 1px solid #fca4bc55; }
 .ultraviolet-logbook > summary { cursor: pointer; padding: 24px 16px; color: var(--pink); font: 500 19px/1.5 var(--tech); border-radius: 14px; background: #fca4bc0c; }
 .ultraviolet-logbook > summary > span { display: block; margin-top: 7px; font: 13px/1.6 'Space Grotesk',system-ui,sans-serif; color: var(--silver); }
