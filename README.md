@@ -52,7 +52,7 @@ El receptor se retiró por completo de la primera visita y su arquitectura se re
 | Transmite con tu propia voz | Cápsula de transmisión |
 | Busca a las que faltan en mi radar | Filamento de materia oscura |
 
-Las cinco primeras estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. La cuarta incorpora el encuentro entre galaxias descrito abajo. La quinta permite descubrir y recoger materia oscura en forma de una cita. Las estaciones 6–7 conservan su lectura en diálogo, con identidad y objetivo propios. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Las siete entradas ya están disponibles; las estaciones con materiales propios pueden completar su estrella sin escritura adicional.
+Las siete estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. La cuarta incorpora el encuentro entre galaxias descrito abajo. La quinta permite descubrir y recoger materia oscura en forma de una cita. Las estaciones 6 y 7 abren páginas completas con fondo espacial, lectura, reflexión y bolsillo, igual que las anteriores; la sexta conserva su pregunta propia. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Las siete entradas ya están disponibles; las estaciones con materiales propios pueden completar su estrella sin escritura adicional.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
@@ -83,6 +83,12 @@ Una huella del halo abre únicamente la cita de Cornejo y Rufer, «En diez años
 Al final de la ruta del mapa aparece un agujero negro con el nombre **Órbita hogar**. Al seleccionarlo se abre `#/orbita-hogar`, con «Completaste la misión, astronauta [ALIAS]» y **«Tripulaste NEBULA-F23 satisfactoriamente»**. La nueva figura y su disco se dibujan en SVG con la paleta morada, rosa, amarilla y plateada; respetan pausa y movimiento reducido.
 
 `src/entries/conclusion.md` conserva los cuatro párrafos enviados por la autora. `src/mission-farewell.jsx/css` muestra la despedida, el agujero negro, la conclusión, el agradecimiento y «Regresar a mi órbita hogar», que vuelve a la portada. El bolsillo y el mapa siguen accesibles. La salida es un recurso narrativo de esta historia y está disponible desde el mapa: no añade una octava estrella, no entrega materiales ni modifica los recuerdos. Se conservan las siete estaciones, el alias y el avance al volver a casa.
+
+### Visitas completas de las estaciones 6 y 7
+
+«Aterrizar» en Transmite con tu propia voz abre `#/estacion-6`; en Busca a las que faltan en mi radar abre `#/estacion-7`. Ambas usan `StationVisit` y el fondo espacial, con «Leer entrada», referencias y casilla de reflexión, «Mi bolsillo» y «Volver al mapa». La sexta recibe la invitación propia de escritura mediante `prompt`. Abrir el bolsillo conserva la lectura y su borrador; las reflexiones guardadas se pueden editar en la misma estrella. No se modifica el esquema de guardado.
+
+`src/navigation.js` centraliza las rutas de las siete visitas y sus índices. Recargar una ruta directa vuelve a su página, con el mismo control de alias y avance. La vista de destino previa al aterrizaje sigue siendo una ventana; la lectura ya no usa el diálogo antiguo sobre el mapa.
 
 ## Guardado personal
 
