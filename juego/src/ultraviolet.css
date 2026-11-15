@@ -22,7 +22,6 @@
 .ultraviolet-reflection textarea { width: 100%; display: block; min-height: 200px; resize: vertical; padding: 18px; border: 1px solid #d4dcf370; border-radius: 16px; background: #1b0e2b9e; color: var(--ink); font: 17px/1.8 'Space Grotesk',system-ui,sans-serif; }
 .ultraviolet-reflection textarea:focus-visible { outline: 3px solid var(--yellow); outline-offset: 4px; }
 .ultraviolet-reflection textarea::placeholder { color: var(--muted); }
-.ultraviolet-reflection .quiet-note { margin: 17px 0; }
 .ultraviolet-save { display: flex; align-items: center; justify-content: space-between; gap: 25px; margin-top: 25px; }
 .ultraviolet-save .primary { justify-content: center; font-size: 15px; }
 .ultraviolet-star { width: 65px; flex-shrink: 0; color: #b6b5d04d; transition: color .35s,filter .35s; }
