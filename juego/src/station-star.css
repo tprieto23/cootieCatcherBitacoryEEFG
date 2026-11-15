@@ -1,32 +1,35 @@
-.station-star-host { position: relative; display: block; width: 135px; height: 135px; flex-shrink: 0; margin: -5px auto 4px; animation: star-float 8s ease-in-out infinite alternate; animation-delay: var(--star-delay); }
-.station-star-body { width: 100%; height: 100%; display: block; filter: drop-shadow(0 0 12px var(--star-color)); transition: filter .35s,transform .35s; }
+.station-star-host { position: relative; display: block; width: 128px; height: 128px; flex-shrink: 0; margin: -2px auto 4px; animation: star-float 12s ease-in-out infinite alternate; animation-delay: var(--star-delay); }
+.station-star-body { width: 100%; height: 100%; display: block; filter: none; transition: filter .35s,transform .35s; }
 .star-corona { transform-origin: 80px 80px; animation: corona-turn var(--star-period) linear infinite; }
-.star-heart, .star-aura { transform-origin: 80px 80px; animation: star-breathe 6s ease-in-out infinite alternate; animation-delay: var(--star-delay); }
-.stellar-rays { opacity: .5; }
-.star-earned-glow { stroke: var(--yellow); stroke-width: 1; opacity: 0; }
-.station-star-host.is-collected .star-earned-glow { opacity: .8; }
-.station-star-host.is-collected .station-star-body { filter: drop-shadow(0 0 16px var(--star-color)) drop-shadow(0 0 4px #fddd4670); }
-.star-ultraviolet:not(.is-collected) .star-aura { animation-duration: 3.6s; }
-.station-route .expedition-node:hover .station-star-body, .station-route .expedition-node:focus-visible .station-star-body { filter: drop-shadow(0 0 22px var(--star-light)); transform: scale(1.12); }
+.star-heart, .star-aura { transform-origin: 80px 80px; animation: star-breathe 10s ease-in-out infinite alternate; animation-delay: var(--star-delay); }
+.star-aura { opacity: .45; }
+.nebula-cloud { transform-origin: 80px 80px; animation: nebula-drift 14s ease-in-out infinite alternate; animation-delay: var(--star-delay); }
+.star-earned-glow { opacity: .75; }
+.station-star-host.is-collected .station-star-body { filter: none; }
+.celestial-kind-0:not(.is-collected) .star-aura { animation-duration: 3.6s; }
+.station-route .expedition-node:hover .station-star-body, .station-route .expedition-node:focus-visible .station-star-body { filter: drop-shadow(0 0 4px #c7a7d53b); transform: scale(1.05); }
 .navigation-device .station-route .expedition-node, .navigation-device .station-route .expedition-node.is-lit { padding: 0 8px 14px; border: 0; border-radius: 50%; background: transparent; box-shadow: none; }
+.navigation-device .station-route li { transform: translate(-50%,-62px); }
 .navigation-device .station-route .expedition-node::before { display: none; }
 .navigation-device .station-route .expedition-node:hover, .navigation-device .station-route .expedition-node:focus-visible { background: transparent; box-shadow: none; }
 .navigation-device .station-route .expedition-node:focus-visible { outline: 2px solid var(--pink); outline-offset: 5px; }
 .navigation-device .expedition-node .station-name { color: var(--silver); text-shadow: 0 2px 10px #090616,0 0 20px #090616; font-size: 15px; line-height: 1.5; }
 .navigation-device .chart-display .chart-terrain { height: 1160px; }
 .destination-preview > .station-star-host { width: 190px; height: 190px; margin: 10px auto 30px; }
-.navigation-universe.is-paused .station-star-host, .navigation-universe.is-paused .star-corona, .navigation-universe.is-paused .star-heart, .navigation-universe.is-paused .star-aura { animation-play-state: paused; }
-@keyframes star-float { from { transform: translateY(3px) rotate(-3deg); } to { transform: translateY(-6px) rotate(3deg); } }
+.navigation-universe.is-paused .station-star-host, .navigation-universe.is-paused .star-corona, .navigation-universe.is-paused .star-heart, .navigation-universe.is-paused .star-aura, .navigation-universe.is-paused .nebula-cloud { animation-play-state: paused; }
+@keyframes star-float { from { transform: translateY(2px) rotate(-1deg); } to { transform: translateY(-3px) rotate(1deg); } }
 @keyframes corona-turn { to { transform: rotate(360deg); } }
-@keyframes star-breathe { from { opacity: .7; transform: scale(.96); } to { opacity: 1; transform: scale(1.06); } }
+@keyframes star-breathe { from { opacity: .85; transform: scale(.99); } to { opacity: 1; transform: scale(1.015); } }
+@keyframes nebula-drift { from { transform: translate(-1px,1px) rotate(-3deg); } to { transform: translate(2px,-1px) rotate(3deg); } }
 @media (max-width: 1000px) { .navigation-device .chart-display .chart-terrain { height: 1300px; } }
 @media (max-width: 780px) { .navigation-device .chart-display .chart-terrain { height: 1160px; } }
 @media (max-width: 480px) {
-  .station-star-host { width: 112px; height: 112px; }
+  .station-star-host { width: 106px; height: 106px; }
+  .navigation-device .station-route li { transform: translate(-50%,-51px); }
   .navigation-device .expedition-node .station-name { font-size: 13px; }
   .navigation-device .chart-display .chart-terrain { height: 1340px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .station-star-host, .star-corona, .star-heart, .star-aura { animation: none !important; }
+  .station-star-host, .star-corona, .star-heart, .star-aura, .nebula-cloud { animation: none !important; }
   .station-star-body { transition: none; }
 }

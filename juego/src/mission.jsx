@@ -8,6 +8,12 @@ import './mission.css';
 import './digital-map.css';
 
 export const locations = [[22, 7], [68, 20], [27, 33], [72, 46], [27, 59], [68, 72], [35, 85]];
+const navigationRoute = locations.slice(1).reduce((path, [x, y], index) => {
+  const [previousX, previousY] = locations[index];
+  const bend = (y - previousY) * .5;
+  return `${path} C${previousX},${previousY + bend} ${x},${y - bend} ${x},${y}`;
+}, `M${locations[0].join(',')}`);
+
 
 export function MissionEncounter({ scenery, onAccept, motion }) {
   return <section className={`mission-encounter ${motion ? '' : 'is-paused'}`} aria-labelledby="encounter-title">
@@ -27,7 +33,7 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
       <section className={`navigation-device ${approaching ? 'is-approaching' : ''}`} aria-label="Mapa de las siete estaciones">
         <div className="device-topline"><span className="device-label"><span className="device-light" aria-hidden="true" />SISTEMA DE NAVEGACIÓN</span><span>NEBULA-F23</span></div><div className="device-viewport"><div className="device-scan" aria-hidden="true" /><div className="chart-display" tabIndex={0} role="region" aria-label="Pantalla del mapa. Desliza para explorar las siete estaciones.">
         <div className="chart-terrain" style={{ transformOrigin: `${locations[destinationIndex][0]}% ${locations[destinationIndex][1]}%` }}>
-          <svg className="chart-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path className="route-glow" d={`M${locations.map(([x, y]) => `${x},${y}`).join(' L')}`} /><path className="route-line" d={`M${locations.map(([x, y]) => `${x},${y}`).join(' L')}`} /></svg>
+          <svg className="chart-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path className="route-glow" d={navigationRoute} /><path className="route-line" d={navigationRoute} /></svg>
           <ol className="station-route">{stations.map((note, index) => {
             const lit = isStationComplete(mission, index);
             const visited = mission.visited.includes(index);
