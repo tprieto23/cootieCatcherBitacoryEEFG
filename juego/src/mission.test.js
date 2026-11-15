@@ -230,49 +230,45 @@ test('a single chosen scrap supplies the third star of the protective barrier wi
 });
 
 
-test('station four collects one energy item independently of the reflection star, including replay and reload', () => {
+test('station four completes with one energy item and no written reflection, including replay and reload', () => {
   let stored;
   const storage = { getItem: () => stored, setItem: (_, value) => { stored = value; } };
-  let mission = collectDissipatedEnergy(cleanMission(null));
+  const mission = collectDissipatedEnergy(cleanMission(null));
   assert.deepEqual(mission.visited, [3]);
   assert.deepEqual(collectedStations(mission), [3]);
   assert.equal(hasStationMaterial(mission, 3), true);
-  assert.equal(isStationComplete(mission, 3), false);
-  assert.equal(completedStations(mission).length, 0);
-  assert.strictEqual(collectDissipatedEnergy(mission), mission);
-  const draft = '  Cambiar juntas la pregunta.\n\nEscuchar antes de decidir.  ';
-  mission = updateDraft(mission, 3, draft);
-  writeJourney(storage, { alias: 'Luna', mission });
-  mission = readJourney(storage).mission;
-  assert.equal(mission.dissipatedEnergy, true);
-  assert.equal(mission.drafts[3], draft);
-  assert.equal(isStationComplete(mission, 3), false);
-  mission = saveReflection(mission, 3, draft);
+  assert.equal(isStationComplete(mission, 3), true);
   assert.deepEqual(completedStations(mission), [3]);
-  assert.deepEqual(collectedStations(mission), [3]);
-  mission = saveReflection(collectDissipatedEnergy(mission), 3, 'Otra mirada.');
+  assert.deepEqual(mission.reflections, {});
+  assert.deepEqual(mission.drafts, {});
+  assert.strictEqual(collectDissipatedEnergy(mission), mission);
   writeJourney(storage, { alias: 'Luna', mission });
-  mission = readJourney(storage).mission;
-  assert.equal(mission.dissipatedEnergy, true);
-  assert.equal(mission.reflections[3], 'Otra mirada.');
-  assert.deepEqual(collectedStations(mission), [3]);
+  const restored = readJourney(storage).mission;
+  assert.equal(restored.dissipatedEnergy, true);
+  assert.deepEqual(completedStations(restored), [3]);
+  assert.deepEqual(collectedStations(collectDissipatedEnergy(restored)), [3]);
+  assert.deepEqual(restored.reflections, {});
 });
 
-test('old fourth stars survive without inventing energy; energy alone does not unlock the final barrier', () => {
-  const old = cleanMission({ visited: [3], reflections: { 3: 'Una estrella que ya tenía.' } });
+test('old fourth reflections and drafts are preserved, and energy supplies the fourth star of the barrier', () => {
+  const old = cleanMission({ visited: [3], reflections: { 3: 'Una estrella que ya tenía.' }, drafts: { 3: 'Un borrador anterior.' } });
   assert.equal(isStationComplete(old, 3), true);
   assert.equal(hasStationMaterial(old, 3), false);
+  const migrated = cleanMission(collectDissipatedEnergy(old));
+  assert.equal(migrated.reflections[3], old.reflections[3]);
+  assert.equal(migrated.drafts[3], old.drafts[3]);
+  assert.deepEqual(collectedStations(migrated), [3]);
   assert.equal(cleanMission({ dissipatedEnergy: 'true' }).dissipatedEnergy, false);
   assert.deepEqual(cleanMission({ dissipatedEnergy: true }).visited, [3]);
   let mission = collectDissipatedEnergy(cleanMission(null));
   for (const index of [0,1,2,4,5,6]) mission = saveReflection(mission, index, `Mi reflexión ${index}`);
   for (const index of [0,1]) mission = tuneHomeSignal(mission, index);
-  assert.equal(completedStations(mission).length, 6);
+  assert.equal(completedStations(mission).length, 7);
+  assert.equal(mission.reflections[3], undefined);
   assert.equal(hasProtectiveBarrier(mission), false);
-  assert.strictEqual(connectStars(mission, 0, 1), mission);
-  mission = saveReflection(mission, 3, 'Las dos podemos cambiar de rumbo.');
   for (let index = 0; index < 6; index++) mission = connectStars(mission, index, index + 1);
   const restored = cleanMission(JSON.parse(JSON.stringify(mission)));
   assert.equal(hasProtectiveBarrier(restored), true);
   assert.equal(restored.dissipatedEnergy, true);
+  assert.equal(restored.reflections[3], undefined);
 });

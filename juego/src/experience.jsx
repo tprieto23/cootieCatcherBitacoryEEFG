@@ -356,6 +356,7 @@ export function Experience() {
         note={stations[visitIndex]}
         heading={visitIndex === 0 ? <>Sintoniza <em>Ultravioleta</em></> : visitIndex === 1 ? <>Sigue la señal <em>de casa</em></> : visitIndex === 2 ? <>Aterriza en <em>lo cotidiano</em></> : <>Deja que otra voz <em>cambie el rumbo</em></>}
         readingUnlocked={visitIndex !== 3 || mission.dissipatedEnergy}
+        allowReflection={visitIndex !== 3}
         beforeReading={visitIndex === 3 ? onRead => <GalacticEncounter
           collected={mission.dissipatedEnergy}
           onCollect={() => setMission(previous => collectDissipatedEnergy(previous))}

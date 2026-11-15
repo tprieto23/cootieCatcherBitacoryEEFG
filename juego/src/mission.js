@@ -50,7 +50,7 @@ export function collectedStations(mission) {
   return DESTINATIONS.map((_, index) => index).filter(index => Boolean(mission.reflections[index]) || (index === 2 && cleanFabric(mission.fabricPatch).length > 0) || (index === 3 && mission.dissipatedEnergy === true));
 }
 
-// One persistent item, independent of the star earned by writing a reflection.
+// One persistent item; collecting it completes this station without writing.
 export function collectDissipatedEnergy(mission) {
   if (mission.dissipatedEnergy === true) return mission;
   return { ...mission, visited: [...new Set([...mission.visited, 3])], dissipatedEnergy: true };
@@ -70,6 +70,7 @@ export function tuneHomeSignal(mission, index) {
 
 export function isStationComplete(mission, index) {
   if (index === 2 && cleanFabric(mission.fabricPatch).length > 0) return true;
+  if (index === 3 && mission.dissipatedEnergy === true) return true;
   return validStation(index) && Boolean(mission.reflections[index]?.trim()) && (index !== 1 || mission.homeSignals?.length === HOME_SIGNAL.signals.length);
 }
 
