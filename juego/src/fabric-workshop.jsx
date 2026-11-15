@@ -4,7 +4,7 @@ import './fabric-workshop.css';
 
 const fabrics = [
   ['#FCA4BC', '#3b174e'], ['#76509c', '#fff0fa'], ['#FDDD46', '#44215e'],
-  ['#4A1B70', '#f6e9ff'], ['#c2afdb', '#3b174e'], ['#b55186', '#fff1f7'], ['#e8b6b2', '#44215e'],
+  ['#C03A10', '#fff0fa'], ['#c2afdb', '#3b174e'], ['#b55186', '#fff1f7'], ['#e8b6b2', '#44215e'],
 ];
 const fabricStyle = index => ({ '--fabric-color': fabrics[index][0], '--fabric-ink': fabrics[index][1], '--fabric-tilt': `${index % 2 ? 3 : -3}deg` });
 
@@ -45,7 +45,7 @@ export function FabricWorkshop({ selected, saved, onChoose, onSave, motion }) {
     <h2 id={`${id}-title`}>Hagamos un patchwork juntas, escoge uno o dos retazos y luego descubre lo que se crea.</h2>
     <p>El patchwork une retazos de tela para crear una nueva pieza.</p>
     <div className="fabric-options" role="group" aria-label="Elige uno o dos retazos de tela">
-      {FABRIC_WORDS.map((word, index) => <button type="button" key={word} className="fabric-option fabric-scrap" style={fabricStyle(index)} aria-pressed={selected.includes(index)} disabled={selected.length === 2 && !selected.includes(index)} onClick={() => onChoose(index)}><span>{word}</span><small>{selected.includes(index) ? `Retazo ${selected.indexOf(index) + 1} · Elegido` : 'Elegir'}</small></button>)}
+      {FABRIC_WORDS.map((word, index) => <button type="button" key={word} className="fabric-option fabric-scrap" style={fabricStyle(index)} aria-pressed={selected.includes(index)} disabled={selected.length === 2 && !selected.includes(index)} onClick={() => onChoose(index)}><span>{word}</span></button>)}
     </div>
     <p className="fabric-progress" role="status">{phase === 'sewing' && showPiece ? 'Un hilo va uniendo tus retazos con el mío…' : samePiece ? 'Nuestro patchwork ya está en tu bolsillo feminista.' : showPiece && phase === 'ready' ? 'Nuestro patchwork está listo para guardar.' : selected.length ? `${selected.length} ${selected.length === 1 ? 'retazo elegido' : 'retazos elegidos'}. Descubre cómo ${selected.length === 1 ? 'se une' : 'se unen'} al mío.` : 'Puedes elegir uno o dos retazos.'}</p>
     {showPiece && <FabricPiece key={pairKey} indices={selected} sewing={phase === 'sewing'} />}
