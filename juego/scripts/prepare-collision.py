@@ -1,6 +1,6 @@
 """Create the decorative mission video from the author's untouched choque.mp4.
 Run: python3 scripts/prepare-collision.py /absolute/path/to/choque.mp4
-Requires ffmpeg. Output is a silent, slow, reversible loop with the site's palette.
+Requires ffmpeg. Output is a silent, slow, reversible loop preserving particle colors.
 """
 import argparse
 from pathlib import Path
@@ -14,17 +14,17 @@ assets = Path(__file__).resolve().parents[1] / 'src/assets'
 with tempfile.TemporaryDirectory(prefix='nebula-collision-') as work:
     palette = Path(work) / 'palette.cube'
     # Remove neutral chart paper/ink; preserve the three particle populations.
-    # Blue halo -> violet, orange disk -> pink, green bulge -> warm yellow.
+    # Retain the original blue halo, orange disk and green bulge on a dark field.
     with palette.open('w') as lut:
         lut.write('LUT_3D_SIZE 33\n')
         for blue in range(33):
             for green in range(33):
                 for red in range(33):
                     r, g, b = red / 32, green / 32, blue / 32
-                    weights = (max(b-r, 0), max(r-b, 0), max(g-max(r, b), 0))
+                    weights = (max(b-max(r,g), 0), max(r-max(g,b), 0), max(g-max(r,b), 0))
                     total = sum(weights)
-                    intensity = max(0, min(1, (max(r,g,b)-min(r,g,b)-.07) / .58)) ** 1.8
-                    colors = ((.26,.14,.46), (.988,.643,.737), (.992,.867,.275))
+                    intensity = max(0, min(1, (max(r,g,b)-min(r,g,b)-.07) / .58)) ** 1.15
+                    colors = ((.122,.467,.706), (1,.498,.055), (.173,.627,.173))
                     output = [intensity * sum(w*c[channel] for w,c in zip(weights,colors)) / total if total else 0 for channel in range(3)]
                     lut.write(' '.join(f'{value:.6f}' for value in output) + '\n')
     # Coordinates refer to the supplied 1920x1080 recording. Legends switch corners.

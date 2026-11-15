@@ -18,7 +18,7 @@ const navigationRoute = locations.slice(1).reduce((path, [x, y], index) => {
 export function MissionEncounter({ scenery, onAccept, motion }) {
   return <section className={`mission-encounter ${motion ? '' : 'is-paused'}`} aria-label="Aceptar misión">
     {scenery}
-    <div className="encounter-copy"><button type="button" className="primary accept-mission" onClick={onAccept}>ACEPTAR MISIÓN</button></div>
+    <div className="encounter-copy"><button type="button" className="primary accept-mission" onClick={onAccept}>ACEPTAR MISIÓN</button><p className="collision-credit">Simulación realizada por Tania Prieto en 2023: interacción entre una galaxia tipo Vía Láctea y una galaxia enana, con datos suministrados por el equipo de astronomía de la Universidad Nacional de Colombia.</p></div>
   </section>;
 }
 
