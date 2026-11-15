@@ -113,48 +113,63 @@ function AuthorPortrait() {
   return <figure className="portrait-leaf"><img src={portrait} alt="Composición de fotografías de Tania Prieto, autora de NEBULA-F23" /></figure>;
 }
 
-const windowStars = [[82,103,2],[204,63,3],[332,80,2],[470,169,3],[498,304,2],[65,359,3],[125,516,2],[458,574,3],[267,187,2],[208,585,2],[388,264,2],[70,230,2],[476,473,2]];
-const moonCraters = [[269,290,18],[336,310,10],[230,353,24],[312,385,31],[364,361,12],[263,440,15],[344,465,17],[207,400,8],[391,416,10]];
+const windowStars = Array.from({ length: 700 }, (_, index) => ({
+  x: cosmicNoise(index + 3100) * 560,
+  y: cosmicNoise(index + 4100) * 650,
+  r: .25 + cosmicNoise(index + 5100) ** 3 * 1.05,
+  opacity: .2 + cosmicNoise(index + 6100) * .65,
+}));
+const nebulaDust = Array.from({ length: 480 }, (_, index) => {
+  const t = cosmicNoise(index + 7100);
+  return {
+    x: -50 + t * 660,
+    y: 340 + Math.sin(t * 6.2) * 70 - (t - .5) * 66 + (cosmicNoise(index + 8100) + cosmicNoise(index + 9100) - 1) * (35 + Math.sin(t * Math.PI) * 90),
+    r: .25 + cosmicNoise(index + 10100) * 1.1,
+    opacity: .18 + cosmicNoise(index + 11100) * .7,
+  };
+});
+const brightWindowStars = [[69,98,2],[197,63,1.5],[329,111,2],[479,180,1.5],[489,312,2],[72,373,1.5],[129,523,2],[449,583,1.5],[269,198,1.5],[205,585,1.5],[383,461,2],[61,238,1.5],[478,498,2],[348,298,1.5]];
 
-function WindowMoon({ cx, cy, scale }) {
-  return <g transform={`translate(${cx} ${cy}) scale(${scale}) translate(-300 -382)`}>
-    <circle cx="300" cy="382" r="175" fill="url(#window-mist)" />
-    <circle cx="300" cy="382" r="146" fill="url(#moon-surface)" />
-    <g clipPath="url(#moon-edge)">
-      {moonCraters.map(([x,y,r],index) => <circle key={index} cx={x} cy={y} r={r} fill="url(#moon-crater)" />)}
-      <ellipse cx="386" cy="392" rx="74" ry="152" fill="#281234" opacity=".2" />
-    </g>
-    <circle cx="300" cy="382" r="146" fill="none" stroke="#fff0d7" strokeOpacity=".22" />
-  </g>;
-}
-
-function SpaceWindow() {
-  return <figure className="space-window">
+function SpaceWindow({ motion }) {
+  return <figure className={`space-window ${motion ? '' : 'is-paused'}`}>
     <div className="porthole">
       <svg viewBox="0 0 560 650" role="img" aria-labelledby="space-window-title">
-        <title id="space-window-title">El espacio visto desde una ventanilla de la nave: estrellas, nebulosas y varias lunas.</title>
+        <title id="space-window-title">Nubes de nebulosas violetas y rosadas entre un campo denso de estrellas, vistas desde la ventanilla de la nave.</title>
         <defs>
-          <radialGradient id="window-space"><stop stopColor="#713887" /><stop offset=".6" stopColor="#2b123f" /><stop offset="1" stopColor="#130c27" /></radialGradient>
-          <radialGradient id="window-mist"><stop stopColor="#FCA4BC" stopOpacity=".27" /><stop offset="1" stopColor="#FCA4BC" stopOpacity="0" /></radialGradient>
-          <radialGradient id="moon-surface" cx="28%" cy="27%" r="80%"><stop stopColor="#fff4db" /><stop offset=".4" stopColor="#d9c9e3" /><stop offset=".72" stopColor="#b98bb8" /><stop offset="1" stopColor="#4b285e" /></radialGradient>
-          <radialGradient id="moon-crater"><stop stopColor="#563064" stopOpacity=".45" /><stop offset=".7" stopColor="#84608e" stopOpacity=".2" /><stop offset=".86" stopColor="#f6dbe8" stopOpacity=".4" /><stop offset="1" stopColor="#f6dbe8" stopOpacity="0" /></radialGradient>
-          <radialGradient id="window-starlight"><stop stopColor="#fff5d3" /><stop offset=".2" stopColor="#FDDD46" stopOpacity=".8" /><stop offset="1" stopColor="#FCA4BC" stopOpacity="0" /></radialGradient>
-          <clipPath id="moon-edge"><circle cx="300" cy="382" r="146" /></clipPath>
+          <radialGradient id="window-space"><stop stopColor="#24213f" /><stop offset=".6" stopColor="#121224" /><stop offset="1" stopColor="#080b15" /></radialGradient>
+          <radialGradient id="nebula-violet"><stop stopColor="#a293ec" stopOpacity=".66" /><stop offset=".42" stopColor="#7864b8" stopOpacity=".44" /><stop offset="1" stopColor="#554575" stopOpacity="0" /></radialGradient>
+          <radialGradient id="nebula-rose"><stop stopColor="#fff0e8" stopOpacity=".85" /><stop offset=".18" stopColor="#fca4bc" stopOpacity=".75" /><stop offset=".5" stopColor="#b7528a" stopOpacity=".45" /><stop offset="1" stopColor="#7a376d" stopOpacity="0" /></radialGradient>
+          <radialGradient id="nebula-blue"><stop stopColor="#b8c3ff" stopOpacity=".7" /><stop offset=".3" stopColor="#8d87d2" stopOpacity=".4" /><stop offset="1" stopColor="#514f9a" stopOpacity="0" /></radialGradient>
+          <linearGradient id="nebula-thread" x1="0" y1="1" x2="1" y2="0"><stop stopColor="#d9a0cf" stopOpacity="0" /><stop offset=".45" stopColor="#fca4bc" stopOpacity=".65" /><stop offset=".7" stopColor="#d4dcf3" stopOpacity=".6" /><stop offset="1" stopColor="#9e92d6" stopOpacity="0" /></linearGradient>
+          <radialGradient id="window-starlight"><stop stopColor="#fff8e8" stopOpacity=".8" /><stop offset=".2" stopColor="#e1d5fb" stopOpacity=".3" /><stop offset="1" stopColor="#b3a2e3" stopOpacity="0" /></radialGradient>
+          <filter id="nebula-texture" x="-30%" y="-50%" width="160%" height="200%" colorInterpolationFilters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".013" numOctaves="3" seed="23" result="cloud-grain" /><feDisplacementMap in="SourceGraphic" in2="cloud-grain" scale="65" xChannelSelector="R" yChannelSelector="G" /><feGaussianBlur stdDeviation="9" /></filter>
         </defs>
         <rect width="560" height="650" fill="url(#window-space)" />
-        <ellipse cx="100" cy="170" rx="240" ry="280" fill="url(#window-mist)" />
-        <g fill="#d4dcf3" opacity=".55">{Array.from({length: 70}, (_,index) => <circle key={index} cx={cosmicNoise(index + 3100) * 560} cy={cosmicNoise(index + 4100) * 650} r={.4 + cosmicNoise(index + 5100) * .65} />)}</g>
-        <g>{windowStars.map(([cx,cy,r],index) => <g key={index}><circle cx={cx} cy={cy} r={r * 4} fill="url(#window-starlight)" /><circle cx={cx} cy={cy} r={r} fill={index % 2 ? '#FCA4BC' : '#FDDD46'} /><path d={`M${cx - r * 2} ${cy}h${r * 4}M${cx} ${cy - r * 2}v${r * 4}`} stroke="#fff4db" strokeWidth=".7" opacity=".6" /></g>)}</g>
-        <WindowMoon cx={328} cy={412} scale={.9} />
-        <WindowMoon cx={120} cy={202} scale={.32} />
-        <WindowMoon cx={419} cy={117} scale={.16} />
+        <g className="window-distant-stars">{windowStars.map((star,index) => <circle key={index} cx={star.x} cy={star.y} r={star.r} fill={index % 9 ? '#e5dfef' : '#f5d9c3'} opacity={star.opacity} />)}</g>
+        <g className="nebula-clouds">
+          <g filter="url(#nebula-texture)">
+            <ellipse cx="91" cy="300" rx="210" ry="125" fill="url(#nebula-violet)" transform="rotate(22 91 300)" />
+            <ellipse cx="221" cy="348" rx="206" ry="99" fill="url(#nebula-violet)" transform="rotate(-12 221 348)" />
+            <ellipse cx="383" cy="317" rx="206" ry="94" fill="url(#nebula-blue)" transform="rotate(-26 383 317)" />
+            <ellipse cx="481" cy="280" rx="159" ry="135" fill="url(#nebula-violet)" transform="rotate(-29 481 280)" />
+            <ellipse cx="294" cy="349" rx="105" ry="51" fill="url(#nebula-rose)" transform="rotate(-13 294 349)" />
+            <ellipse cx="147" cy="365" rx="135" ry="52" fill="url(#nebula-rose)" transform="rotate(14 147 365)" opacity=".6" />
+          </g>
+          <g fill="none" stroke="url(#nebula-thread)" strokeLinecap="round">
+            <path d="M-40 293C97 264 121 423 283 354S450 263 606 283" strokeWidth="2" opacity=".45" />
+            <path d="M-30 349C116 300 163 420 294 358S456 321 594 221" strokeWidth="1" opacity=".5" />
+            <path d="M58 359C135 329 197 398 282 369S385 321 472 326" strokeWidth="6" opacity=".18" />
+          </g>
+          <g>{nebulaDust.map((star,index) => <circle key={index} cx={star.x} cy={star.y} r={star.r} fill={index % 5 ? '#eee6fa' : '#fca4bc'} opacity={star.opacity} />)}</g>
+        </g>
+        <g className="window-near-stars">{brightWindowStars.map(([cx,cy,r],index) => <g key={index} className="window-twinkle" style={{animationDelay: `${index * -1.9}s`, animationDuration: `${8 + index % 5}s`}}><circle cx={cx} cy={cy} r={r * 6} fill="url(#window-starlight)" /><circle cx={cx} cy={cy} r={r * .65} fill="#fff4e3" /><path d={`M${cx - r * 2} ${cy}h${r * 4}M${cx} ${cy - r * 2}v${r * 4}`} stroke="#e8ddff" strokeWidth=".65" /></g>)}</g>
       </svg>
       <div className="window-reflection" aria-hidden="true" />
     </div>
   </figure>;
 }
 
-function Introduction({ onStart }) {
+function Introduction({ onStart, motion }) {
   return <section className="departure" aria-labelledby="introduction-title">
     <div className="transmission-heading"><span className="transmission-signal" aria-hidden="true" /><span>A BORDO · PRIMERA TRANSMISIÓN</span></div>
     <div className="departure-layout">
@@ -167,7 +182,7 @@ function Introduction({ onStart }) {
         </div>
         <button type="button" className="primary mission-start" onClick={onStart}>Comenzar mi misión <Arrow /></button>
       </article>
-      <SpaceWindow />
+      <SpaceWindow motion={motion} />
     </div>
   </section>;
 }
@@ -292,7 +307,7 @@ export function Experience({ Paper, Die, Flower }) {
       {hasSpace && <button className="cover-motion-toggle" onClick={() => setCoverMotion(value => !value)} aria-label={coverMotion ? 'Pausar animaciones del fondo' : 'Activar animaciones del fondo'} title={coverMotion ? 'Pausar movimiento' : 'Activar movimiento'}><span aria-hidden="true">{coverMotion ? 'Ⅱ' : '▷'}</span></button>}
 
       {screen === 'about' && <AuthorPresentation onIntroduction={() => navigate('introduction')} />}
-      {screen === 'introduction' && <Introduction onStart={() => navigate(alias ? 'game' : 'alias')} />}
+      {screen === 'introduction' && <Introduction onStart={() => navigate(alias ? 'game' : 'alias')} motion={coverMotion} />}
 
       {screen === 'notice' && <section className="gateway"><span className="eyebrow">ANTES DE JUGAR</span><div className="pocket-illustration" aria-hidden="true"><span>✿</span></div><h1>Tu bolsillo<br /><em>feminista.</em></h1><p>A lo largo del juego podrás guardar palabras clave y pequeñas reflexiones que iremos construyendo juntas, entre mis relatos y tu lectura.</p><p>Al final volverás a encontrarlas, junto al cierre de la bitácora, como recuerdo de tu recorrido.</p><p className="quiet-note">Podrás llevarte una palabra con un toque o simplemente seguir jugando.</p><button className="primary" onClick={() => navigate('alias')}>Preparar mi bolsillo <Arrow /></button></section>}
 
