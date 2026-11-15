@@ -1,4 +1,5 @@
 import { initialState } from './game.js';
+import { cleanMission } from './mission.js';
 
 export const STORAGE_KEY = 'bitacory.journey.v1';
 export const WORD_POOL = ['Asombro', 'Semilla', 'Memoria', 'Voz', 'Abrazo', 'Confianza', 'Escucha', 'Horizonte', 'Compañía', 'Encuentro', 'Juego', 'Curiosidad'];
@@ -14,8 +15,8 @@ export function cleanJourney(value) {
     if (WORD_POOL.includes(source.words?.[index]) && discovered.includes(index)) words[index] = source.words[index];
   }
   const alias = typeof source.alias === 'string' ? source.alias.trim().slice(0, 40) : '';
-  if (!alias) return { version: 1, alias: '', game: { ...initialState, discovered: [] }, words: {} };
-  return { version: 1, alias, words, game: { ...initialState, position, discovered, phase: position >= 0 ? 'ready' : 'idle', die: Number.isInteger(game.die) && game.die >= 1 && game.die <= 6 ? game.die : null } };
+  if (!alias) return { version: 1, alias: '', game: { ...initialState, discovered: [] }, words: {}, mission: cleanMission(null) };
+  return { version: 1, alias, words, mission: cleanMission(source.mission, discovered), game: { ...initialState, position, discovered, phase: position >= 0 ? 'ready' : 'idle', die: Number.isInteger(game.die) && game.die >= 1 && game.die <= 6 ? game.die : null } };
 }
 
 export function readJourney(storage) {
