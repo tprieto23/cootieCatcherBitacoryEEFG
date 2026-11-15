@@ -113,41 +113,44 @@ function AuthorPortrait() {
   return <figure className="portrait-leaf"><img src={portrait} alt="Composición de fotografías de Tania Prieto, autora de NEBULA-F23" /></figure>;
 }
 
-const distantStations = [[94,116,4],[191,76,3],[317,99,4],[443,157,5],[483,279,3],[81,292,4],[130,493,3],[451,547,4]];
+const windowStars = [[82,103,2],[204,63,3],[332,80,2],[470,169,3],[498,304,2],[65,359,3],[125,516,2],[458,574,3],[267,187,2],[208,585,2],[388,264,2],[70,230,2],[476,473,2]];
 const moonCraters = [[269,290,18],[336,310,10],[230,353,24],[312,385,31],[364,361,12],[263,440,15],[344,465,17],[207,400,8],[391,416,10]];
 
-function StationWindow() {
-  return <figure className="station-window">
-    <div className="window-topline"><span>PRÓXIMA ESTACIÓN</span><span>01 / 09</span></div>
+function WindowMoon({ cx, cy, scale }) {
+  return <g transform={`translate(${cx} ${cy}) scale(${scale}) translate(-300 -382)`}>
+    <circle cx="300" cy="382" r="175" fill="url(#window-mist)" />
+    <circle cx="300" cy="382" r="146" fill="url(#moon-surface)" />
+    <g clipPath="url(#moon-edge)">
+      {moonCraters.map(([x,y,r],index) => <circle key={index} cx={x} cy={y} r={r} fill="url(#moon-crater)" />)}
+      <ellipse cx="386" cy="392" rx="74" ry="152" fill="#281234" opacity=".2" />
+    </g>
+    <circle cx="300" cy="382" r="146" fill="none" stroke="#fff0d7" strokeOpacity=".22" />
+  </g>;
+}
+
+function SpaceWindow() {
+  return <figure className="space-window">
     <div className="porthole">
-      <svg viewBox="0 0 560 650" role="img" aria-labelledby="station-window-title">
-        <title id="station-window-title">Una luna cercana vista desde la nave y ocho luces más pequeñas que anuncian las otras estaciones.</title>
+      <svg viewBox="0 0 560 650" role="img" aria-labelledby="space-window-title">
+        <title id="space-window-title">El espacio visto desde una ventanilla de la nave: estrellas, nebulosas y varias lunas.</title>
         <defs>
           <radialGradient id="window-space"><stop stopColor="#713887" /><stop offset=".6" stopColor="#2b123f" /><stop offset="1" stopColor="#130c27" /></radialGradient>
           <radialGradient id="window-mist"><stop stopColor="#FCA4BC" stopOpacity=".27" /><stop offset="1" stopColor="#FCA4BC" stopOpacity="0" /></radialGradient>
           <radialGradient id="moon-surface" cx="28%" cy="27%" r="80%"><stop stopColor="#fff4db" /><stop offset=".4" stopColor="#d9c9e3" /><stop offset=".72" stopColor="#b98bb8" /><stop offset="1" stopColor="#4b285e" /></radialGradient>
           <radialGradient id="moon-crater"><stop stopColor="#563064" stopOpacity=".45" /><stop offset=".7" stopColor="#84608e" stopOpacity=".2" /><stop offset=".86" stopColor="#f6dbe8" stopOpacity=".4" /><stop offset="1" stopColor="#f6dbe8" stopOpacity="0" /></radialGradient>
-          <radialGradient id="station-light"><stop stopColor="#fff5d3" /><stop offset=".2" stopColor="#FDDD46" stopOpacity=".8" /><stop offset="1" stopColor="#FCA4BC" stopOpacity="0" /></radialGradient>
+          <radialGradient id="window-starlight"><stop stopColor="#fff5d3" /><stop offset=".2" stopColor="#FDDD46" stopOpacity=".8" /><stop offset="1" stopColor="#FCA4BC" stopOpacity="0" /></radialGradient>
           <clipPath id="moon-edge"><circle cx="300" cy="382" r="146" /></clipPath>
         </defs>
         <rect width="560" height="650" fill="url(#window-space)" />
         <ellipse cx="100" cy="170" rx="240" ry="280" fill="url(#window-mist)" />
         <g fill="#d4dcf3" opacity=".55">{Array.from({length: 70}, (_,index) => <circle key={index} cx={cosmicNoise(index + 3100) * 560} cy={cosmicNoise(index + 4100) * 650} r={.4 + cosmicNoise(index + 5100) * .65} />)}</g>
-        <path d="M94 116Q218 -7 443 157Q544 350 451 547" fill="none" stroke="#d4dcf3" strokeWidth=".7" strokeDasharray="2 10" opacity=".22" />
-        <g>{distantStations.map(([cx,cy,r],index) => <g key={index}><circle cx={cx} cy={cy} r={r * 4} fill="url(#station-light)" /><circle cx={cx} cy={cy} r={r} fill={index % 2 ? '#FCA4BC' : '#FDDD46'} /><path d={`M${cx - r * 2} ${cy}h${r * 4}M${cx} ${cy - r * 2}v${r * 4}`} stroke="#fff4db" strokeWidth=".7" opacity=".6" /></g>)}</g>
-        <g className="near-moon">
-          <circle cx="300" cy="382" r="175" fill="url(#window-mist)" />
-          <circle cx="300" cy="382" r="146" fill="url(#moon-surface)" />
-          <g clipPath="url(#moon-edge)">
-            {moonCraters.map(([cx,cy,r],index) => <circle key={index} cx={cx} cy={cy} r={r} fill="url(#moon-crater)" />)}
-            <ellipse cx="386" cy="392" rx="74" ry="152" fill="#281234" opacity=".2" />
-          </g>
-          <circle cx="300" cy="382" r="146" fill="none" stroke="#fff0d7" strokeOpacity=".22" />
-        </g>
+        <g>{windowStars.map(([cx,cy,r],index) => <g key={index}><circle cx={cx} cy={cy} r={r * 4} fill="url(#window-starlight)" /><circle cx={cx} cy={cy} r={r} fill={index % 2 ? '#FCA4BC' : '#FDDD46'} /><path d={`M${cx - r * 2} ${cy}h${r * 4}M${cx} ${cy - r * 2}v${r * 4}`} stroke="#fff4db" strokeWidth=".7" opacity=".6" /></g>)}</g>
+        <WindowMoon cx={328} cy={412} scale={.9} />
+        <WindowMoon cx={120} cy={202} scale={.32} />
+        <WindowMoon cx={419} cy={117} scale={.16} />
       </svg>
       <div className="window-reflection" aria-hidden="true" />
     </div>
-    <figcaption><span className="station-caption">Una luna cercana</span><span>Ocho luces más allá. Todo un viaje por delante.</span></figcaption>
   </figure>;
 }
 
@@ -162,10 +165,9 @@ function Introduction({ onStart }) {
           <p>Imaginé las nueve clases de la especialización como nueve estaciones espaciales. Algunas tienen forma de planeta, otras de estrella o de luna. En cada una encontrarás una reflexión mía que nació de lo que conversamos en esa clase: una idea que me hizo mirar algo de otra manera, una pregunta que todavía me acompaña o algo que quise poner en discusión.</p>
           <p>El juego consiste en ir descubriendo qué te llevas tú de cada encuentro. Para eso tienes un bolsillo espacial feminista. Al pasar por una estación, puedes elegir una palabra de la reflexión o escribir unas líneas propias y guardarlas en tu bolsillo. Tal vez quieras llevarte algo que aprendiste. También cabe una duda, incluso una con la que quisieras volver a conversar conmigo. Al final del viaje, podrás abrir tu bolsillo y volver a leer lo que recogiste.</p>
         </div>
-        <div className="mission-invitation"><p>En cada una de las nueve clases escribí un texto de escritura automática. Hoy te invito a viajar entre esos escritos como quien visita nueve estaciones en el espacio. Tu misión es descubrir qué te dice cada uno y qué quisieras llevar contigo.</p></div>
         <button type="button" className="primary mission-start" onClick={onStart}>Comenzar mi misión <Arrow /></button>
       </article>
-      <StationWindow />
+      <SpaceWindow />
     </div>
   </section>;
 }
