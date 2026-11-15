@@ -1,0 +1,64 @@
+.ultraviolet-visit { position: relative; isolation: isolate; padding-bottom: 45px; }
+.visit-toolbar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 82px; margin-bottom: 35px; padding: 12px 24px; border: 1px solid #d4dcf34d; border-radius: 18px; background: #291238eb; backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: 0 12px 35px #15092255; }
+.visit-toolbar .text-button { font-size: 14px; }
+.visit-location { font-size: 11px; color: var(--pink); letter-spacing: .08em; }
+.visit-pocket-button { display: inline-flex; align-items: center; justify-content: center; gap: 15px; min-height: 46px; padding: 11px 20px; border: 1px solid #fca4bc80; border-radius: 30px; background: #fca4bc13; color: var(--pink); font-size: 14px; }
+.visit-pocket-button span { font-size: 11px; color: var(--silver); }
+.visit-pocket-button:hover { background: #fca4bc2b; }
+.ultraviolet-page { width: min(880px,100%); margin: 0 auto; padding: clamp(28px,5vw,65px); border: 1px solid #d4dcf34d; border-radius: 12px 30px 30px 12px; background: linear-gradient(135deg,#522774e8,#28133deF); box-shadow: inset 5px 0 0 #fca4bc12,0 25px 70px #16082555; }
+.ultraviolet-heading { position: relative; padding: 5px 0 36px; margin-bottom: 38px; border-bottom: 1px solid #fca4bc40; }
+.ultraviolet-heading h1 { position: relative; font-size: clamp(30px,5vw,56px); margin: 34px 0 20px; color: var(--silver); }
+.ultraviolet-heading h1 em { display: block; font-size: 1.65em; line-height: 1.05; }
+.ultraviolet-heading > p { color: var(--silver); font-size: 14px; }
+.ultraviolet-signal { position: absolute; top: 6px; right: 12px; width: 80px; height: 56px; overflow: hidden; transform: rotate(-18deg); opacity: .65; }
+.ultraviolet-signal span { position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); width: 50px; height: 50px; border: 1px solid var(--pink); border-radius: 50%; }
+.ultraviolet-signal span:nth-child(2) { width: 80px; height: 80px; }
+.ultraviolet-signal span:nth-child(3) { width: 110px; height: 110px; }
+.ultraviolet-reading .story-text p { font-size: 18px; line-height: 1.95; margin-bottom: 28px; }
+.ultraviolet-reading .story-text p.reference { font-size: 14px; color: #d4c4e5; }
+.ultraviolet-reading a { color: var(--pink); text-decoration: underline; text-underline-offset: 4px; }
+.ultraviolet-reading a:hover { color: var(--yellow); }
+.ultraviolet-reflection { margin-top: 42px; border-top: 1px solid #fca4bc45; padding-top: 35px; }
+.ultraviolet-reflection h2 { margin: 20px 0 30px; color: var(--pink); font: italic clamp(26px,3vw,34px)/1.4 var(--expressive); letter-spacing: 0; }
+.ultraviolet-reflection label { display: block; font-size: 14px; margin-bottom: 13px; }
+.ultraviolet-reflection textarea { width: 100%; display: block; min-height: 200px; resize: vertical; padding: 18px; border: 1px solid #d4dcf370; border-radius: 16px; background: #1b0e2b9e; color: var(--ink); font: 17px/1.8 'Space Grotesk',system-ui,sans-serif; }
+.ultraviolet-reflection textarea:focus-visible { outline: 3px solid var(--yellow); outline-offset: 4px; }
+.ultraviolet-reflection textarea::placeholder { color: var(--muted); }
+.ultraviolet-reflection .quiet-note { margin: 17px 0; }
+.ultraviolet-save { display: flex; align-items: center; justify-content: space-between; gap: 25px; margin-top: 25px; }
+.ultraviolet-save .primary { justify-content: center; font-size: 15px; }
+.ultraviolet-star { width: 65px; flex-shrink: 0; color: #b6b5d04d; transition: color .35s,filter .35s; }
+.ultraviolet-star svg { width: 100%; display: block; fill: currentColor; }
+.ultraviolet-star.is-lit { color: var(--yellow); filter: drop-shadow(0 0 13px #fddd4690); }
+.ultraviolet-star.just-saved { animation: ultraviolet-star-birth .75s ease-out both; }
+.ultraviolet-confirmation { min-height: 58px; padding-top: 20px; font-size: 15px; line-height: 1.7; color: var(--yellow); }
+.visit-bottom-return { margin-top: 20px; }
+.visit-pocket-modal.modal { width: min(760px,calc(100% - 28px)); }
+.visit-pocket-modal .reflection-collection { grid-template-columns: minmax(0,1fr); }
+.visit-pocket-modal .reflection-card { padding: 25px; }
+.visit-pocket-modal .reflection-card h2 { font-size: 23px; margin: 16px 0; padding: 0; }
+.visit-pocket-modal .reflection-card p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.visit-pocket-modal .reflection-card .text-button { display: none; }
+.visit-pocket-modal .primary { justify-content: center; }
+.chart-sheet.is-approaching { animation: approach-ultraviolet .65s cubic-bezier(.4,0,.2,1) both; transform-origin: 22% 15%; z-index: 2; pointer-events: none; }
+.navigation-universe.is-approaching .navigation-guide { opacity: .2; transition: opacity .5s; }
+.navigation-universe.is-approaching { overflow: clip; }
+.navigation-universe.is-paused .chart-sheet.is-approaching { animation: none; }
+@keyframes approach-ultraviolet { from { transform: scale(1); opacity: 1; } to { transform: scale(3.6); opacity: .2; filter: brightness(1.4); } }
+@keyframes ultraviolet-star-birth { 0% { transform: scale(.45) rotate(-20deg); filter: drop-shadow(0 0 0 #fddd4600); } 65% { transform: scale(1.25) rotate(6deg); filter: drop-shadow(0 0 25px #fddd46); } 100% { transform: scale(1); } }
+@media (max-width: 560px) {
+  .visit-toolbar { padding: 10px 13px; gap: 10px; margin-bottom: 24px; border-radius: 13px; }
+  .visit-toolbar .text-button { font-size: 12px; }
+  .visit-location { display: none; }
+  .visit-pocket-button { padding: 10px 14px; gap: 9px; font-size: 12px; }
+  .ultraviolet-page { padding: 30px 23px; border-radius: 9px 22px 22px 9px; }
+  .ultraviolet-reading .story-text p { font-size: 16px; line-height: 1.9; }
+  .ultraviolet-heading h1 { font-size: 30px; }
+  .ultraviolet-reflection textarea { font-size: 16px; }
+  .ultraviolet-save { gap: 12px; }
+  .ultraviolet-save .primary { font-size: 12px; padding-inline: 17px; }
+  .ultraviolet-star { width: 46px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chart-sheet.is-approaching, .ultraviolet-star.just-saved { animation: none !important; }
+}

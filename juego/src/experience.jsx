@@ -3,10 +3,13 @@ import { notes } from './notes.js';
 import { eraseJourney, readJourney, writeJourney } from './journey.js';
 import portrait from './assets/sobreTania.svg';
 import luffy from './assets/Luffy2.svg';
-import { MissionEncounter, NavigationMap, MissionReflection, MissionPocket } from './mission.jsx';
+import { MissionEncounter, NavigationMap, MissionReflection, MissionPocket, PocketStars } from './mission.jsx';
+import { ULTRAVIOLET, updateDraft, saveReflection } from './mission.js';
+import { UltravioletVisit } from './ultraviolet.jsx';
+import ultravioletReading from './assets/lectura-ultravioleta.pdf?url';
 
-const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', mision: 'mission', mapa: 'game', jugar: 'game', alias: 'alias', bolsillo: 'recap', cierre: 'recap' };
-const stations = notes.slice(0, 7).map(note => note.available ? note : { ...note, title: 'Estación 5 · Por escribir', text: 'Esta página de la bitácora todavía está en escritura. Puedes continuar el viaje y volver cuando esté lista.' });
+const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', mision: 'mission', mapa: 'game', 'estacion-1': 'ultraviolet', jugar: 'game', alias: 'alias', bolsillo: 'recap', cierre: 'recap' };
+const stations = notes.slice(0, 7).map((note, index) => index === 0 ? { ...note, title: ULTRAVIOLET.title } : note.available ? note : { ...note, title: 'Estación 5 · Por escribir', text: 'Esta página de la bitácora todavía está en escritura. Puedes continuar el viaje y volver cuando esté lista.' });
 function currentRoute() { return routes[window.location.hash.replace(/^#\/?/, '')] ?? 'home'; }
 function getStorage() { try { return window.localStorage; } catch { return null; } }
 
@@ -81,11 +84,11 @@ function InlineText({ text }) {
     : part.startsWith('*') && part.endsWith('*') ? <em key={index}>{part.slice(1, -1)}</em> : part);
 }
 
-function StoryText({ text }) {
+function StoryText({ text, referenceHref }) {
   let references = false;
   return <div className="story-text">{text.split(/\n\s*\n/).map((block, index) => {
-    // The source files retain their local PDF links. Do not publish broken local links.
-    if (/^\[Lectura de referencia\]\(/.test(block)) return null;
+    // Only expose reference links whose reading is included in the published build.
+    if (/^\[Lectura de referencia\]\(/.test(block)) return referenceHref ? <p className="reference" key={index}><a href={referenceHref} target="_blank" rel="noopener noreferrer">Lectura de referencia</a></p> : null;
     if (/^(García-Santesmases,|Falconí Abad,|Osorio-Cabrera,|Smith,|Gregorio Gil,|Corona Berkin,|Briones,|\*\*Referencia\*\*)/.test(block)) references = true;
     return <p key={index} className={references ? 'reference' : ''}><InlineText text={block} /></p>;
   })}</div>;
@@ -224,22 +227,24 @@ export function Experience() {
   const [mission, setMission] = useState(saved.mission);
   const [route, setRoute] = useState(currentRoute);
   const [modal, setModal] = useState(null);
+  const [approaching, setApproaching] = useState(false);
   const [coverMotion, setCoverMotion] = useState(true);
   const [storageAvailable, setStorageAvailable] = useState(Boolean(storage));
   const mainRef = useRef(null);
-  const screen = ['game', 'recap'].includes(route) && !alias ? 'alias' : route;
+  const screen = ['game', 'recap', 'ultraviolet'].includes(route) && !alias ? 'alias' : route;
   const isCover = screen === 'home';
-  const hasSpace = isCover || ['about', 'introduction', 'mission', 'alias', 'game', 'recap'].includes(screen);
+  const hasSpace = isCover || ['about', 'introduction', 'mission', 'alias', 'game', 'recap', 'ultraviolet'].includes(screen);
 
   function navigate(next) {
     setModal(null);
+    setApproaching(false);
     const slug = Object.keys(routes).find(key => routes[key] === next) ?? 'inicio';
     window.location.hash = `/${slug}`;
     setRoute(next);
   }
 
   useEffect(() => {
-    const onHash = () => { setModal(null); setRoute(currentRoute()); };
+    const onHash = () => { setModal(null); setApproaching(false); setRoute(currentRoute()); };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
@@ -253,9 +258,22 @@ export function Experience() {
     if (alias) setStorageAvailable(writeJourney(storage, { alias, ...legacy, mission }));
   }, [alias, legacy, mission, storage]);
 
+  useEffect(() => {
+    if (!approaching) return;
+    const duration = !coverMotion || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650;
+    const timeout = window.setTimeout(() => navigate('ultraviolet'), duration);
+    return () => window.clearTimeout(timeout);
+  }, [approaching, coverMotion]);
+
   function openNote(index) {
-    if (!stations[index]) return;
+    if (!stations[index] || approaching) return;
     setMission(previous => ({ ...previous, visited: [...new Set([...previous.visited, index])] }));
+    if (index === 0) {
+      if (screen === 'ultraviolet') setModal(null);
+      else if (screen === 'game') setApproaching(true);
+      else navigate('ultraviolet');
+      return;
+    }
     setModal({ kind: 'note', index });
   }
 
@@ -276,9 +294,9 @@ export function Experience() {
   return <>
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
 
-    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : ['game', 'mission', 'alias', 'recap'].includes(screen) ? 'mission-main' : undefined} ref={mainRef} tabIndex={-1}>
+    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : ['game', 'mission', 'alias', 'recap', 'ultraviolet'].includes(screen) ? 'mission-main' : undefined} ref={mainRef} tabIndex={-1}>
       {hasSpace && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
-        <DeepSpace galaxies={!['game', 'alias', 'mission'].includes(screen)} />
+        <DeepSpace galaxies={!['game', 'alias', 'mission', 'ultraviolet'].includes(screen)} />
         {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
           <Constellation side={side} />
           <span className="lateral-spark spark-one">✦</span><span className="lateral-spark spark-two">✧</span><span className="lateral-spark spark-three">✦</span>
@@ -300,7 +318,8 @@ export function Experience() {
       {screen === 'introduction' && <Introduction onStart={() => setModal({ kind: 'alias' })} motion={coverMotion} />}
 
       {['mission', 'alias'].includes(screen) && <MissionEncounter scenery={<MissionGalaxies />} onAccept={() => setModal({ kind: 'alias' })} motion={coverMotion} />}
-      {screen === 'game' && <NavigationMap alias={alias} stations={stations} mission={mission} onOpen={openNote} onPocket={() => navigate('recap')} scenery={<MissionGalaxies />} motion={coverMotion} />}
+      {screen === 'game' && <NavigationMap approaching={approaching} alias={alias} stations={stations} mission={mission} onOpen={openNote} onPocket={() => navigate('recap')} scenery={<MissionGalaxies />} motion={coverMotion} />}
+      {screen === 'ultraviolet' && <UltravioletVisit draft={mission.drafts[0] ?? mission.reflections[0] ?? ''} selected={mission.reflections[0]} onDraft={text => setMission(previous => updateDraft(previous, 0, text))} onSave={text => setMission(previous => saveReflection(previous, 0, text))} onPocket={() => setModal({ kind: 'visitPocket' })} onMap={() => navigate('game')} stars={Object.keys(mission.reflections).length}><StoryText text={stations[0].text} referenceHref={ultravioletReading} /></UltravioletVisit>}
       {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={openNote} onMap={() => navigate('game')} onReset={() => setModal({ kind: 'reset' })} />}
 
       {!isCover && !storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}
@@ -309,7 +328,8 @@ export function Experience() {
     <footer><button type="button" className="footer-home" onClick={() => navigate('home')} aria-label="Volver a la portada de NEBULA-F23">NEBULA-F23</button><span>Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II · Una bitácora en construcción</span></footer>
 
     {modal?.kind === 'alias' && <Dialog title="Astronauta, ¿cuál es tu alias?" eyebrow="ANTES DE TRAZAR TU RUMBO" className="astronaut-alias" onClose={() => setModal(null)}><form className="alias-screen" onSubmit={begin}><label htmlFor="player-alias">Tu alias de astronauta</label><input autoFocus id="player-alias" name="alias" value={aliasDraft} onChange={event => { event.target.setCustomValidity(''); setAliasDraft(event.target.value); }} maxLength={40} autoComplete="off" required placeholder="Puede ser un nombre inventado" /><p className="quiet-note">Tu alias y tus reflexiones se quedan en este navegador. No se envían a Tania.</p><button className="primary" type="submit">Entrar al mapa</button></form></Dialog>}
-    {modal?.kind === 'note' && <Dialog title={stations[modal.index].title} eyebrow={`ESTACIÓN ${String(modal.index + 1).padStart(2, '0')} · PÁGINA DE LA BITÁCORA`} wide onClose={() => setModal(null)}><MissionReflection key={modal.index} available={stations[modal.index].available} selected={mission.reflections[modal.index]} onSave={text => setMission(previous => ({ ...previous, reflections: { ...previous.reflections, [modal.index]: text } }))} onReturn={() => { setModal(null); navigate('game'); }}><StoryText text={stations[modal.index].text} /></MissionReflection></Dialog>}
+    {modal?.kind === 'note' && <Dialog title={stations[modal.index].title} eyebrow={`ESTACIÓN ${String(modal.index + 1).padStart(2, '0')} · PÁGINA DE LA BITÁCORA`} wide onClose={() => setModal(null)}><MissionReflection key={modal.index} available={stations[modal.index].available} selected={mission.reflections[modal.index]} onSave={text => setMission(previous => saveReflection(previous, modal.index, text))} onReturn={() => { setModal(null); navigate('game'); }}><StoryText text={stations[modal.index].text} /></MissionReflection></Dialog>}
+    {modal?.kind === 'visitPocket' && <Dialog title="Mi bolsillo" eyebrow="TU BOLSILLO ESPACIAL FEMINISTA" className="visit-pocket-modal" onClose={() => setModal(null)}><PocketStars stations={stations} reflections={mission.reflections} /><p className="quiet-note">Tus reflexiones guardadas, con tus propias palabras. Tu borrador sigue en la página.</p><button type="button" className="primary" onClick={() => setModal(null)}>Seguir leyendo</button></Dialog>}
     {modal?.kind === 'reset' && <Dialog title="Vaciar mi bolsillo" eyebrow="TU RECORRIDO PERSONAL" onClose={() => setModal(null)}><p>Se borrarán de este navegador tu alias, tus reflexiones, tus palabras y las estaciones visitadas. Podrás empezar otra vez.</p><div className="reset-actions"><button className="primary" onClick={resetJourney}>Borrar mi recorrido</button><button className="text-button" onClick={() => setModal(null)}>Conservarlo</button></div></Dialog>}
   </>;
 }

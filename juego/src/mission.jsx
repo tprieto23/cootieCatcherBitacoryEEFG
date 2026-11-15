@@ -13,13 +13,13 @@ export function MissionEncounter({ scenery, onAccept, motion }) {
   </section>;
 }
 
-export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scenery, motion }) {
+export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scenery, motion, approaching = false }) {
   const lights = Object.keys(mission.reflections).length;
-  return <section className={`navigation-universe ${motion ? '' : 'is-paused'}`} aria-labelledby="map-title">
+  return <section className={`navigation-universe ${motion ? '' : 'is-paused'} ${approaching ? 'is-approaching' : ''}`} aria-labelledby="map-title">
     {scenery}
     <header className="navigation-heading"><div><span className="eyebrow">NEBULA-F23 · UNA SOLA MISIÓN</span><h1 id="map-title">Carta de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo espacial feminista <span>{lights} / 7 estrellas</span></button></header>
     <div className="navigation-layout">
-      <section className="chart-sheet" aria-label="Mapa de las siete estaciones">
+      <section className={`chart-sheet ${approaching ? 'is-approaching' : ''}`} aria-label="Mapa de las siete estaciones">
         <div className="chart-topline"><span>RUTA DE LA BITÁCORA</span><span>01 — 07</span></div>
         <div className="chart-terrain">
           <svg className="chart-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d={`M${locations.map(([x, y]) => `${x},${y}`).join(' L')}`} /></svg>
@@ -27,7 +27,7 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
             const lit = Boolean(mission.reflections[index]);
             const visited = mission.visited.includes(index);
             return <li key={note.number} style={{ left: `${locations[index][0]}%`, top: `${locations[index][1]}%` }}>
-              <button className={`station-node station-kind-${index % 3} ${lit ? 'is-lit' : ''}`} onClick={() => onOpen(index)} aria-label={`Estación ${note.number}: ${note.title}${lit ? ', reflexión guardada' : visited ? ', visitada' : ''}`}>
+              <button className={`station-node station-kind-${index % 3} ${lit ? 'is-lit' : ''}`} disabled={approaching} onClick={() => onOpen(index)} aria-label={`Estación ${note.number}: ${note.title}${lit ? ', reflexión guardada' : visited ? ', visitada' : ''}`}>
                 <span className="station-orb" aria-hidden="true"><span /></span>
                 <span className="station-number">{String(note.number).padStart(2, '0')} {lit ? '· ESTRELLA ENCENDIDA' : visited ? '· VISITADA' : ''}</span>
                 <span className="station-name">{note.title}</span>
@@ -55,7 +55,7 @@ export function MissionReflection({ selected = '', onSave, onReturn, children, a
       input.reportValidity();
       return;
     }
-    onSave(draft.trim());
+    onSave(draft);
     setSaved(true);
   }
   return <>{children}{available && <form className="reflection-form" onSubmit={submit}><span className="eyebrow">UNA ESTRELLA QUE NACE DE TU LECTURA</span><h3>¿Qué te llevas de este encuentro?</h3><label htmlFor="station-reflection">Tu reflexión</label><textarea id="station-reflection" value={draft} onChange={event => { event.target.setCustomValidity(''); setDraft(event.target.value); setSaved(false); }} rows={4} maxLength={REFLECTION_LIMIT} required placeholder="Una palabra, una idea, una duda…" /><p className="quiet-note">Se queda en tu navegador, dentro de tu bolsillo espacial feminista. Puedes volver para editarla.</p><button className="primary" type="submit">{selected ? 'Actualizar mi estrella' : 'Guardar y encender mi estrella'}</button><p className="reflection-status" role="status">{saved ? 'Tu estrella brilla. La reflexión está en tu bolsillo.' : selected ? 'Esta estrella ya guarda una reflexión tuya.' : ''}</p></form>}<button className="text-button return-to-map" onClick={onReturn}>Volver al mapa</button></>;
@@ -63,5 +63,10 @@ export function MissionReflection({ selected = '', onSave, onReturn, children, a
 
 export function MissionPocket({ alias, stations, mission, legacyWords, onOpen, onMap, onReset }) {
   const collected = Object.entries(mission.reflections);
-  return <section className="mission-pocket" aria-labelledby="pocket-title"><span className="eyebrow">TU BOLSILLO ESPACIAL FEMINISTA</span><h1 id="pocket-title">Tus estrellas,<br /><em>{alias}.</em></h1><p>{collected.length ? 'Aquí vuelve a brillar lo que recogiste en tu viaje. Puedes regresar a cada página y editar tu reflexión.' : 'Aquí aparecerán las estrellas que enciendas con tus reflexiones.'}</p><div className="reflection-collection">{collected.map(([index, reflection]) => <article className="reflection-card" key={index}><span className="pocket-star" aria-hidden="true">✦</span><span className="eyebrow">ESTACIÓN {Number(index) + 1}</span><h2>{stations[index].title}</h2><p>{reflection}</p><button className="text-button" onClick={() => onOpen(Number(index))}>Volver a esta página</button></article>)}</div>{Object.keys(legacyWords).length > 0 && <section className="legacy-pocket"><h2>Palabras de tu recorrido anterior</h2><div className="word-notes">{Object.entries(legacyWords).map(([index, word]) => <div className="word-note" key={index}><span>{word}</span><small>Entrada {Number(index) + 1}</small></div>)}</div></section>}<p className="quiet-note">{collected.length} de 7 estrellas encendidas. La conexión entre estrellas y la barrera protectora llegarán en la siguiente etapa de este viaje.</p><div className="recap-actions"><button className="primary" onClick={onMap}>Volver al mapa</button><button className="text-button" onClick={onReset}>Borrar mi recorrido de este navegador</button></div></section>;
+  return <section className="mission-pocket" aria-labelledby="pocket-title"><span className="eyebrow">TU BOLSILLO ESPACIAL FEMINISTA</span><h1 id="pocket-title">Tus estrellas,<br /><em>{alias}.</em></h1><p>{collected.length ? 'Aquí vuelve a brillar lo que recogiste en tu viaje. Puedes regresar a cada página y editar tu reflexión.' : 'Aquí aparecerán las estrellas que enciendas con tus reflexiones.'}</p><PocketStars stations={stations} reflections={mission.reflections} onOpen={onOpen} />{Object.keys(legacyWords).length > 0 && <section className="legacy-pocket"><h2>Palabras de tu recorrido anterior</h2><div className="word-notes">{Object.entries(legacyWords).map(([index, word]) => <div className="word-note" key={index}><span>{word}</span><small>Entrada {Number(index) + 1}</small></div>)}</div></section>}<p className="quiet-note">{collected.length} de 7 estrellas encendidas. La conexión entre estrellas y la barrera protectora llegarán en la siguiente etapa de este viaje.</p><div className="recap-actions"><button className="primary" onClick={onMap}>Volver al mapa</button><button className="text-button" onClick={onReset}>Borrar mi recorrido de este navegador</button></div></section>;
+}
+
+export function PocketStars({ stations, reflections, onOpen }) {
+  const collected = Object.entries(reflections);
+  return collected.length ? <div className="reflection-collection">{collected.map(([index, reflection]) => <article className="reflection-card" key={index}><span className="pocket-star" aria-hidden="true">✦</span><span className="eyebrow">ESTACIÓN {Number(index) + 1}</span><h2>{stations[index].title}</h2><p>{reflection}</p>{onOpen && <button className="text-button" onClick={() => onOpen(Number(index))}>Volver a esta página</button>}</article>)}</div> : <p className="empty-pocket">Aquí aparecerá tu estrella cuando guardes tu reflexión. Puedes seguir leyendo y escribiendo.</p>;
 }

@@ -26,17 +26,23 @@ Al final de la introducción aparece una escena amplia con una galaxia enana a l
 
 El mapa contiene siete estaciones en el orden original de las entradas. La Guía de navegación aparece a su derecha; por debajo en pantallas de hasta 780 px. Las dos galaxias permanecen detrás del mapa. Cada estación abre su página y permite volver al mapa. Los componentes de misión están en `src/mission.jsx`, sus estilos en `src/mission.css` y la validación de los datos en `src/mission.js`.
 
+### Primera estación: Sintoniza Ultravioleta
+
+Seleccionarla acerca la carta a ese punto y abre `#/estacion-1`. La página conserva el texto íntegro de «Una voz que aprendió acompañada», sus citas, referencia y enlace al PDF original. La pregunta de Ultravioleta aparece al final. «Guardar en mi bolsillo» enciende una estrella y muestra «Tu estrella de Ultravioleta ya está en tu bolsillo».
+
+«Mi bolsillo» y «Volver al mapa» permanecen en una barra fija durante la lectura. Abrir el bolsillo superpone una ventana sin desmontar la página ni perder su posición o borrador. Al guardar se conservan los espacios y párrafos exactos; editar reemplaza la misma estrella. El borrador se guarda por separado y se recupera al recargar, aunque aún no se haya convertido en estrella. Componentes y estilos de esta visita: `src/ultraviolet.jsx` y `src/ultraviolet.css`.
+
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
 Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva las ocho posiciones del prototipo anterior para mantener sus datos; el mapa usa únicamente las entradas 1 a 7. La quinta estación se muestra provisionalmente como «Estación 5 · Por escribir», sin inventar un escrito. La entrada 8 permanece fuera de la misión actual. Las notas anteriores se conservan en `src/legacy-notes.js`.
 
-Los enlaces a PDF locales se conservan en los Markdown fuente; no se muestran como enlaces públicos porque esas lecturas no están alojadas en la web.
+Los enlaces locales se conservan en los Markdown fuente. La lectura de la primera estación se incluye íntegra como `src/assets/lectura-ultravioleta.pdf` y su enlace se publica con Vite. Los enlaces de otras lecturas permanecen ocultos hasta incluir sus archivos.
 
 Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. La conexión manual de estrellas, la barrera protectora y la conclusión final siguen pendientes. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
 
 ## Guardado personal
 
-No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, estaciones visitadas, reflexiones y los datos del recorrido anterior se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
+No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, estaciones visitadas, reflexiones, borradores de Ultravioleta y los datos del recorrido anterior se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
 
 ## Vercel
 
