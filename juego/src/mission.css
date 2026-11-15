@@ -9,8 +9,6 @@
 .mission-cosmos .galaxy-mission-giant .galaxy-spin { animation-direction: reverse; animation-duration: 180s; }
 .tidal-stream { position: absolute; width: 70%; height: 42%; left: 22%; top: 26%; border-top: 2px solid #fca4bc45; border-radius: 50%; transform: rotate(-22deg); filter: blur(8px); box-shadow: 0 -10px 35px #fca4bc16,0 -2px 16px #fddd4630; }
 .encounter-copy { position: relative; text-align: center; padding: 70px 24px; width: 100%; background: radial-gradient(ellipse,#1b0b3099,transparent 65%); }
-.encounter-copy h2 { font-size: clamp(32px,4vw,54px); color: var(--silver); margin: 22px 0 35px; }
-.encounter-copy h2 em { font: italic 1.6em/.95 var(--expressive); color: var(--pink); }
 .accept-mission.primary { font-size: 18px; min-height: 70px; padding: 18px 42px; justify-content: center; box-shadow: 0 0 35px #fca4bc36,inset 0 1px 0 #fff9; }
 .astronaut-alias.modal { background: linear-gradient(135deg,#4a1b70b8,#231135d9); backdrop-filter: blur(22px) saturate(125%); -webkit-backdrop-filter: blur(22px) saturate(125%); }
 .astronaut-alias.modal::backdrop { background: #150c294a; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
@@ -90,8 +88,6 @@
 @media (max-width: 480px) {
   .mission-main { padding-top: 28px; }
   .encounter-copy { padding: 100px 15px; }
-  .encounter-copy h2 { font-size: 28px; }
-  .encounter-copy .eyebrow { font-size: 8px; }
   .accept-mission.primary { font-size: 16px; min-height: 64px; padding-inline: 32px; }
   .chart-terrain { height: 760px; }
   .station-route li { width: 49%; }

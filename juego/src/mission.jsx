@@ -16,9 +16,9 @@ const navigationRoute = locations.slice(1).reduce((path, [x, y], index) => {
 
 
 export function MissionEncounter({ scenery, onAccept, motion }) {
-  return <section className={`mission-encounter ${motion ? '' : 'is-paused'}`} aria-labelledby="encounter-title">
+  return <section className={`mission-encounter ${motion ? '' : 'is-paused'}`} aria-label="Aceptar misión">
     {scenery}
-    <div className="encounter-copy"><span className="eyebrow">AL OTRO LADO DE LA VENTANILLA</span><h2 id="encounter-title">Hay otro rumbo<br /><em>posible.</em></h2><button type="button" className="primary accept-mission" onClick={onAccept}>Aceptar misión</button></div>
+    <div className="encounter-copy"><button type="button" className="primary accept-mission" onClick={onAccept}>ACEPTAR MISIÓN</button></div>
   </section>;
 }
 
