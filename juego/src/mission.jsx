@@ -4,6 +4,7 @@ import { StationSilhouette } from './station-art.jsx';
 import { ConstellationBuilder } from './constellation-builder.jsx';
 import './expedition.css';
 import './mission.css';
+import './digital-map.css';
 
 export const locations = [[22, 7], [68, 20], [27, 33], [72, 46], [27, 59], [68, 72], [35, 85]];
 
@@ -20,12 +21,12 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
   const lights = completedStations(mission).length;
   return <section className={`navigation-universe ${motion ? '' : 'is-paused'} ${approaching ? 'is-approaching' : ''}`} aria-labelledby="map-title">
     {scenery}
-    <header className="navigation-heading"><div><span className="eyebrow">NEBULA-F23 · UNA SOLA MISIÓN</span><h1 id="map-title">Carta de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo <span>{lights} / 7 estrellas</span></button></header>
+    <header className="navigation-heading"><div><span className="eyebrow">NEBULA-F23 · UNA SOLA MISIÓN</span><h1 id="map-title">Mapa de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo <span>{lights} / 7 estrellas</span></button></header>
     <div className="navigation-layout">
-      <section className={`chart-sheet ${approaching ? 'is-approaching' : ''}`} aria-label="Mapa de las siete estaciones">
-        <div className="chart-topline"><span>RUTA DE LA BITÁCORA</span><span>01 — 07</span></div>
+      <section className={`navigation-device ${approaching ? 'is-approaching' : ''}`} aria-label="Mapa de las siete estaciones">
+        <div className="device-topline"><span className="device-label"><span className="device-light" aria-hidden="true" />SISTEMA DE NAVEGACIÓN</span><span>NEBULA-F23</span></div><div className="device-viewport"><div className="device-scan" aria-hidden="true" /><div className="chart-display" tabIndex={0} role="region" aria-label="Pantalla del mapa. Desliza para explorar las siete estaciones.">
         <div className="chart-terrain" style={{ transformOrigin: `${locations[destinationIndex][0]}% ${locations[destinationIndex][1]}%` }}>
-          <svg className="chart-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d={`M${locations.map(([x, y]) => `${x},${y}`).join(' L')}`} /></svg>
+          <svg className="chart-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path className="route-glow" d={`M${locations.map(([x, y]) => `${x},${y}`).join(' L')}`} /><path className="route-line" d={`M${locations.map(([x, y]) => `${x},${y}`).join(' L')}`} /></svg>
           <ol className="station-route">{stations.map((note, index) => {
             const lit = isStationComplete(mission, index);
             const visited = mission.visited.includes(index);
@@ -38,9 +39,10 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
               </button>
             </li>;
           })}</ol>
-          <div className="chart-folds" aria-hidden="true" />
+          <div className="screen-coordinates" aria-hidden="true"><span>F / 23</span><span>RUTA / 01—07</span></div>
         </div>
-        <div className="chart-bottomline"><span>GALAXIA ENANA</span><span>UN RUMBO POR CONSTRUIR</span></div>
+        </div></div>
+        <div className="device-bottomline"><div><span>DESLIZA PARA EXPLORAR</span><span className="device-mission-label">Una misión · Siete destinos</span></div><div className="device-progress" aria-label={`${lights} de 7 materiales reunidos`}><div aria-hidden="true">{stations.map((_, index) => <span key={index} className={isStationComplete(mission, index) ? 'is-complete' : ''} />)}</div><span>{lights} / 7 materiales</span></div></div>
       </section>
       <aside className="navigation-guide" aria-labelledby="guide-title"><span className="eyebrow">PRIMERA TRANSMISIÓN DE NAVEGACIÓN</span><h2 id="guide-title">Guía de <em>navegación</em></h2><p>Astronauta {alias}, aquí comienza tu recorrido. Selecciona una estación para abrir una página de mi bitácora. Después de leerla, escribe una reflexión. Tu reflexión le dará brillo a una estrella que podrás guardar en tu bolsillo espacial feminista.</p><p>Cuando hayas recorrido las siete estaciones, abre el bolsillo. Allí podrás releer tus reflexiones y enlazar las estrellas. La energía de esa red formará la barrera que ayudará a la galaxia enana a cambiar de rumbo.</p><div className="navigation-progress"><span>{mission.visited.length} / 7 estaciones visitadas</span><span>{lights} / 7 estrellas encendidas</span></div><p className="quiet-note">Tu alias y tus reflexiones se guardan solo en este navegador. Tania no los recibe.</p></aside>
     </div>

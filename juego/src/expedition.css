@@ -11,7 +11,6 @@
 .destination-art.is-collected { color: #f5d9ff; filter: drop-shadow(0 0 8px #b46cfb55); }
 .navigation-heading { position: sticky; top: 0; z-index: 9; padding: 14px 20px; border: 1px solid #d4dcf32b; border-radius: 20px; background: #2b143de8; backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); }
 .navigation-layout .chart-terrain { height: 1460px; transition: transform .65s ease,filter .65s ease; }
-.navigation-layout .chart-sheet { overflow: hidden; }
 .navigation-layout .station-route li { max-width: 250px; width: 45%; }
 .station-route .expedition-node { padding: 6px 6px 12px; background: radial-gradient(ellipse,#2b183def 30%,#2b183d99 60%,transparent 75%); }
 .expedition-node .destination-art { width: 65px; height: 65px; margin-bottom: 10px; transition: transform .3s; }

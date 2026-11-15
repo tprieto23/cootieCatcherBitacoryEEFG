@@ -30,11 +30,7 @@
 .pocket-access { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; text-align: left; border: 1px solid #fca4bc88; background: #36134fa8; backdrop-filter: blur(14px); color: var(--pink); padding: 14px 20px; font-size: 14px; border-radius: 18px; }
 .pocket-access span { color: var(--silver); font-size: 11px; }
 .pocket-access:hover { background: #632780b8; }
-.navigation-layout { display: grid; grid-template-columns: minmax(0,1.65fr) minmax(290px,1fr); gap: clamp(22px,3vw,44px); align-items: start; perspective: 1600px; }
-.chart-sheet { min-width: 0; position: relative; background: linear-gradient(155deg,#49315bcf,#231537eb 65%,#5c375aaf); border: 1px solid #d4dcf37a; border-radius: 7px 15px 10px 18px; box-shadow: 0 30px 80px #0d061b80,inset 0 1px 0 #fff4,inset 0 0 55px #fca4bc0c; animation: unfold-star-chart 1.65s cubic-bezier(.16,.75,.28,1) both; transform-origin: 48% 45%; }
-.chart-topline, .chart-bottomline { display: flex; justify-content: space-between; gap: 15px; padding: 19px 22px; color: #d4dcf3ba; font-size: 9px; letter-spacing: .12em; }
-.chart-topline { border-bottom: 1px solid #d4dcf31f; }
-.chart-bottomline { border-top: 1px solid #d4dcf31f; font-size: 8px; }
+.navigation-layout { display: grid; grid-template-columns: minmax(0,1.65fr) minmax(290px,1fr); gap: clamp(22px,3vw,44px); align-items: start; }
 .chart-terrain { position: relative; height: 790px; background-image: radial-gradient(#d4dcf31c .8px,transparent .8px); background-size: 24px 24px; }
 .chart-route { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 .chart-route path { fill: none; stroke: #fca4bc7a; stroke-width: .25; stroke-dasharray: 1 1; }
@@ -52,7 +48,6 @@
 .station-node:hover .station-orb, .station-node:focus-visible .station-orb { transform: translateY(-4px) scale(1.12); box-shadow: 0 0 28px #fca4bc99; }
 .station-node.is-lit .station-orb { background: radial-gradient(circle at 36% 28%,#fffbee,#fddd46 50%,#fca4bc 90%); box-shadow: 0 0 12px #fddd46b3,0 0 35px #fddd4670; }
 .station-node.is-lit .station-number { color: var(--yellow); }
-.chart-folds { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(93deg,transparent 32.5%,#fff2 33%,#0806173b 33.3%,transparent 35%,transparent 65%,#ffffff18 66%,#08061740 66.3%,transparent 68%),linear-gradient(177deg,transparent 24%,#fff1 25%,#08061733 25.4%,transparent 27%,transparent 49%,#fff2 50%,#0806174d 50.3%,transparent 52%,transparent 74%,#fff1 75%,#08061733 75.3%,transparent 77%),conic-gradient(from 220deg at 34% 51%,transparent,#ffffff09,transparent 30%); animation: flatten-chart 1.65s ease-out both; }
 .navigation-guide { padding: clamp(24px,3vw,38px); border: 1px solid #d4dcf33d; border-radius: 24px; background: linear-gradient(145deg,#5e2d7eb5,#251036bd); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: inset 0 1px 0 #ffffff20; }
 .navigation-guide h2 { font-size: clamp(25px,2.8vw,36px); margin: 20px 0 26px; }
 .navigation-guide h2 em { display: block; font: italic 1.65em/1.15 var(--expressive); color: var(--pink); }
@@ -79,14 +74,7 @@
 .legacy-pocket { margin: 35px 0; }
 .legacy-pocket h2 { font-size: 23px; }
 .mission-encounter.is-paused *, .navigation-universe.is-paused *, .navigation-universe.is-paused *::before, .navigation-universe.is-paused *::after { animation-play-state: paused; }
-.navigation-universe.is-paused .chart-sheet, .navigation-universe.is-paused .chart-folds { animation: none; }
-@keyframes unfold-star-chart {
-  0% { transform: rotate(-14deg) rotateX(35deg) rotateY(-25deg) scale(.16,.23); filter: brightness(.55); clip-path: polygon(12% 8%,40% 0,70% 12%,95% 5%,90% 45%,100% 75%,78% 100%,42% 89%,10% 95%,0 52%); }
-  38% { transform: rotate(4deg) rotateX(-12deg) rotateY(9deg) scale(.64,.76); filter: brightness(.8); }
-  72% { transform: rotate(-1deg) rotateX(4deg) rotateY(-3deg) scale(1.02,.97); }
-  100% { transform: none; filter: brightness(1); clip-path: polygon(0 0,40% 0,70% 0,100% 0,100% 45%,100% 75%,100% 100%,42% 100%,0 100%,0 52%); }
-}
-@keyframes flatten-chart { from { opacity: 1; filter: contrast(3); } to { opacity: .6; filter: contrast(1); } }
+.navigation-universe.is-paused .navigation-device { animation: none; }
 @media (max-width: 900px) {
   .navigation-layout { grid-template-columns: minmax(0,1.45fr) minmax(260px,1fr); gap: 22px; }
   .navigation-guide { padding: 26px 22px; }
@@ -113,8 +101,6 @@
   .galaxy-caption { bottom: 22px; }
   .galaxy-caption span { font-size: 8px; }
   .galaxy-caption p { font-size: 18px; }
-  .chart-topline, .chart-bottomline { padding: 18px 12px; font-size: 8px; }
-  .chart-bottomline { font-size: 6px; }
   .chart-terrain { height: 760px; }
   .station-route li { width: 49%; }
   .station-name { font-size: 13px; }
@@ -124,5 +110,5 @@
   .reflection-card { padding: 25px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .chart-sheet, .chart-folds, .mission-cosmos * { animation: none !important; }
+  .navigation-device, .device-scan, .mission-cosmos * { animation: none !important; }
 }
