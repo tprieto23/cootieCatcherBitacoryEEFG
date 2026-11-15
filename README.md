@@ -24,7 +24,7 @@ La portada centrada presenta el trabajo y permite entrar mediante el botón Tani
 
 La ventanilla se integra en un panel de cabina, con marco biselado, fijaciones, cierres laterales y pequeñas luces decorativas en la misma paleta. Estos detalles no son controles interactivos.
 
-La nueva introducción describe el recorrido proyectado de nueve estaciones y la posibilidad de guardar escritura propia. La navegación entre esas estaciones y el guardado de textos libres siguen pendientes; el prototipo actual conserva ocho pliegues y permite guardar palabras sugeridas.
+La introducción vigente abre con «Estación siete a estación uno. ¿Todavía me escuchas?» y plantea siete estaciones para ayudar a una galaxia enana a cambiar de rumbo. Relaciona esa misión con la investigación feminista y propone recoger reflexiones y enlazar estrellas al final. Conserva el texto de la autora y su enlace a NASA/ESA. Esta narrativa sustituye la propuesta anterior de nueve estaciones. El mapa, el guardado de escritura propia, la red de estrellas y la barrera protectora siguen pendientes de implementación; el prototipo actual conserva ocho pliegues y permite guardar palabras sugeridas.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
