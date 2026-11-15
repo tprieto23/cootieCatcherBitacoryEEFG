@@ -20,15 +20,17 @@ Mantener la terminal activa para usar la web local. Abrir la dirección que impr
 
 ## Recorrido y contenido
 
-La portada centrada presenta el trabajo y permite entrar mediante el botón Tania Prieto. Su presentación se muestra sin barra de navegación y termina con Abrir Bitácora, que conduce a la introducción. El cuaderno une la presentación de Tania con la introducción; después aparecen el aviso del bolsillo feminista, la elección de alias y el juego.
+La portada centrada presenta el trabajo y permite entrar mediante el botón Tania Prieto. Su presentación se muestra sin barra de navegación y termina con Abrir Bitácora, que conduce a la introducción. Esta se presenta como una primera transmisión a bordo: una página titulada «Nébula F23» con el texto de la autora junto a una ventanilla con una luna cercana y ocho luces distantes. «Comenzar mi misión» lleva al juego si ya hay alias o a su elección si hace falta. El aviso previo del bolsillo se omite en este recorrido; las indicaciones para guardar una palabra aparecen después de una lectura disponible.
+
+La nueva introducción describe el recorrido proyectado de nueve estaciones y la posibilidad de guardar escritura propia. La navegación entre esas estaciones y el guardado de textos libres siguen pendientes; el prototipo actual conserva ocho pliegues y permite guardar palabras sugeridas.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
-Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva el orden de las ocho clases. Los pliegues 5 y 8 invitan a volver a jugar mientras se terminan sus contenidos. Las notas anteriores se conservan en `src/legacy-notes.js`.
+Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` organiza los ocho pliegues del prototipo. Los pliegues 5 y 8 invitan a volver a jugar mientras se terminan sus contenidos. Las notas anteriores se conservan en `src/legacy-notes.js`.
 
 Los enlaces a PDF locales se conservan en los Markdown fuente; no se muestran como enlaces públicos porque esas lecturas no están alojadas en la web.
 
-Después de leer se puede elegir una palabra provisional, sin responder preguntas ni escribir. El bolsillo reúne esas palabras y permite releer los relatos abiertos. El cierre recapitula el recorrido; la conclusión final sigue pendiente de escritura. La presentación y la introducción usan la primera versión acordada durante el diseño. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
+Después de leer se puede elegir una palabra provisional, sin responder preguntas ni escribir. El bolsillo reúne esas palabras y permite releer los relatos abiertos. El cierre recapitula el recorrido; la conclusión final sigue pendiente de escritura. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
 
 ## Guardado personal
 

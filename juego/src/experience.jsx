@@ -104,7 +104,7 @@ function ReadEntry({ note, selected, onSave, onReturn }) {
   const [choices] = useState(() => wordChoices(selected));
   return <>
     <StoryText text={note.text} />
-    {note.available && <section className="word-invitation" aria-label="Llevar una palabra del relato"><span className="eyebrow">UN PEQUEÑO RECUERDO</span><h3>Me llevo una palabra</h3><p>Elige una para tu bolsillo, si te apetece.</p><div className="word-choices">{choices.map(word => <button type="button" key={word} aria-pressed={word === selected} onClick={() => onSave(word)}>{word}{word === selected && <span aria-hidden="true"> ✓</span>}</button>)}</div><p className="word-saved" role="status">{selected ? `«${selected}» va contigo.` : ''}</p></section>}
+    {note.available && <section className="word-invitation" aria-label="Llevar una palabra del relato"><span className="eyebrow">UN PEQUEÑO RECUERDO</span><h3>Me llevo una palabra</h3><p>Elige una palabra para tu bolsillo espacial feminista, si te apetece. Se guarda solo en este navegador y podrás volver a leerla al cerrar tu recorrido.</p><div className="word-choices">{choices.map(word => <button type="button" key={word} aria-pressed={word === selected} onClick={() => onSave(word)}>{word}{word === selected && <span aria-hidden="true"> ✓</span>}</button>)}</div><p className="word-saved" role="status">{selected ? `«${selected}» va contigo.` : ''}</p></section>}
     <button className="primary" onClick={onReturn}>Volver al papel <Arrow /></button>
   </>;
 }
@@ -113,9 +113,66 @@ function AuthorPortrait() {
   return <figure className="portrait-leaf"><img src={portrait} alt="Composición de fotografías de Tania Prieto, autora de NEBULA-F23" /></figure>;
 }
 
-function Notebook({ page, onAbout, onIntroduction, onExplore, Flower }) {
-  return <section className={`notebook page-${page}`} key={page} aria-label="Cuaderno de Tania">
-    {page === 'about' ? <>
+const distantStations = [[94,116,4],[191,76,3],[317,99,4],[443,157,5],[483,279,3],[81,292,4],[130,493,3],[451,547,4]];
+const moonCraters = [[269,290,18],[336,310,10],[230,353,24],[312,385,31],[364,361,12],[263,440,15],[344,465,17],[207,400,8],[391,416,10]];
+
+function StationWindow() {
+  return <figure className="station-window">
+    <div className="window-topline"><span>PRÓXIMA ESTACIÓN</span><span>01 / 09</span></div>
+    <div className="porthole">
+      <svg viewBox="0 0 560 650" role="img" aria-labelledby="station-window-title">
+        <title id="station-window-title">Una luna cercana vista desde la nave y ocho luces más pequeñas que anuncian las otras estaciones.</title>
+        <defs>
+          <radialGradient id="window-space"><stop stopColor="#713887" /><stop offset=".6" stopColor="#2b123f" /><stop offset="1" stopColor="#130c27" /></radialGradient>
+          <radialGradient id="window-mist"><stop stopColor="#FCA4BC" stopOpacity=".27" /><stop offset="1" stopColor="#FCA4BC" stopOpacity="0" /></radialGradient>
+          <radialGradient id="moon-surface" cx="28%" cy="27%" r="80%"><stop stopColor="#fff4db" /><stop offset=".4" stopColor="#d9c9e3" /><stop offset=".72" stopColor="#b98bb8" /><stop offset="1" stopColor="#4b285e" /></radialGradient>
+          <radialGradient id="moon-crater"><stop stopColor="#563064" stopOpacity=".45" /><stop offset=".7" stopColor="#84608e" stopOpacity=".2" /><stop offset=".86" stopColor="#f6dbe8" stopOpacity=".4" /><stop offset="1" stopColor="#f6dbe8" stopOpacity="0" /></radialGradient>
+          <radialGradient id="station-light"><stop stopColor="#fff5d3" /><stop offset=".2" stopColor="#FDDD46" stopOpacity=".8" /><stop offset="1" stopColor="#FCA4BC" stopOpacity="0" /></radialGradient>
+          <clipPath id="moon-edge"><circle cx="300" cy="382" r="146" /></clipPath>
+        </defs>
+        <rect width="560" height="650" fill="url(#window-space)" />
+        <ellipse cx="100" cy="170" rx="240" ry="280" fill="url(#window-mist)" />
+        <g fill="#d4dcf3" opacity=".55">{Array.from({length: 70}, (_,index) => <circle key={index} cx={cosmicNoise(index + 3100) * 560} cy={cosmicNoise(index + 4100) * 650} r={.4 + cosmicNoise(index + 5100) * .65} />)}</g>
+        <path d="M94 116Q218 -7 443 157Q544 350 451 547" fill="none" stroke="#d4dcf3" strokeWidth=".7" strokeDasharray="2 10" opacity=".22" />
+        <g>{distantStations.map(([cx,cy,r],index) => <g key={index}><circle cx={cx} cy={cy} r={r * 4} fill="url(#station-light)" /><circle cx={cx} cy={cy} r={r} fill={index % 2 ? '#FCA4BC' : '#FDDD46'} /><path d={`M${cx - r * 2} ${cy}h${r * 4}M${cx} ${cy - r * 2}v${r * 4}`} stroke="#fff4db" strokeWidth=".7" opacity=".6" /></g>)}</g>
+        <g className="near-moon">
+          <circle cx="300" cy="382" r="175" fill="url(#window-mist)" />
+          <circle cx="300" cy="382" r="146" fill="url(#moon-surface)" />
+          <g clipPath="url(#moon-edge)">
+            {moonCraters.map(([cx,cy,r],index) => <circle key={index} cx={cx} cy={cy} r={r} fill="url(#moon-crater)" />)}
+            <ellipse cx="386" cy="392" rx="74" ry="152" fill="#281234" opacity=".2" />
+          </g>
+          <circle cx="300" cy="382" r="146" fill="none" stroke="#fff0d7" strokeOpacity=".22" />
+        </g>
+      </svg>
+      <div className="window-reflection" aria-hidden="true" />
+    </div>
+    <figcaption><span className="station-caption">Una luna cercana</span><span>Ocho luces más allá. Todo un viaje por delante.</span></figcaption>
+  </figure>;
+}
+
+function Introduction({ onStart }) {
+  return <section className="departure" aria-labelledby="introduction-title">
+    <div className="transmission-heading"><span className="transmission-signal" aria-hidden="true" /><span>A BORDO · PRIMERA TRANSMISIÓN</span><span className="transmission-sender">DE TANIA PRIETO</span></div>
+    <div className="departure-layout">
+      <article className="transmission-page">
+        <header><span className="eyebrow">INTRODUCCIÓN</span><h1 id="introduction-title">Nébula <em>F23</em></h1></header>
+        <div className="transmission-text">
+          <p>Te invito a recorrer Nébula F23, mi bitácora de la especialización. Para darle nombre me inspiré en los códigos de letras y números con los que se identifican algunas nebulosas en los catálogos astronómicos. Quise inventar uno propio. Elegí la F de feminista, porque es desde donde escribo, y el 23 porque es un número que me ha acompañado toda la vida.</p>
+          <p>Imaginé las nueve clases de la especialización como nueve estaciones espaciales. Algunas tienen forma de planeta, otras de estrella o de luna. En cada una encontrarás una reflexión mía que nació de lo que conversamos en esa clase: una idea que me hizo mirar algo de otra manera, una pregunta que todavía me acompaña o algo que quise poner en discusión.</p>
+          <p>El juego consiste en ir descubriendo qué te llevas tú de cada encuentro. Para eso tienes un bolsillo espacial feminista. Al pasar por una estación, puedes elegir una palabra de la reflexión o escribir unas líneas propias y guardarlas en tu bolsillo. Tal vez quieras llevarte algo que aprendiste. También cabe una duda, incluso una con la que quisieras volver a conversar conmigo. Al final del viaje, podrás abrir tu bolsillo y volver a leer lo que recogiste.</p>
+        </div>
+        <div className="mission-invitation"><p>En cada una de las nueve clases escribí un texto de escritura automática. Hoy te invito a viajar entre esos escritos como quien visita nueve estaciones en el espacio. Tu misión es descubrir qué te dice cada uno y qué quisieras llevar contigo.</p></div>
+        <button type="button" className="primary mission-start" onClick={onStart}>Comenzar mi misión <Arrow /></button>
+        <span className="transmission-signature">Tania Prieto</span>
+      </article>
+      <StationWindow />
+    </div>
+  </section>;
+}
+
+function AuthorPresentation({ onIntroduction }) {
+  return <section className="notebook page-about" aria-label="Cuaderno de Tania">
       <AuthorPortrait />
       <div className="book-leaf"><span className="eyebrow">MI PRESENTACIÓN</span><h1>Desde dónde<br /><em>escribo.</em></h1>
         <p>Quiero compartirles quién soy y desde dónde escribo. Soy Tania Prieto, mujer y feminista en las ciencias exactas y naturales. Soy física y me dedico a la investigación científica con herramientas computacionales y modelos de sistemas complejos. Me interesa usar la mecánica estadística para estudiar los sistemas sociales y, desde esa práctica, transgredir los límites de los espacios donde la ciencia y los métodos cuantitativos siguen al servicio de una hegemonía androcéntrica. Más adelante volveré sobre lo que quiero decir con esto.</p>
@@ -123,10 +180,7 @@ function Notebook({ page, onAbout, onIntroduction, onExplore, Flower }) {
         <p>Soy una mujer artística y me gusta llevar el arte conmigo. Busco llevar lo que estudio a escena y darle a mis presentaciones un carácter performático. Y siempre quiero decir que amo la comida, comer es de las cosas mas increibles que hay en la vida.</p>
         <p className="author-invitation">Bueno, ahora te quiero invitar a un viaje intergaláctico.</p>
         <div className="about-ending"><div className="about-actions"><button className="cover-open page-turn" onClick={onIntroduction}>Abrir Bitácora <Arrow /></button><span className="page-number">01 · Mi presentación</span></div><figure className="author-companion"><img src={luffy} alt="Luffy, un perro de pelaje blanco y dorado con un pañuelo" width="868" height="1156" /><figcaption>guau guau</figcaption></figure></div></div>
-    </> : <>
-      <div className="book-leaf"><span className="eyebrow">INTRODUCCIÓN</span><h1>De dónde nace<br />esta <em>bitácora.</em></h1><p>Esta bitácora reúne reflexiones y escrituras automáticas construidas en el marco del Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II de la Especialización en Estudios Feministas y de Género de la Universidad Nacional de Colombia, dirigido por Mara Viveros y con el acompañamiento tutorial de Paula Giraldo.</p><p>En sus pliegues comparto aprendizajes que toman forma entre las lecturas del curso y mis experiencias.</p><button className="text-button" onClick={onAbout}>← Volver a mi presentación</button><span className="page-number">02 · Introducción</span></div>
-      <div className="book-leaf introduction-leaf"><Flower className="book-flower" /><span className="eyebrow">LEER, ENCONTRARNOS, JUGAR</span><h2>Un papel que<br />se abre contigo.</h2><p>Te invito a acercarte a estos escritos a través de NEBULA-F23: encontrar un relato y detenerte en aquello que te acompañe.</p><p>Mientras juegas, podrás reunir palabras en tu bolsillo feminista y volver a encontrarlas al cerrar el recorrido.</p><button className="primary page-turn" onClick={onExplore}>Explora jugando NEBULA-F23 <Arrow /></button><span className="page-number">03 · La invitación</span></div>
-    </>}
+
   </section>;
 }
 
@@ -146,7 +200,7 @@ export function Experience({ Paper, Die, Flower }) {
   const busy = ['rolling', 'moving'].includes(state.phase);
   const screen = ['game', 'recap'].includes(route) && !alias ? 'alias' : route;
   const isCover = screen === 'home';
-  const hasSpace = isCover || screen === 'about';
+  const hasSpace = isCover || ['about', 'introduction'].includes(screen);
   const openedStories = state.discovered.filter(index => notes[index].available);
   const collectedCount = Object.keys(words).length;
 
@@ -216,7 +270,7 @@ export function Experience({ Paper, Die, Flower }) {
   return <>
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
 
-    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : undefined} ref={mainRef} tabIndex={-1}>
+    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : undefined} ref={mainRef} tabIndex={-1}>
       {hasSpace && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
         <DeepSpace />
         {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
@@ -236,7 +290,8 @@ export function Experience({ Paper, Die, Flower }) {
       </section>}
       {hasSpace && <button className="cover-motion-toggle" onClick={() => setCoverMotion(value => !value)} aria-label={coverMotion ? 'Pausar animaciones del fondo' : 'Activar animaciones del fondo'} title={coverMotion ? 'Pausar movimiento' : 'Activar movimiento'}><span aria-hidden="true">{coverMotion ? 'Ⅱ' : '▷'}</span></button>}
 
-      {['about', 'introduction'].includes(screen) && <Notebook page={screen} onAbout={() => navigate('about')} onIntroduction={() => navigate('introduction')} onExplore={() => navigate('notice')} Flower={Flower} />}
+      {screen === 'about' && <AuthorPresentation onIntroduction={() => navigate('introduction')} />}
+      {screen === 'introduction' && <Introduction onStart={() => navigate(alias ? 'game' : 'alias')} />}
 
       {screen === 'notice' && <section className="gateway"><span className="eyebrow">ANTES DE JUGAR</span><div className="pocket-illustration" aria-hidden="true"><span>✿</span></div><h1>Tu bolsillo<br /><em>feminista.</em></h1><p>A lo largo del juego podrás guardar palabras clave y pequeñas reflexiones que iremos construyendo juntas, entre mis relatos y tu lectura.</p><p>Al final volverás a encontrarlas, junto al cierre de la bitácora, como recuerdo de tu recorrido.</p><p className="quiet-note">Podrás llevarte una palabra con un toque o simplemente seguir jugando.</p><button className="primary" onClick={() => navigate('alias')}>Preparar mi bolsillo <Arrow /></button></section>}
 
