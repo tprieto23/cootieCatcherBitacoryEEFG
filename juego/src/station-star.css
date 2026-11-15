@@ -1,0 +1,16 @@
+.station-star-host { position: relative; display: block; width: 100px; height: 100px; flex-shrink: 0; margin: -8px auto 6px; }
+.station-star-body { width: 100%; height: 100%; display: block; filter: drop-shadow(0 0 12px #c78dff40); transition: filter .35s,transform .35s; }
+.stellar-rays { fill: #f7e7ff; opacity: .85; }
+.station-star-host.is-collected .stellar-rays { fill: #fff0a3; opacity: 1; }
+.station-star-host.is-collected .station-star-body { filter: drop-shadow(0 0 15px #fddd4660); }
+.star-ultraviolet:not(.is-collected) .station-star-body { animation: ultraviolet-star-signal 3.6s ease-in-out infinite; }
+.station-route .expedition-node:hover .station-star-body, .station-route .expedition-node:focus-visible .station-star-body { filter: drop-shadow(0 0 20px #fca4bc90); transform: scale(1.08); }
+.destination-preview > .station-star-host { width: 170px; height: 170px; margin: 10px auto 30px; }
+.navigation-universe.is-paused .station-star-body { animation-play-state: paused; }
+@keyframes ultraviolet-star-signal { 0%,100% { opacity: .6; } 50% { opacity: 1; filter: drop-shadow(0 0 17px #ba7dff80); } }
+@media (max-width: 480px) {
+  .station-star-host { width: 80px; height: 80px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .station-star-body { animation: none !important; transition: none; }
+}

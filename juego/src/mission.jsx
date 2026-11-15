@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { REFLECTION_LIMIT, isStationComplete, completedStations } from './mission.js';
 import { StationSilhouette } from './station-art.jsx';
 import { ConstellationBuilder } from './constellation-builder.jsx';
+import { StationStar } from './station-star.jsx';
 import './expedition.css';
 import './mission.css';
 import './digital-map.css';
@@ -32,7 +33,7 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
             const visited = mission.visited.includes(index);
             return <li key={note.number} style={{ left: `${locations[index][0]}%`, top: `${locations[index][1]}%` }}>
               <button className={`station-node station-kind-${index % 3} ${lit ? 'is-lit' : ''} expedition-node`} disabled={approaching} onClick={() => onOpen(index)} aria-label={`Estación ${note.number}: ${note.title}${lit ? index === 0 ? ', Pulso recogido' : ', material recogido' : visited ? ', visitada' : ''}`}>
-                <StationSilhouette kind={note.silhouette} complete={lit} />
+                <StationStar index={index} complete={lit} />
                 <span className="station-number">{String(note.number).padStart(2, '0')} {lit ? index === 0 ? '· Pulso recogido' : '· Material recogido' : visited ? '· VISITADA' : ''}</span>
                 <span className="station-name">{note.title}</span><span className="station-hint">{note.hint}</span>
                 {!note.available && <small>Página en escritura</small>}
@@ -80,5 +81,5 @@ export function PocketStars({ stations, mission, onOpen }) {
 }
 
 export function DestinationPreview({ note, complete, onLand, onPocket, onReturn }) {
-  return <div className="destination-preview"><StationSilhouette kind={note.silhouette} complete={complete} /><span className="eyebrow">OBJETIVO DE ESTA PARADA</span><p className="destination-objective">{note.objective}</p><p>{note.hint}</p>{!note.available && <p className="quiet-note">La página de esta estación está en escritura. Puedes visitarla y continuar explorando el mapa.</p>}<button type="button" className="primary" onClick={onLand}>Aterrizar</button><div className="destination-actions"><button type="button" className="text-button" onClick={onPocket}>Mi bolsillo</button><button type="button" className="text-button" onClick={onReturn}>Volver al mapa</button></div></div>;
+  return <div className="destination-preview"><StationStar index={note.number - 1} complete={complete} /><span className="eyebrow">OBJETIVO DE ESTA PARADA</span><p className="destination-objective">{note.objective}</p><p>{note.hint}</p>{!note.available && <p className="quiet-note">La página de esta estación está en escritura. Puedes visitarla y continuar explorando el mapa.</p>}<button type="button" className="primary" onClick={onLand}>Aterrizar</button><div className="destination-actions"><button type="button" className="text-button" onClick={onPocket}>Mi bolsillo</button><button type="button" className="text-button" onClick={onReturn}>Volver al mapa</button></div></div>;
 }
