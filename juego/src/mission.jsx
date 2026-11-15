@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { REFLECTION_LIMIT, isStationComplete, completedStations } from './mission.js';
+import { REFLECTION_LIMIT, isStationComplete, completedStations, collectedStations } from './mission.js';
+import { FabricPiece } from './fabric-workshop.jsx';
 import { StationSilhouette } from './station-art.jsx';
 import { ConstellationBuilder } from './constellation-builder.jsx';
 import { StationStar } from './station-star.jsx';
@@ -70,16 +71,17 @@ export function MissionReflection({ selected = '', savedDraft, onDraft, onSave, 
 }
 
 export function MissionPocket({ alias, stations, mission, legacyWords, onOpen, onMap, onReset, onConnect }) {
-  const collected = Object.entries(mission.reflections);
-  return <section className="mission-pocket" aria-labelledby="pocket-title"><span className="eyebrow">TU BOLSILLO ESPACIAL FEMINISTA</span><h1 id="pocket-title">Tus estrellas,<br /><em>{alias}.</em></h1><p>{collected.length ? 'Aquí vuelve a brillar lo que recogiste en tu viaje. Puedes regresar a cada página y editar tu reflexión.' : 'Aquí aparecerán las estrellas que enciendas con tus reflexiones.'}</p><PocketStars stations={stations} mission={mission} onOpen={onOpen} />{Object.keys(legacyWords).length > 0 && <section className="legacy-pocket"><h2>Palabras de tu recorrido anterior</h2><div className="word-notes">{Object.entries(legacyWords).map(([index, word]) => <div className="word-note" key={index}><span>{word}</span><small>Entrada {Number(index) + 1}</small></div>)}</div></section>}<ConstellationBuilder mission={mission} stations={stations} onConnect={onConnect} /><div className="recap-actions"><button className="primary" onClick={onMap}>Volver al mapa</button><button className="text-button" onClick={onReset}>Borrar mi recorrido de este navegador</button></div></section>;
+  const collected = collectedStations(mission);
+  return <section className="mission-pocket" aria-labelledby="pocket-title"><span className="eyebrow">TU BOLSILLO ESPACIAL FEMINISTA</span><h1 id="pocket-title">Tus estrellas,<br /><em>{alias}.</em></h1><p>{collected.length ? 'Aquí vuelve a brillar lo que recogiste en tu viaje. Puedes regresar a cada página y volver a elegir lo que llevas contigo.' : 'Aquí aparecerán las estrellas que enciendas en tu recorrido.'}</p><PocketStars stations={stations} mission={mission} onOpen={onOpen} />{Object.keys(legacyWords).length > 0 && <section className="legacy-pocket"><h2>Palabras de tu recorrido anterior</h2><div className="word-notes">{Object.entries(legacyWords).map(([index, word]) => <div className="word-note" key={index}><span>{word}</span><small>Entrada {Number(index) + 1}</small></div>)}</div></section>}<ConstellationBuilder mission={mission} stations={stations} onConnect={onConnect} /><div className="recap-actions"><button className="primary" onClick={onMap}>Volver al mapa</button><button className="text-button" onClick={onReset}>Borrar mi recorrido de este navegador</button></div></section>;
 }
 
 export function PocketStars({ stations, mission, onOpen }) {
-  const collected = Object.entries(mission.reflections);
-  return collected.length ? <div className="reflection-collection">{collected.map(([index, reflection]) => {
+  const collected = collectedStations(mission);
+  return collected.length ? <div className="reflection-collection">{collected.map(index => {
+    const reflection = mission.reflections[index];
     const complete = isStationComplete(mission, Number(index));
-    return <article className={`reflection-card ${complete ? 'has-material' : 'awaits-material'}`} key={index}><span className="pocket-star" aria-hidden="true">✦</span><span className="eyebrow">ESTACIÓN {Number(index) + 1}</span><h2>{stations[index].title}</h2><div className={`material-memory ${Number(index) === 0 ? 'ultraviolet-memory' : ''}`}><StationSilhouette kind={Number(index) === 0 ? 'pulse' : stations[index].silhouette} complete={complete} /><div><span>{stations[index].material}</span><small>{complete ? Number(index) === 0 ? 'Pulso recogido · Estrella encendida' : 'Material recogido · Estrella encendida' : 'Por sintonizar · Tu reflexión está a salvo'}</small></div></div><p>{reflection}</p>{onOpen && <button className="text-button" onClick={() => onOpen(Number(index))}>Volver a esta página</button>}</article>;
-  })}</div> : <p className="empty-pocket">Aquí aparecerá tu recuerdo cuando guardes tu reflexión: la estrella, el material de la estación y tus propias palabras.</p>;
+    return <article className={`reflection-card ${complete ? 'has-material' : 'awaits-material'}`} key={index}><span className="pocket-star" aria-hidden="true">✦</span><span className="eyebrow">ESTACIÓN {Number(index) + 1}</span><h2>{stations[index].title}</h2><div className={`material-memory ${Number(index) === 0 ? 'ultraviolet-memory' : ''}`}><StationSilhouette kind={Number(index) === 0 ? 'pulse' : stations[index].silhouette} complete={complete} /><div><span>{stations[index].material}</span><small>{complete ? Number(index) === 0 ? 'Pulso recogido · Estrella encendida' : 'Material recogido · Estrella encendida' : 'Por sintonizar · Tu reflexión está a salvo'}</small></div></div>{index === 2 && mission.fabricPatch?.length === 2 && <FabricPiece indices={mission.fabricPatch} compact />}{reflection && <p>{reflection}</p>}{onOpen && <button className="text-button" onClick={() => onOpen(Number(index))}>Volver a esta página</button>}</article>;
+  })}</div> : <p className="empty-pocket">Aquí aparecerán tus recuerdos: las estrellas, los materiales y las palabras que elijas llevar contigo.</p>;
 }
 
 export function DestinationPreview({ note, complete, onLand, onPocket, onReturn }) {

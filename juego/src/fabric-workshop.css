@@ -1,0 +1,37 @@
+.fabric-workshop { margin-top: 42px; padding-top: 32px; border-top: 1px solid #fca4bc45; }
+.fabric-workshop h2 { margin: 0 0 14px; font: italic clamp(28px,4vw,40px)/1.25 var(--expressive); color: var(--pink); letter-spacing: 0; }
+.fabric-workshop > p { font-size: 16px; line-height: 1.7; }
+.fabric-options { display: grid; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); gap: 23px 20px; padding: 28px 8px; }
+.fabric-scrap { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 130px; padding: 20px 17px; color: var(--fabric-ink); background-color: var(--fabric-color); background-image: repeating-linear-gradient(0deg,#ffffff0d 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,#1c0b3012 0 1px,transparent 1px 5px); clip-path: polygon(2% 3%,23% 0,48% 3%,76% 1%,98% 4%,100% 32%,97% 57%,100% 83%,97% 98%,70% 96%,44% 100%,20% 97%,0 100%,2% 72%,0 48%,3% 25%); box-shadow: inset 0 0 20px #210d3026; }
+.fabric-scrap::before { content: ''; position: absolute; inset: 10px; border: 1px dashed currentColor; opacity: .35; pointer-events: none; }
+.fabric-scrap > span { position: relative; font: 500 16px/1.5 'Space Grotesk',system-ui,sans-serif; text-align: center; overflow-wrap: anywhere; }
+.fabric-option { width: 100%; border: 0; transform: rotate(var(--fabric-tilt)); transition: transform .25s,opacity .25s; }
+.fabric-option small { margin-top: 12px; font-size: 10px; opacity: .8; }
+.fabric-option:hover:not(:disabled), .fabric-option[aria-pressed="true"] { transform: rotate(0deg) translateY(-4px); }
+.fabric-option[aria-pressed="true"]::before { border: 2px dashed currentColor; opacity: .9; }
+.fabric-option:focus-visible { outline: none; }
+.fabric-option:focus-visible::before { outline: 3px solid currentColor; outline-offset: -3px; opacity: 1; }
+.fabric-option:disabled { opacity: .4; cursor: default; }
+.fabric-progress { min-height: 54px; color: var(--pink); }
+.fabric-piece { position: relative; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); max-width: 470px; margin: 16px auto 28px; padding: 12px; }
+.fabric-piece .fabric-scrap { min-height: 170px; clip-path: polygon(2% 3%,48% 0,98% 3%,100% 96%,53% 100%,1% 97%); }
+.fabric-piece .fabric-half-0 { transform: rotate(-1deg); }
+.fabric-piece .fabric-half-1 { transform: rotate(1deg); }
+.fabric-seam { position: absolute; width: 32px; height: calc(100% - 24px); top: 12px; left: calc(50% - 16px); overflow: visible; }
+.fabric-stitches { fill: none; stroke: var(--yellow); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 1px #4a1b70); }
+.fabric-needle { opacity: 0; fill: #d4dcf3; stroke: #4a1b70; stroke-width: 1; }
+.fabric-piece.is-sewing .fabric-half-0 { animation: fabric-join-left .65s ease-out both; }
+.fabric-piece.is-sewing .fabric-half-1 { animation: fabric-join-right .65s ease-out both; }
+.fabric-piece.is-sewing .fabric-stitches { stroke-dasharray: 420; stroke-dashoffset: 420; animation: fabric-stitch 1.4s .65s linear forwards; }
+.fabric-piece.is-sewing .fabric-needle { animation: fabric-needle 1.4s .65s linear both; }
+.fabric-save { display: flex; margin: 0 auto; }
+.fabric-existing { margin-top: 18px; color: var(--muted); font-size: 13px !important; }
+.fabric-piece.is-compact { margin: 12px 0 20px; padding: 8px; }
+.fabric-piece.is-compact .fabric-scrap { min-height: 130px; padding: 18px 14px; }
+.fabric-piece.is-compact .fabric-scrap > span { font-size: 14px; }
+@keyframes fabric-join-left { from { transform: translateX(-30px) rotate(-9deg); opacity: .5; } to { transform: rotate(-1deg); opacity: 1; } }
+@keyframes fabric-join-right { from { transform: translateX(30px) rotate(9deg); opacity: .5; } to { transform: rotate(1deg); opacity: 1; } }
+@keyframes fabric-stitch { to { stroke-dashoffset: 0; } }
+@keyframes fabric-needle { 0% { opacity: 1; transform: translateY(0); } 95% { opacity: 1; transform: translateY(145px); } 100% { opacity: 0; transform: translateY(155px); } }
+@media (max-width: 480px) { .fabric-options { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 17px 12px; padding-inline: 2px; } .fabric-scrap { padding-inline: 13px; } .fabric-scrap > span { font-size: 14px; } .fabric-piece .fabric-scrap { min-height: 155px; } }
+@media (prefers-reduced-motion: reduce) { .fabric-option { transition: none; } .fabric-piece.is-sewing * { animation: none !important; } .fabric-piece.is-sewing .fabric-stitches { stroke-dashoffset: 0; } }

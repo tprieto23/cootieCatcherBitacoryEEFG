@@ -4,12 +4,13 @@ import { eraseJourney, readJourney, writeJourney } from './journey.js';
 import portrait from './assets/sobreTania.svg';
 import luffy from './assets/Luffy2.svg';
 import { MissionEncounter, NavigationMap, MissionReflection, MissionPocket, PocketStars, DestinationPreview } from './mission.jsx';
-import { DESTINATIONS, updateDraft, saveReflection, tuneHomeSignal, isStationComplete, completedStations, connectStars } from './mission.js';
+import { DESTINATIONS, updateDraft, saveReflection, tuneHomeSignal, isStationComplete, completedStations, connectStars, chooseFabric, saveFabric } from './mission.js';
 import { StationVisit } from './station-visit.jsx';
+import { FabricWorkshop } from './fabric-workshop.jsx';
 import ultravioletReading from './assets/lectura-ultravioleta.pdf?url';
 import { CollisionScene } from './collision-scene.jsx';
 
-const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', mision: 'mission', mapa: 'game', 'estacion-1': 'ultraviolet', 'estacion-2': 'homeSignal', jugar: 'game', alias: 'alias', bolsillo: 'recap', cierre: 'recap' };
+const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', mision: 'mission', mapa: 'game', 'estacion-1': 'ultraviolet', 'estacion-2': 'homeSignal', 'estacion-3': 'everyday', jugar: 'game', alias: 'alias', bolsillo: 'recap', cierre: 'recap' };
 const stations = notes.slice(0, 7).map((note, index) => ({ ...note, ...DESTINATIONS[index], text: note.available ? note.text : 'Esta página de la bitácora todavía está en escritura. Puedes continuar el viaje y volver cuando esté lista.' }));
 function currentRoute() { return routes[window.location.hash.replace(/^#\/?/, '')] ?? 'home'; }
 function getStorage() { try { return window.localStorage; } catch { return null; } }
@@ -233,10 +234,10 @@ export function Experience() {
   const [coverMotion, setCoverMotion] = useState(true);
   const [storageAvailable, setStorageAvailable] = useState(Boolean(storage));
   const mainRef = useRef(null);
-  const screen = ['game', 'recap', 'ultraviolet', 'homeSignal'].includes(route) && !alias ? 'alias' : route;
-  const visitIndex = screen === 'ultraviolet' ? 0 : screen === 'homeSignal' ? 1 : null;
+  const screen = ['game', 'recap', 'ultraviolet', 'homeSignal', 'everyday'].includes(route) && !alias ? 'alias' : route;
+  const visitIndex = screen === 'ultraviolet' ? 0 : screen === 'homeSignal' ? 1 : screen === 'everyday' ? 2 : null;
   const isCover = screen === 'home';
-  const hasSpace = isCover || ['about', 'introduction', 'mission', 'alias', 'game', 'recap', 'ultraviolet', 'homeSignal'].includes(screen);
+  const hasSpace = isCover || ['about', 'introduction', 'mission', 'alias', 'game', 'recap', 'ultraviolet', 'homeSignal', 'everyday'].includes(screen);
 
   function navigate(next) {
     setModal(null);
@@ -271,8 +272,8 @@ export function Experience() {
   function openNote(index) {
     if (!stations[index] || approaching) return;
     setMission(previous => ({ ...previous, visited: [...new Set([...previous.visited, index])] }));
-    if (index < 2) {
-      const destination = index === 0 ? 'ultraviolet' : 'homeSignal';
+    if (index < 3) {
+      const destination = ['ultraviolet', 'homeSignal', 'everyday'][index];
       if (screen === destination) setModal(null);
       else navigate(destination);
       return;
@@ -312,9 +313,9 @@ export function Experience() {
   return <>
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
 
-    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : ['game', 'mission', 'alias', 'recap', 'ultraviolet', 'homeSignal'].includes(screen) ? 'mission-main' : undefined} ref={mainRef} tabIndex={-1}>
+    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : ['game', 'mission', 'alias', 'recap', 'ultraviolet', 'homeSignal', 'everyday'].includes(screen) ? 'mission-main' : undefined} ref={mainRef} tabIndex={-1}>
       {hasSpace && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
-        <DeepSpace galaxies={!['game', 'alias', 'mission', 'ultraviolet', 'homeSignal'].includes(screen)} />
+        <DeepSpace galaxies={!['game', 'alias', 'mission', 'ultraviolet', 'homeSignal', 'everyday'].includes(screen)} />
         {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
           <Constellation side={side} />
           <span className="lateral-spark spark-one">✦</span><span className="lateral-spark spark-two">✧</span><span className="lateral-spark spark-three">✦</span>
@@ -337,7 +338,7 @@ export function Experience() {
 
       {['mission', 'alias'].includes(screen) && <MissionEncounter scenery={<CollisionScene motion={coverMotion} />} onAccept={() => setModal({ kind: 'alias' })} motion={coverMotion} />}
       {screen === 'game' && <NavigationMap approaching={approaching} destinationIndex={destinationIndex} alias={alias} stations={stations} mission={mission} onOpen={selectDestination} onPocket={openPocket} scenery={<MissionGalaxies />} motion={coverMotion} />}
-      {visitIndex !== null && <StationVisit key={visitIndex} note={stations[visitIndex]} heading={visitIndex === 0 ? <>Sintoniza <em>Ultravioleta</em></> : <>Sigue la señal <em>de casa</em></>} draft={mission.drafts[visitIndex] ?? mission.reflections[visitIndex] ?? ''} selected={mission.reflections[visitIndex]} onDraft={text => setMission(previous => updateDraft(previous, visitIndex, text))} onSave={text => setMission(previous => saveReflection(previous, visitIndex, text))} onPocket={openPocket} onMap={() => navigate('game')} stars={completedStations(mission).length} signals={visitIndex === 1 ? mission.homeSignals : []} onTune={index => setMission(previous => tuneHomeSignal(previous, index))} complete={isStationComplete(mission, visitIndex)} motion={coverMotion}><StoryText text={stations[visitIndex].text} referenceHref={visitIndex === 0 ? ultravioletReading : undefined} /></StationVisit>}
+      {visitIndex !== null && <StationVisit key={visitIndex} note={stations[visitIndex]} heading={visitIndex === 0 ? <>Sintoniza <em>Ultravioleta</em></> : visitIndex === 1 ? <>Sigue la señal <em>de casa</em></> : <>Aterriza en <em>lo cotidiano</em></>} activity={visitIndex === 2 ? <FabricWorkshop selected={mission.fabricDraft} saved={mission.fabricPatch} onChoose={index => setMission(previous => chooseFabric(previous, index))} onSave={() => setMission(previous => saveFabric(previous))} motion={coverMotion} /> : undefined} draft={mission.drafts[visitIndex] ?? mission.reflections[visitIndex] ?? ''} selected={mission.reflections[visitIndex]} onDraft={text => setMission(previous => updateDraft(previous, visitIndex, text))} onSave={text => setMission(previous => saveReflection(previous, visitIndex, text))} onPocket={openPocket} onMap={() => navigate('game')} stars={completedStations(mission).length} signals={visitIndex === 1 ? mission.homeSignals : []} onTune={index => setMission(previous => tuneHomeSignal(previous, index))} complete={isStationComplete(mission, visitIndex)} motion={coverMotion}><StoryText text={stations[visitIndex].text} referenceHref={visitIndex === 0 ? ultravioletReading : undefined} /></StationVisit>}
       {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onReset={() => setModal({ kind: 'reset' })} onConnect={(a, b) => setMission(previous => connectStars(previous, a, b))} />}
 
       {!isCover && !storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}

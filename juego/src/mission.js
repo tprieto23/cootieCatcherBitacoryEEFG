@@ -27,6 +27,27 @@ export const HOME_SIGNAL = {
     { title: 'Señal 2 · ¿Hasta dónde llega lo que compartimos?', introduction: 'Al hablar de los intercambios afectivos, las autoras proponen que', quote: 'no necesariamente tienen que ser bidireccionales, sino que dicha reciprocidad pueda circular', source: 'Osorio-Cabrera, Gandarias y Fulladosa, p. 61', href: 'https://dialnet.unirioja.es/descarga/articulo/7847906.pdf' },
   ],
 };
+export const FABRIC_WORDS = ['Encuentros', 'Etnografía feminista', 'Pensamiento con cuidado', 'Reflexividad', 'Confianza', 'Escuchar', 'Afecto'];
+
+const cleanFabric = value => [...new Set((Array.isArray(value) ? value : []).filter(index => Number.isInteger(index) && index >= 0 && index < FABRIC_WORDS.length))].slice(0, 2);
+
+export function chooseFabric(mission, index) {
+  if (!Number.isInteger(index) || index < 0 || index >= FABRIC_WORDS.length) return mission;
+  const selected = mission.fabricDraft ?? [];
+  if (selected.length === 2 && !selected.includes(index)) return mission;
+  const fabricDraft = selected.includes(index) ? selected.filter(value => value !== index) : [...selected, index];
+  return { ...mission, visited: [...new Set([...mission.visited, 2])], fabricDraft };
+}
+
+export function saveFabric(mission) {
+  const fabricPatch = cleanFabric(mission.fabricDraft);
+  if (fabricPatch.length !== 2) return mission;
+  return { ...mission, visited: [...new Set([...mission.visited, 2])], fabricPatch };
+}
+
+export function collectedStations(mission) {
+  return DESTINATIONS.map((_, index) => index).filter(index => Boolean(mission.reflections[index]) || (index === 2 && cleanFabric(mission.fabricPatch).length === 2));
+}
 
 const validStation = index => Number.isInteger(index) && index >= 0 && index < STATION_COUNT;
 
@@ -41,6 +62,7 @@ export function tuneHomeSignal(mission, index) {
 }
 
 export function isStationComplete(mission, index) {
+  if (index === 2 && cleanFabric(mission.fabricPatch).length === 2) return true;
   return validStation(index) && Boolean(mission.reflections[index]?.trim()) && (index !== 1 || mission.homeSignals?.length === HOME_SIGNAL.signals.length);
 }
 
@@ -98,7 +120,11 @@ export function cleanMission(value, legacyDiscovered = []) {
   const homeSignals = Array.isArray(value?.homeSignals)
     ? [...new Set(value.homeSignals.filter(index => Number.isInteger(index) && index >= 0 && index < HOME_SIGNAL.signals.length))]
     : value && Object.hasOwn(value, 'homeSignals') ? [] : reflections[1] ? [0, 1] : [];
-  let mission = { visited, reflections, drafts, ultravioletSignals, homeSignals, links: [] };
+  const savedFabric = cleanFabric(value?.fabricPatch);
+  const fabricPatch = savedFabric.length === 2 ? savedFabric : [];
+  const fabricDraft = cleanFabric(value?.fabricDraft ?? fabricPatch);
+  if ((fabricPatch.length || fabricDraft.length) && !visited.includes(2)) visited.push(2);
+  let mission = { visited, reflections, drafts, ultravioletSignals, homeSignals, fabricDraft, fabricPatch, links: [] };
   for (const pair of Array.isArray(value?.links) ? value.links : []) {
     if (Array.isArray(pair) && pair.length === 2) mission = connectStars(mission, pair[0], pair[1]);
   }

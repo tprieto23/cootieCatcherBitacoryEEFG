@@ -26,13 +26,19 @@ Al final de la introducción aparece una adaptación de la simulación `choque.m
 
 El mapa contiene siete estaciones en el orden original de las entradas. La Guía de navegación aparece a su derecha; por debajo en pantallas de hasta 780 px. Las dos galaxias permanecen detrás del mapa. En el mapa cada estación muestra solo su figura celeste y su nombre, sin recuadros ni premisas. Los destinos combinan estrellas irregulares, un sol, planetas y nebulosas, con tonos suaves y movimiento discreto. La ruta los une con curvas. En escritorio el visor y la guía comparten altura y borde inferior. Las pistas y objetivos aparecen al seleccionar el destino. Los objetos de cada parada representan los materiales que se consiguen, no las estaciones. La vista de aproximación muestra la misma figura celeste del destino. Seleccionarla muestra el destino y su objetivo antes de aterrizar. Los estilos del visor están en `src/digital-map.css`.
 
-### Primeras dos estaciones: lectura y reflexión
+### Primeras estaciones: lectura, señales y retazos
 
 «Aterrizar» abre `#/estacion-1` (Sintoniza Ultravioleta) o `#/estacion-2` (Sigue la señal de casa). Ambas usan `src/station-visit.jsx`: título de estación, desplegable «Leer entrada», texto completo con sus citas y referencias, y una casilla con «Comparte una palabra o una reflexión después de haber leído este pasaje». La segunda usa la entrada existente «Lo que sigue conversando», sin modificar su escritura. La primera conserva su PDF de referencia.
 
 En Ultravioleta, guardar una reflexión enciende la estrella y recoge el material. En Sigue la señal de casa se requieren las dos señales y una reflexión guardada, en cualquier orden; guardar antes de sintonizar conserva el texto e indica lo que falta. El bolsillo reúne una sola ficha por estación, con estrella, material y palabras exactas; editar actualiza esa ficha. «Mi bolsillo» y «Volver al mapa» permanecen accesibles. Abrir el bolsillo sobre cualquiera de las dos lecturas conserva su posición y borrador. El avance sobrevive a la recarga y las estaciones completadas brillan en el mapa.
 
 El receptor se retiró por completo de la primera visita y su arquitectura se reutilizó en `src/signal-receiver.jsx` para la segunda. Allí se sintonizan dos señales: «¿Desde dónde conocemos?» y «¿Hasta dónde llega lo que compartimos?». Cada una revela la cita y enlace proporcionados por la autora e ilumina un lado de la antena de relevo. Al final de la segunda entrada aparece la invitación «Piensa en algo que aprendiste de otra persona y que después le contaste a alguien más. ¿Qué entendiste de otra manera al escuchar lo que esa persona tenía para decir?». Los datos de señales se guardan como `mission.homeSignals`; las estrellas ganadas antes de incorporar este receptor se conservan mediante migración.
+
+### Tercera estación: Aterriza en lo cotidiano
+
+`#/estacion-3` conserva la entrada completa y sus referencias en «Leer entrada». Después aparece un taller de retazos, sin pregunta ni campo de escritura. Se eligen exactamente dos palabras entre Encuentros, Etnografía feminista, Pensamiento con cuidado, Reflexividad, Confianza, Escuchar y Afecto. Al elegir la segunda, las telas se acercan y una aguja dibuja la costura; al terminar se habilita «Guardar en mi bolsillo». Con movimiento reducido o pausa se muestra directamente la pieza cosida.
+
+`fabric-workshop.jsx/css` dibuja la tela, sus bordes y el hilo. La elección se guarda en `mission.fabricDraft`; la pieza guardada, en `mission.fabricPatch`. Guardarla enciende la tercera estrella y muestra ambos retazos en una única ficha del bolsillo. Se puede cambiar la elección sin perder la pieza anterior hasta guardar de nuevo. Se conservan las reflexiones de versiones anteriores y la estrella cuenta para la barrera final, aunque no exista una respuesta escrita. Abrir el bolsillo conserva la lectura y la elección.
 
 ### Los siete destinos
 
@@ -46,7 +52,7 @@ El receptor se retiró por completo de la primera visita y su arquitectura se re
 | Transmite con tu propia voz | Cápsula de transmisión |
 | Busca a las que faltan en mi radar | Filamento de materia oscura |
 
-Las dos primeras estaciones comparten la visita de lectura y reflexión. Las estaciones 3–7 conservan su lectura en diálogo, con identidad y objetivo propios. El escrito de «Comparte el timón» sigue pendiente. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Este cierre está preparado para cuando las siete páginas estén disponibles; no se inventó la quinta entrada.
+Las tres primeras estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. Las estaciones 4–7 conservan su lectura en diálogo, con identidad y objetivo propios. El escrito de «Comparte el timón» sigue pendiente. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Este cierre está preparado para cuando las siete páginas estén disponibles; no se inventó la quinta entrada.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
