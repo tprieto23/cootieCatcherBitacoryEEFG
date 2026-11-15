@@ -28,7 +28,7 @@ El mapa contiene siete estaciones en el orden original de las entradas. La Guía
 
 ### Primeras estaciones: lectura, señales y retazos
 
-«Aterrizar» abre `#/estacion-1` (Sintoniza Ultravioleta) o `#/estacion-2` (Sigue la señal de casa). Ambas usan `src/station-visit.jsx`: título de estación, desplegable «Leer entrada», texto completo con sus citas y referencias, y una casilla con «Comparte una palabra o una reflexión después de haber leído este pasaje». La segunda usa la entrada existente «Lo que sigue conversando», sin modificar su escritura. La primera conserva su PDF de referencia.
+«Aterrizar» abre `#/estacion-1` (Sintoniza Ultravioleta) o `#/estacion-2` (Sigue la señal de casa). Ambas usan `src/station-visit.jsx`: título de estación, texto completo con sus citas y referencias, y una casilla con «Comparte una palabra o una reflexión después de haber leído este pasaje». La segunda usa la entrada existente «Lo que sigue conversando», sin modificar su escritura. La primera muestra la lectura directamente y conserva su PDF de referencia; la segunda mantiene «Leer entrada» después de las señales.
 
 En Ultravioleta, guardar una reflexión enciende la estrella y recoge el material. En Sigue la señal de casa se requieren las dos señales y una reflexión guardada, en cualquier orden; guardar antes de sintonizar conserva el texto e indica lo que falta. El bolsillo reúne una sola ficha por estación, con estrella, material y palabras exactas; editar actualiza esa ficha. «Mi bolsillo» y «Volver al mapa» permanecen accesibles. Abrir el bolsillo sobre cualquiera de las dos lecturas conserva su posición y borrador. El avance sobrevive a la recarga y las estaciones completadas brillan en el mapa.
 
@@ -36,9 +36,11 @@ El receptor se retiró por completo de la primera visita y su arquitectura se re
 
 ### Tercera estación: Aterriza en lo cotidiano
 
-`#/estacion-3` conserva la entrada completa y sus referencias en «Leer entrada». Después aparece un taller de retazos, sin pregunta ni campo de escritura. Se eligen una o dos palabras entre Encuentros, Etnografía feminista, Pensamiento con cuidado, Reflexividad, Confianza, Escuchar y Afecto. «Descubrir el patchwork» incorpora el retazo de Tania, «Emociones situadas», y anima la costura de las dos o tres telas resultantes; al terminar se habilita «Guardar en mi bolsillo». Con movimiento reducido o pausa se muestra directamente la pieza cosida.
+`#/estacion-3` muestra directamente la entrada completa y sus referencias, sin desplegable. Después aparece un taller de retazos, sin pregunta ni campo de escritura. Se eligen una o dos palabras entre Encuentros, Etnografía feminista, Pensamiento con cuidado, Reflexividad, Confianza, Escuchar y Afecto. «Descubrir el patchwork» incorpora el retazo de Tania, «Emociones situadas», y anima la costura de las dos o tres telas resultantes; al terminar se habilita «Guardar en mi bolsillo». Con movimiento reducido o pausa se muestra directamente la pieza cosida.
 
 `fabric-workshop.jsx/css` dibuja la tela, sus bordes y el hilo. La elección se guarda en `mission.fabricDraft`; la pieza guardada, en `mission.fabricPatch`. Guardarla enciende la tercera estrella y muestra el patchwork completo, incluido el retazo de Tania, en una única ficha del bolsillo. Se puede cambiar la elección sin perder la pieza anterior hasta guardar de nuevo. Se conservan las reflexiones de versiones anteriores y la estrella cuenta para la barrera final, aunque no exista una respuesta escrita. Abrir el bolsillo conserva la lectura y la elección.
+
+Las estaciones sin actividad previa (1, 3, 6 y 7) muestran el escrito directamente, sin pulsar «Leer entrada». La costura de la tercera queda al final de su lectura. Las estaciones 2, 4 y 5 conservan el desplegable para dar espacio a sus actividades de llegada.
 
 ### Los siete destinos
 
@@ -86,7 +88,7 @@ Al final de la ruta del mapa aparece un agujero negro con el nombre **Órbita ho
 
 ### Visitas completas de las estaciones 6 y 7
 
-«Aterrizar» en Transmite con tu propia voz abre `#/estacion-6`; en Busca a las que faltan en mi radar abre `#/estacion-7`. Ambas usan `StationVisit` y el fondo espacial, con «Leer entrada», referencias y casilla de reflexión, «Mi bolsillo» y «Volver al mapa». La sexta recibe la invitación propia de escritura mediante `prompt`. Abrir el bolsillo conserva la lectura y su borrador; las reflexiones guardadas se pueden editar en la misma estrella. No se modifica el esquema de guardado.
+«Aterrizar» en Transmite con tu propia voz abre `#/estacion-6`; en Busca a las que faltan en mi radar abre `#/estacion-7`. Ambas usan `StationVisit` y el fondo espacial, con lectura visible desde el aterrizaje, referencias y casilla de reflexión, «Mi bolsillo» y «Volver al mapa». La sexta recibe la invitación propia de escritura mediante `prompt`. Abrir el bolsillo conserva la lectura y su borrador; las reflexiones guardadas se pueden editar en la misma estrella. No se modifica el esquema de guardado.
 
 `src/navigation.js` centraliza las rutas de las siete visitas y sus índices. Recargar una ruta directa vuelve a su página, con el mismo control de alias y avance. La vista de destino previa al aterrizaje sigue siendo una ventana; la lectura ya no usa el diálogo antiguo sobre el mapa.
 

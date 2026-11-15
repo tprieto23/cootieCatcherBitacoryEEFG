@@ -5,6 +5,8 @@ import './ultraviolet.css';
 import './expedition.css';
 
 export function StationVisit({ note, heading, children, activity, beforeReading, prompt, readingUnlocked = true, allowReflection = true, draft, selected, onDraft, onSave, onPocket, onMap, stars, complete, motion, signals = [], onTune }) {
+  const hasArrivalActivity = note.number === 2 || Boolean(beforeReading);
+  const ReadingContainer = hasArrivalActivity ? 'details' : 'div';
   const [savedRevision, setSavedRevision] = useState(0);
   const [readingOpen, setReadingOpen] = useState(Boolean(selected || draft));
   const [readingRevealed, setReadingRevealed] = useState(Boolean(selected || draft));
@@ -34,8 +36,8 @@ export function StationVisit({ note, heading, children, activity, beforeReading,
       <header className="ultraviolet-heading"><span className="eyebrow">Estación {note.number} de 9</span><div className="ultraviolet-signal" aria-hidden="true"><span /><span /><span /></div><h1 id="ultraviolet-title">{heading}</h1></header>
       {note.number === 2 && <SignalReceiver signals={signals} onTune={onTune} />}
       {beforeReading?.(openReading)}
-      {readingUnlocked && (!beforeReading || readingRevealed) && <details className="ultraviolet-logbook" open={readingOpen} onToggle={event => setReadingOpen(event.currentTarget.open)}>
-      <summary id="station-reading-toggle" tabIndex={0}>Leer entrada</summary>
+      {readingUnlocked && (!beforeReading || readingRevealed) && <ReadingContainer className="ultraviolet-logbook" {...(hasArrivalActivity ? { open: readingOpen, onToggle: event => setReadingOpen(event.currentTarget.open) } : {})}>
+      {hasArrivalActivity && <summary id="station-reading-toggle" tabIndex={0}>Leer entrada</summary>}
       <div className="ultraviolet-reading">{children}</div>
       {activity ?? (allowReflection && <form className="ultraviolet-reflection" onSubmit={submit} aria-labelledby="ultraviolet-prompt">
         <label id="ultraviolet-prompt" htmlFor="ultraviolet-draft">{prompt ?? (note.number === 2 ? HOME_SIGNAL.prompt : ULTRAVIOLET.prompt)}</label>
@@ -44,7 +46,7 @@ export function StationVisit({ note, heading, children, activity, beforeReading,
         <p className="ultraviolet-confirmation" role="status" aria-live="polite">{selected && draft !== selected ? 'Tienes cambios en tu borrador. Guárdalos para actualizar la misma estrella.' : complete ? note.number === 1 ? ULTRAVIOLET.confirmation : `Tu estrella de «${note.title}» ya está en tu bolsillo` : selected && note.number === 2 ? 'Tu reflexión está guardada. Sintoniza las dos señales para recoger la antena de relevo y encender tu estrella.' : ''}</p>
         {selected && !complete && note.number === 2 && <button type="button" className="text-button" onClick={() => document.getElementById('home-receiver')?.scrollIntoView({ behavior: 'auto', block: 'start' })}>Volver a las señales</button>}
       </form>)}
-      </details>}
+      </ReadingContainer>}
       <button type="button" className="text-button visit-bottom-return" onClick={onMap}>Volver al mapa</button>
     </article>
   </section>;

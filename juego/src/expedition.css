@@ -56,7 +56,8 @@
 .ultraviolet-logbook > summary { cursor: pointer; padding: 24px 16px; color: var(--pink); font: 500 19px/1.5 var(--tech); border-radius: 14px; background: #fca4bc0c; }
 .ultraviolet-logbook > summary > span { display: block; margin-top: 7px; font: 13px/1.6 'Space Grotesk',system-ui,sans-serif; color: var(--silver); }
 .ultraviolet-logbook > summary:focus-visible { outline: 3px solid var(--yellow); outline-offset: 5px; }
-.ultraviolet-logbook[open] .ultraviolet-reading { padding-top: 35px; }
+.ultraviolet-logbook[open] .ultraviolet-reading,
+div.ultraviolet-logbook > .ultraviolet-reading { padding-top: 35px; }
 .material-memory { display: flex; align-items: center; gap: 20px; margin: 18px 0 25px; padding: 17px 0; border-block: 1px solid #d4dcf32e; color: var(--pink); }
 .material-memory .destination-art { width: 65px; height: 65px; }
 .material-memory span { font-size: 14px; line-height: 1.5; }
