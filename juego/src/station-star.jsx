@@ -7,11 +7,17 @@ const colors = [
   ['#b5a9cc', '#7c7297', '#383344'], ['#c8a5b5', '#925c7b', '#4b344c'],
   ['#b3afcd', '#73728f', '#343047'],
 ];
+const collectedColors = [
+  ['#fff0ff', '#d288f3', '#8843bb'], ['#fff0e4', '#FCA4BC', '#ac597f'],
+  ['#ffecff', '#dc96d4', '#9950a0'], ['#fff8d2', '#FDDD46', '#b7793e'],
+  ['#efecff', '#b4a0ee', '#7661b3'], ['#ffedf3', '#FCA4BC', '#aa598a'],
+  ['#f0edff', '#b9acf5', '#7661c0'],
+];
 
 // The seven destinations have different celestial forms; rewards remain pocket stars.
 export function StationStar({ index, complete }) {
   const id = useId();
-  const [light, color, shade] = colors[index % colors.length];
+  const [light, color, shade] = (complete ? collectedColors : colors)[index % colors.length];
   return <span className={`station-star-host celestial-kind-${index} ${complete ? 'is-collected' : ''}`} style={{ '--star-color': color, '--star-light': light, '--star-delay': `${index * -1.3}s`, '--star-period': `${40 + index * 3}s` }}>
     <svg className="station-star-body" viewBox="0 0 160 160" aria-hidden="true">
       <defs>

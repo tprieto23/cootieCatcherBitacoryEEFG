@@ -5,15 +5,21 @@
 .star-aura { opacity: .45; }
 .nebula-cloud { transform-origin: 80px 80px; animation: nebula-drift 14s ease-in-out infinite alternate; animation-delay: var(--star-delay); }
 .star-earned-glow { opacity: .75; }
-.station-star-host.is-collected .station-star-body { filter: none; }
+.station-star-host.is-collected .station-star-body { filter: brightness(1.18) drop-shadow(0 0 7px var(--star-color)) drop-shadow(0 0 18px color-mix(in srgb, var(--star-color) 45%, transparent)); }
+.station-star-host.is-collected .star-aura { opacity: 1; animation: none; transform: scale(1.12); }
+.station-star-host.is-collected .star-heart > path:first-child { opacity: 1; }
+.station-star-host.is-collected .star-heart > path:nth-child(2) { opacity: .9; }
+.station-star-host.is-collected .star-earned-glow { opacity: 1; }
 .celestial-kind-0:not(.is-collected) .star-aura { animation-duration: 3.6s; }
 .station-route .expedition-node:hover .station-star-body, .station-route .expedition-node:focus-visible .station-star-body { filter: drop-shadow(0 0 4px #c7a7d53b); transform: scale(1.05); }
+.station-route .expedition-node:hover .is-collected .station-star-body, .station-route .expedition-node:focus-visible .is-collected .station-star-body { filter: brightness(1.25) drop-shadow(0 0 9px var(--star-color)) drop-shadow(0 0 20px color-mix(in srgb, var(--star-color) 45%, transparent)); }
 .navigation-device .station-route .expedition-node, .navigation-device .station-route .expedition-node.is-lit { padding: 0 8px 14px; border: 0; border-radius: 50%; background: transparent; box-shadow: none; }
 .navigation-device .station-route li { transform: translate(-50%,-62px); }
 .navigation-device .station-route .expedition-node::before { display: none; }
 .navigation-device .station-route .expedition-node:hover, .navigation-device .station-route .expedition-node:focus-visible { background: transparent; box-shadow: none; }
 .navigation-device .station-route .expedition-node:focus-visible { outline: 2px solid var(--pink); outline-offset: 5px; }
 .navigation-device .expedition-node .station-name { color: var(--silver); text-shadow: 0 2px 10px #090616,0 0 20px #090616; font-size: 15px; line-height: 1.5; }
+.navigation-device .expedition-node.is-lit .station-name { color: #fff0f8; }
 .navigation-device .chart-display .chart-terrain { height: 1160px; }
 .destination-preview > .station-star-host { width: 190px; height: 190px; margin: 10px auto 30px; }
 .navigation-universe.is-paused .station-star-host, .navigation-universe.is-paused .star-corona, .navigation-universe.is-paused .star-heart, .navigation-universe.is-paused .star-aura, .navigation-universe.is-paused .nebula-cloud { animation-play-state: paused; }
