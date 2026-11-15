@@ -86,7 +86,7 @@ export function PocketStars({ stations, mission, onOpen }) {
     const energy = index === 3;
     const darkMatter = index === 4;
     const status = darkMatter
-      ? `${mission.darkMatterFragments.length} de 2 fragmentos recogidos · ${complete ? 'Estrella encendida' : 'Estrella por completar'}`
+      ? `${mission.darkMatterFragments.includes(0) ? 'Materia oscura recogida' : 'Materia oscura por recoger'} · ${complete ? 'Estrella encendida' : 'Estrella por completar'}`
       : energy
       ? `${material ? 'Energía recogida' : 'Energía por recoger'} · ${complete ? 'Estrella encendida' : 'Estrella por encender al recoger la energía'}`
       : complete ? index === 0 ? 'Pulso recogido · Estrella encendida' : 'Material recogido · Estrella encendida' : 'Por sintonizar · Tu reflexión está a salvo';

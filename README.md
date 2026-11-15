@@ -48,11 +48,11 @@ El receptor se retiró por completo de la primera visita y su arquitectura se re
 | Sigue la señal de casa | Antena de relevo |
 | Aterriza en lo cotidiano | Hilo para la red de apoyo |
 | Deja que otra voz cambie el rumbo | Energía disipada |
-| Comparte el timón | Dos fragmentos de materia oscura |
+| Comparte el timón | Un fragmento de materia oscura |
 | Transmite con tu propia voz | Cápsula de transmisión |
 | Busca a las que faltan en mi radar | Filamento de materia oscura |
 
-Las cinco primeras estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. La cuarta incorpora el encuentro entre galaxias descrito abajo. La quinta permite descubrir y recoger materia oscura en forma de dos citas. Las estaciones 6–7 conservan su lectura en diálogo, con identidad y objetivo propios. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Las siete entradas ya están disponibles; las estaciones con materiales propios pueden completar su estrella sin escritura adicional.
+Las cinco primeras estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. La cuarta incorpora el encuentro entre galaxias descrito abajo. La quinta permite descubrir y recoger materia oscura en forma de una cita. Las estaciones 6–7 conservan su lectura en diálogo, con identidad y objetivo propios. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Las siete entradas ya están disponibles; las estaciones con materiales propios pueden completar su estrella sin escritura adicional.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
@@ -74,7 +74,7 @@ Después de recoger se abre la pregunta sobre decidir juntas y «Leer la bitáco
 
 `#/estacion-5` abre «Comparte el timón». `src/dark-matter-encounter.jsx/css` presenta una galaxia visible pequeña, estrellas en órbitas ilustrativas y una explicación breve con enlace a [NASA](https://science.nasa.gov/dark-matter/). «Recoge tu materia oscura» revela un halo violeta que representa una distribución de masa inferida, más extensa que la región luminosa. La metáfora conecta ese sostén con los saberes locales y cotidianos que la academia no siempre reconoce.
 
-Dos huellas del halo abren las citas literales de Cornejo/Rufer y Rufer/Corona Berkin. Cada cita conserva su atribución y enlace al PDF aportado por la autora. «Recoger este fragmento» lo guarda; volver a tocar una huella permite releerlo sin duplicarlo. `mission.darkMatterObserved` conserva el descubrimiento y `mission.darkMatterFragments` los índices 0/1 recogidos. Con ambos se enciende la estrella de la quinta; no hay casilla de escritura. La normalización conserva progreso parcial y recuerdos anteriores. Una sola ficha del bolsillo reúne las dos frases y su procedencia.
+Una huella del halo abre únicamente la cita de Cornejo y Rufer, «En diez años hemos logrado sistematizar…», con su atribución y enlace al PDF. «Recoger este fragmento» guarda la frase y enciende la estrella de la quinta; no hay casilla de escritura. Volver a tocar la huella permite releerla sin duplicarla. `mission.darkMatterObserved` conserva el descubrimiento y `mission.darkMatterFragments` el índice 0 recogido. La normalización retira el antiguo índice 1 y conserva la primera frase, la estrella completada y las conexiones anteriores. La otra cita permanece en el escrito y su lectura, fuera de la actividad y del bolsillo.
 
 «Leer la bitácora» permanece disponible desde el principio. El escrito se conserva completo y `StoryText` representa sus citas Markdown como bloques con atribución. Las lecturas `lectura-cornejo-rufer-introduccion.pdf` y `lectura-rufer-corona-apertura.pdf` se publican con Vite. La pausa y el movimiento reducido detienen órbitas y transiciones.
 

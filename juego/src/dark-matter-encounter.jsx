@@ -9,7 +9,7 @@ const disc = Array.from({ length: 180 }, (_, i) => {
   const a = t * Math.PI * 4 + (i < 90 ? 0 : Math.PI);
   return [500 + Math.cos(a) * (5 + t * 106), 300 + Math.sin(a) * (5 + t * 106) * .45, .5 + noise(i + 1201) * 1.3];
 });
-const regions = [[250, 215], [750, 370]];
+const regions = [[250, 215]];
 
 export function DarkMatterEncounter({ observed, fragments, onObserve, onCollect, onRead, readings, motion }) {
   const [active, setActive] = useState(null);
@@ -51,9 +51,9 @@ export function DarkMatterEncounter({ observed, fragments, onObserve, onCollect,
   return <section ref={root} className={`dark-matter-encounter ${observed ? 'is-observed' : ''} ${animate ? '' : 'dark-matter-still'}`} aria-labelledby="dark-matter-title">
     <h2 className="dark-matter-label" id="dark-matter-title">LO QUE SOSTIENE LA GALAXIA</h2>
     <p>En las galaxias hay estrellas, gas y polvo, pero gran parte de su masa corresponde a materia oscura. No emite ni refleja luz que podamos observar. La reconocemos por su gravedad: influye en el movimiento de las estrellas y puede desviar la luz que viene de más lejos. Todavía investigamos de qué está hecha. <a href="https://science.nasa.gov/dark-matter/" target="_blank" rel="noopener noreferrer">Más sobre materia oscura · NASA</a></p>
-    <p>En esta historia, ese gran halo representa la potencia de los saberes locales y cotidianos que la academia no siempre reconoce. Hay mucho más sosteniendo este universo que lo que vemos brillar. Las dos frases de esta entrada serán los fragmentos que podrás llevar contigo.</p>
+    <p>En esta historia, ese gran halo representa la potencia de los saberes locales y cotidianos que la academia no siempre reconoce. Hay mucho más sosteniendo este universo que lo que vemos brillar. Una frase de esta entrada será el fragmento que podrás llevar contigo.</p>
     <figure className="dark-matter-viewport">
-      <svg viewBox="0 0 1000 600" role="group" aria-label={observed ? 'Halo de masa inferida alrededor de una galaxia. Dos huellas gravitacionales permiten descubrir frases.' : 'Estrellas girando alrededor de una galaxia; sus órbitas sugieren una masa que no vemos.'}>
+      <svg viewBox="0 0 1000 600" role="group" aria-label={observed ? 'Halo de masa inferida alrededor de una galaxia. Una huella gravitacional permite descubrir una frase.' : 'Estrellas girando alrededor de una galaxia; sus órbitas sugieren una masa que no vemos.'}>
         <defs>
           <radialGradient id="dark-galaxy-core"><stop stopColor="#fff2ce" /><stop offset=".2" stopColor="#fddd46" stopOpacity=".8" /><stop offset="1" stopColor="#fca4bc" stopOpacity="0" /></radialGradient>
           <radialGradient id="dark-halo"><stop stopColor="#8b6ec8" stopOpacity=".1" /><stop offset=".5" stopColor="#ad82d8" stopOpacity=".3" /><stop offset=".8" stopColor="#b8a0ed" stopOpacity=".19" /><stop offset="1" stopColor="#7d5aa1" stopOpacity="0" /></radialGradient>
@@ -69,7 +69,7 @@ export function DarkMatterEncounter({ observed, fragments, onObserve, onCollect,
           key={index}
           className={`dark-matter-region ${fragments.includes(index) ? 'is-collected' : ''}`}
           role="button" tabIndex={0}
-          aria-label={`Explorar fragmento ${index + 1} de materia oscura${fragments.includes(index) ? ', ya guardado' : ''}`}
+          aria-label={`Explorar fragmento de materia oscura${fragments.includes(index) ? ', ya guardado' : ''}`}
           aria-pressed={active === index}
           onClick={() => reveal(index)}
           onKeyDown={event => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); reveal(index); } }}
@@ -81,16 +81,16 @@ export function DarkMatterEncounter({ observed, fragments, onObserve, onCollect,
         </g>)}
         <text className="dark-disc-label" x="500" y="392" textAnchor="middle">Estrellas, gas y polvo</text>
       </svg>
-      <figcaption>{observed ? 'El halo coloreado representa materia inferida por su gravedad. Toca sus dos huellas.' : 'Vemos las estrellas. Sus movimientos nos invitan a buscar más allá de la luz.'}</figcaption>
+      <figcaption>{observed ? 'El halo coloreado representa materia inferida por su gravedad. Toca su huella.' : 'Vemos las estrellas. Sus movimientos nos invitan a buscar más allá de la luz.'}</figcaption>
     </figure>
     <div className="dark-matter-controls"><button type="button" className="cover-open" onClick={onObserve} disabled={observed}>{observed ? 'Halo localizado' : 'Recoge tu materia oscura'}<span aria-hidden="true">↗</span></button></div>
     {fragment && <div ref={quoteRef} tabIndex={-1} className="dark-matter-fragment" aria-labelledby="dark-fragment-title">
-      <h3 id="dark-fragment-title">Fragmento {active + 1} de materia oscura</h3>
+      <h3 id="dark-fragment-title">Fragmento de materia oscura</h3>
       <blockquote><p>{fragment.quote}</p><cite>— {fragment.source}</cite></blockquote>
       <a href={readings[fragment.reading]} target="_blank" rel="noopener noreferrer">Abrir la lectura de referencia</a>
       <div className="dark-matter-controls"><button type="button" className="cover-open" onClick={collect} disabled={fragments.includes(active)}>{fragments.includes(active) ? 'Fragmento en tu bolsillo' : 'Recoger este fragmento'}<span aria-hidden="true">↗</span></button></div>
     </div>}
-    <p className="dark-matter-status" role="status" aria-live="polite">{fragments.length === 2 ? 'Los dos fragmentos de materia oscura están en tu bolsillo. Tu estrella ya brilla.' : `${fragments.length} de 2 fragmentos en tu bolsillo`}</p>
+    <p className="dark-matter-status" role="status" aria-live="polite">{fragments.includes(0) ? 'Tu fragmento de materia oscura está en tu bolsillo. Tu estrella ya brilla.' : 'Encuentra tu fragmento de materia oscura en el halo.'}</p>
     <button type="button" className="primary" onClick={onRead}>Leer la bitácora</button>
     {flight && <span aria-hidden="true" className="dark-matter-flight" style={{ left: flight.x, top: flight.y, '--fragment-x': `${flight.dx}px`, '--fragment-y': `${flight.dy}px` }} />}
   </section>;

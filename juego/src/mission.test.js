@@ -274,36 +274,32 @@ test('old fourth reflections and drafts are preserved, and energy supplies the f
 });
 
 
-test('the fifth entry contains both exact collectible quotations and is available to read', () => {
+test('the fifth station collects only the Cornejo and Rufer quote, while both remain in the written entry', () => {
   const text = readFileSync(new URL('./entries/entrada-5.md', import.meta.url), 'utf8');
-  for (const fragment of DARK_MATTER_FRAGMENTS) {
-    assert.ok(text.includes(fragment.quote));
-    assert.ok(text.includes(fragment.source));
-  }
-  assert.ok(text.includes('Aprendí que la horizontalidad empieza en la pregunta.'));
+  assert.equal(DARK_MATTER_FRAGMENTS.length, 1);
+  assert.ok(text.includes(DARK_MATTER_FRAGMENTS[0].quote));
+  assert.ok(text.includes(DARK_MATTER_FRAGMENTS[0].source));
+  assert.ok(text.includes('¿Es posible hacerlo sin romantizar ni fijar'));
 });
 
-test('dark matter requires observing and collecting two distinct valid fragments, without writing', () => {
+test('dark matter completes with the one approved fragment, after observing and without writing', () => {
   let mission = cleanMission(null);
   assert.strictEqual(collectDarkMatterFragment(mission, 0), mission);
   mission = observeDarkMatter(mission);
   assert.deepEqual(mission.visited, [4]);
   assert.strictEqual(observeDarkMatter(mission), mission);
-  for (const invalid of [-1, 2, '0', null]) assert.strictEqual(collectDarkMatterFragment(mission, invalid), mission);
-  mission = collectDarkMatterFragment(mission, 1);
-  assert.deepEqual(collectedStations(mission), [4]);
   assert.equal(isStationComplete(mission, 4), false);
-  assert.equal(hasStationMaterial(mission, 4), false);
-  assert.strictEqual(collectDarkMatterFragment(mission, 1), mission);
+  for (const invalid of [-1, 1, 2, '0', null]) assert.strictEqual(collectDarkMatterFragment(mission, invalid), mission);
   mission = collectDarkMatterFragment(mission, 0);
-  assert.deepEqual(mission.darkMatterFragments, [1,0]);
+  assert.deepEqual(mission.darkMatterFragments, [0]);
   assert.deepEqual(collectedStations(mission), [4]);
   assert.deepEqual(completedStations(mission), [4]);
   assert.equal(hasStationMaterial(mission, 4), true);
+  assert.strictEqual(collectDarkMatterFragment(mission, 0), mission);
   assert.deepEqual(mission.reflections, {});
 });
 
-test('partial dark matter progress survives reload; corrupted values cannot invent fragments', () => {
+test('the single fragment survives reload and old collections retain the approved quote only', () => {
   let stored;
   const storage = { getItem: () => stored, setItem: (_, value) => { stored = value; } };
   const mission = collectDarkMatterFragment(observeDarkMatter(saveReflection(cleanMission(null), 0, 'Mi primera estrella.')), 0);
@@ -312,20 +308,26 @@ test('partial dark matter progress survives reload; corrupted values cannot inve
   assert.equal(restored.darkMatterObserved, true);
   assert.deepEqual(restored.darkMatterFragments, [0]);
   assert.equal(restored.reflections[0], 'Mi primera estrella.');
-  assert.equal(isStationComplete(restored, 4), false);
-  assert.deepEqual(cleanMission({ darkMatterFragments: [1,1,'0',2,-1,0] }).darkMatterFragments, [1,0]);
+  assert.equal(isStationComplete(restored, 4), true);
+  assert.deepEqual(cleanMission({ darkMatterFragments: [1,1,'0',2,-1,0] }).darkMatterFragments, [0]);
+  assert.deepEqual(cleanMission({ darkMatterFragments: [1] }).darkMatterFragments, []);
   assert.deepEqual(cleanMission({ darkMatterFragments: [0] }).visited, [4]);
   assert.equal(cleanMission({ darkMatterObserved: 'true' }).darkMatterObserved, false);
   assert.deepEqual(cleanMission({ darkMatterObserved: true }).darkMatterFragments, []);
 });
 
-test('the fifth collected memory supplies a star of the protective barrier without a reflection', () => {
-  let mission = collectDissipatedEnergy(collectDarkMatterFragment(collectDarkMatterFragment(observeDarkMatter(cleanMission(null)), 0), 1));
+test('the single fifth memory supplies a star of the protective barrier and preserves earlier connections', () => {
+  let mission = collectDissipatedEnergy(collectDarkMatterFragment(observeDarkMatter(cleanMission(null)), 0));
   for (const index of [0,1,2,5,6]) mission = saveReflection(mission, index, `Reflexión ${index}`);
   for (const index of [0,1]) mission = tuneHomeSignal(mission, index);
   for (let index = 0; index < 6; index++) mission = connectStars(mission, index, index + 1);
   assert.equal(hasProtectiveBarrier(cleanMission(JSON.parse(JSON.stringify(mission)))), true);
   assert.equal(mission.reflections[4], undefined);
+  const previous = { ...mission, darkMatterFragments: [0,1] };
+  const migrated = cleanMission(previous);
+  assert.deepEqual(migrated.darkMatterFragments, [0]);
+  assert.deepEqual(migrated.links, mission.links);
+  assert.equal(hasProtectiveBarrier(migrated), true);
   const old = cleanMission({ visited: [4], reflections: { 4: 'Una reflexión previa.' } });
   assert.equal(isStationComplete(old, 4), true);
   assert.deepEqual(old.darkMatterFragments, []);

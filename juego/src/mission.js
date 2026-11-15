@@ -5,7 +5,7 @@ export const DESTINATIONS = [
   { title: 'Sigue la señal de casa', hint: 'Sigue una transmisión de voz en voz y recoge la antena de relevo.', objective: 'Recoge la antena de relevo', material: 'Antena de relevo', silhouette: 'relay' },
   { title: 'Aterriza en lo cotidiano', hint: 'Acércate a la mesa de encuentro y encuentra un hilo para la red de apoyo.', objective: 'Encuentra un hilo para la red de apoyo', material: 'Hilo para la red de apoyo', silhouette: 'table' },
   { title: 'Deja que otra voz cambie el rumbo', hint: 'Acerca Andrómeda y la Vía Láctea y observa cómo cambia el rumbo de ambas.', objective: 'Recoge energía disipada en un encuentro galáctico', material: 'Energía disipada', silhouette: 'thermal' },
-  { title: 'Comparte el timón', hint: 'Sigue la gravedad y encuentra dos frases en el halo que rodea la galaxia.', objective: 'Recoge dos fragmentos de materia oscura', material: 'Materia oscura · Saberes que cambian la pregunta', silhouette: 'darkMatter' },
+  { title: 'Comparte el timón', hint: 'Encuentra una frase en el halo que rodea la galaxia y recoge tu materia oscura.', objective: 'Recoge tu fragmento de materia oscura', material: 'Materia oscura · Saberes que cambian la pregunta', silhouette: 'darkMatter' },
   { title: 'Transmite con tu propia voz', hint: 'Registra una señal con tus propias palabras y llévate la cápsula de transmisión.', objective: 'Recoge la cápsula de transmisión', material: 'Cápsula de transmisión', silhouette: 'capsule' },
   { title: 'Busca a las que faltan en mi radar', hint: 'Ajusta el radar y localiza, por el rastro que deja, un filamento de materia oscura.', objective: 'Localiza un filamento de materia oscura', material: 'Filamento de materia oscura', silhouette: 'radar' },
 ];
@@ -32,7 +32,6 @@ export const AUTHOR_FABRIC_WORD = 'Emociones situadas';
 export const OWN_VOICE_PROMPT = 'La clase nos dejó la siguiente pregunta para nuestro ejercicio de escritura: ¿Qué partes de nuestra experiencia hemos tenido que callar, traducir o dejar fuera para ser reconocidas como productoras de conocimiento? Quiero compartirla contigo para que escribas algo muy corto. Recuerda que tus palabras son energía para darle brillo a nuestras estrellas.';
 export const DARK_MATTER_FRAGMENTS = [
   { quote: 'En diez años hemos logrado sistematizar un marco teórico y conceptual innovador para crear preguntas y respuestas diversas con el otro, en lugar de reproducir los mismos discursos hegemónicos frente a las nuevas realidades.', source: 'Inés Cornejo y Mario Rufer, «Introducción», p. 8.', reading: 'introduction' },
-  { quote: '¿Es posible hacerlo sin romantizar ni fijar, sin perder de vista la perspectiva crítica que es clave en todo espacio disciplinar?', source: 'Mario Rufer y Sarah Corona Berkin, «Apertura», p. 12.', reading: 'opening' },
 ];
 const cleanDarkMatter = value => [...new Set((Array.isArray(value) ? value : []).filter(index => Number.isInteger(index) && index >= 0 && index < DARK_MATTER_FRAGMENTS.length))];
 
