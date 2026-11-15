@@ -153,7 +153,7 @@ function StationWindow() {
 
 function Introduction({ onStart }) {
   return <section className="departure" aria-labelledby="introduction-title">
-    <div className="transmission-heading"><span className="transmission-signal" aria-hidden="true" /><span>A BORDO · PRIMERA TRANSMISIÓN</span><span className="transmission-sender">DE TANIA PRIETO</span></div>
+    <div className="transmission-heading"><span className="transmission-signal" aria-hidden="true" /><span>A BORDO · PRIMERA TRANSMISIÓN</span></div>
     <div className="departure-layout">
       <article className="transmission-page">
         <header><span className="eyebrow">INTRODUCCIÓN</span><h1 id="introduction-title">Nébula <em>F23</em></h1></header>
@@ -164,7 +164,6 @@ function Introduction({ onStart }) {
         </div>
         <div className="mission-invitation"><p>En cada una de las nueve clases escribí un texto de escritura automática. Hoy te invito a viajar entre esos escritos como quien visita nueve estaciones en el espacio. Tu misión es descubrir qué te dice cada uno y qué quisieras llevar contigo.</p></div>
         <button type="button" className="primary mission-start" onClick={onStart}>Comenzar mi misión <Arrow /></button>
-        <span className="transmission-signature">Tania Prieto</span>
       </article>
       <StationWindow />
     </div>
