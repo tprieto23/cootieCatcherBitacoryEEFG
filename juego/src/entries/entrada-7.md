@@ -1,6 +1,6 @@
 # Bajo la lupa
 
-¿Escritura automática? Estoy cagada del miedo cada vez que tengo que escribir. Hablo todo el tiempo de quién fui en el edificio de Física, Estadística y Matemáticas, el FEM, pero quisiera saber quiénes fueron allí mis amigas y compañeras. Otras mujeres que vienen de territorios periféricos como el mío. Yo pude terminar la carrera, pero ¿por qué sentí que era algo tan imposible? ¿Qué me ha hecho sentir diferente a lxs demás?
+Hablo todo el tiempo de quién fui en el edificio de Física, Estadística y Matemáticas, el FEM, pero quisiera saber quiénes fueron allí mis amigas y compañeras. Otras mujeres que vienen de territorios periféricos como el mío. Yo pude terminar la carrera, pero ¿por qué sentí que era algo tan imposible? ¿Qué me ha hecho sentir diferente a lxs demás?
 
 Estas fueron algunas de las preguntas que escribí en clase. Durante mi paso por Física me sentí observada, evaluada, minimizada y hasta ridiculizada por ser mujer. Al volver sobre mis recuerdos encuentro otras relaciones que atravesaban esas experiencias. Mi procedencia territorial y mi formación escolar estaban presentes en la manera en que intentaba hacerme un lugar.
 
