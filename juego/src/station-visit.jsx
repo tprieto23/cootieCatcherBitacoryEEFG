@@ -27,11 +27,11 @@ export function StationVisit({ note, heading, children, activity, beforeReading,
   return <section className={`ultraviolet-visit ${motion ? '' : 'is-paused'}`} aria-labelledby="ultraviolet-title">
     <nav className="visit-toolbar" aria-label="Acciones de la estación">
       <button type="button" className="text-button" onClick={onMap}>Volver al mapa</button>
-      <span className="visit-location">Estación {note.number} de 7</span>
+      <span className="visit-location">Estación {note.number} de 9</span>
       <button type="button" className="visit-pocket-button" aria-haspopup="dialog" onClick={onPocket}>Mi bolsillo <span>{stars} / 7</span></button>
     </nav>
     <article className="ultraviolet-page">
-      <header className="ultraviolet-heading"><span className="eyebrow">Estación {note.number} de 7</span><div className="ultraviolet-signal" aria-hidden="true"><span /><span /><span /></div><h1 id="ultraviolet-title">{heading}</h1></header>
+      <header className="ultraviolet-heading"><span className="eyebrow">Estación {note.number} de 9</span><div className="ultraviolet-signal" aria-hidden="true"><span /><span /><span /></div><h1 id="ultraviolet-title">{heading}</h1></header>
       {note.number === 2 && <SignalReceiver signals={signals} onTune={onTune} />}
       {beforeReading?.(openReading)}
       {readingUnlocked && (!beforeReading || readingRevealed) && <details className="ultraviolet-logbook" open={readingOpen} onToggle={event => setReadingOpen(event.currentTarget.open)}>
