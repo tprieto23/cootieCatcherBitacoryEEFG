@@ -132,6 +132,13 @@ const brightWindowStars = [[69,98,2],[197,63,1.5],[329,111,2],[479,180,1.5],[489
 
 function SpaceWindow({ motion }) {
   return <figure className={`space-window ${motion ? '' : 'is-paused'}`}>
+    <div className="cabin-shell">
+      <div className="cabin-plaque" aria-hidden="true"><span>CABINA · NÉBULA F23</span><span className="cabin-light" /></div>
+      <div className="window-housing">
+        <div className="hull-fittings" aria-hidden="true">
+          {[[24,7],[76,7],[5,34],[95,34],[5,68],[95,68],[27,94],[73,94]].map(([left,top],index) => <span key={index} className="hull-fastener" style={{left: `${left}%`, top: `${top}%`}} />)}
+          <span className="window-latch latch-left" /><span className="window-latch latch-right" />
+        </div>
     <div className="porthole">
       <svg viewBox="0 0 560 650" role="img" aria-labelledby="space-window-title">
         <title id="space-window-title">Nubes de nebulosas violetas y rosadas entre un campo denso de estrellas, vistas desde la ventanilla de la nave.</title>
@@ -165,6 +172,13 @@ function SpaceWindow({ motion }) {
         <g className="window-near-stars">{brightWindowStars.map(([cx,cy,r],index) => <g key={index} className="window-twinkle" style={{animationDelay: `${index * -1.9}s`, animationDuration: `${8 + index % 5}s`}}><circle cx={cx} cy={cy} r={r * 6} fill="url(#window-starlight)" /><circle cx={cx} cy={cy} r={r * .65} fill="#fff4e3" /><path d={`M${cx - r * 2} ${cy}h${r * 4}M${cx} ${cy - r * 2}v${r * 4}`} stroke="#e8ddff" strokeWidth=".65" /></g>)}</g>
       </svg>
       <div className="window-reflection" aria-hidden="true" />
+    </div>
+      </div>
+      <div className="cabin-sill" aria-hidden="true">
+        <div className="cabin-vents"><span /><span /><span /><span /><span /></div>
+        <span className="cabin-view-label">VISTA AL EXTERIOR</span>
+        <div className="cabin-indicators"><span /><span /><span /></div>
+      </div>
     </div>
   </figure>;
 }
