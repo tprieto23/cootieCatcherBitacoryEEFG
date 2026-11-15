@@ -5,7 +5,7 @@ export const DESTINATIONS = [
   { title: 'Sigue la señal de casa', hint: 'Sigue una transmisión de voz en voz y recoge la antena de relevo.', objective: 'Recoge la antena de relevo', material: 'Antena de relevo', silhouette: 'relay' },
   { title: 'Aterriza en lo cotidiano', hint: 'Acércate a la mesa de encuentro y encuentra un hilo para la red de apoyo.', objective: 'Encuentra un hilo para la red de apoyo', material: 'Hilo para la red de apoyo', silhouette: 'table' },
   { title: 'Deja que otra voz cambie el rumbo', hint: 'Acerca Andrómeda y la Vía Láctea y observa cómo cambia el rumbo de ambas.', objective: 'Recoge energía disipada en un encuentro galáctico', material: 'Energía disipada', silhouette: 'thermal' },
-  { title: 'Comparte el timón', hint: 'Reúne las dos mitades de una brújula que se orienta entre dos personas.', objective: 'Reúne las dos mitades de una brújula compartida', material: 'Brújula compartida', silhouette: 'compass' },
+  { title: 'Comparte el timón', hint: 'Sigue la gravedad y encuentra dos frases en el halo que rodea la galaxia.', objective: 'Recoge dos fragmentos de materia oscura', material: 'Materia oscura · Saberes que cambian la pregunta', silhouette: 'darkMatter' },
   { title: 'Transmite con tu propia voz', hint: 'Registra una señal con tus propias palabras y llévate la cápsula de transmisión.', objective: 'Recoge la cápsula de transmisión', material: 'Cápsula de transmisión', silhouette: 'capsule' },
   { title: 'Busca a las que faltan en mi radar', hint: 'Ajusta el radar y localiza, por el rastro que deja, un filamento de materia oscura.', objective: 'Localiza un filamento de materia oscura', material: 'Filamento de materia oscura', silhouette: 'radar' },
 ];
@@ -30,6 +30,21 @@ export const HOME_SIGNAL = {
 export const FABRIC_WORDS = ['Encuentros', 'Etnografía feminista', 'Pensamiento con cuidado', 'Reflexividad', 'Confianza', 'Escuchar', 'Afecto'];
 export const AUTHOR_FABRIC_WORD = 'Emociones situadas';
 export const OWN_VOICE_PROMPT = 'La clase nos dejó la siguiente pregunta para nuestro ejercicio de escritura: ¿Qué partes de nuestra experiencia hemos tenido que callar, traducir o dejar fuera para ser reconocidas como productoras de conocimiento? Quiero compartirla contigo para que escribas algo muy corto. Recuerda que tus palabras son energía para darle brillo a nuestras estrellas.';
+export const DARK_MATTER_FRAGMENTS = [
+  { quote: 'En diez años hemos logrado sistematizar un marco teórico y conceptual innovador para crear preguntas y respuestas diversas con el otro, en lugar de reproducir los mismos discursos hegemónicos frente a las nuevas realidades.', source: 'Inés Cornejo y Mario Rufer, «Introducción», p. 8.', reading: 'introduction' },
+  { quote: '¿Es posible hacerlo sin romantizar ni fijar, sin perder de vista la perspectiva crítica que es clave en todo espacio disciplinar?', source: 'Mario Rufer y Sarah Corona Berkin, «Apertura», p. 12.', reading: 'opening' },
+];
+const cleanDarkMatter = value => [...new Set((Array.isArray(value) ? value : []).filter(index => Number.isInteger(index) && index >= 0 && index < DARK_MATTER_FRAGMENTS.length))];
+
+export function observeDarkMatter(mission) {
+  if (mission.darkMatterObserved) return mission;
+  return { ...mission, visited: [...new Set([...mission.visited, 4])], darkMatterObserved: true };
+}
+
+export function collectDarkMatterFragment(mission, index) {
+  if (!mission.darkMatterObserved || !Number.isInteger(index) || index < 0 || index >= DARK_MATTER_FRAGMENTS.length || mission.darkMatterFragments.includes(index)) return mission;
+  return { ...mission, visited: [...new Set([...mission.visited, 4])], darkMatterFragments: [...mission.darkMatterFragments, index] };
+}
 
 const cleanFabric = value => [...new Set((Array.isArray(value) ? value : []).filter(index => Number.isInteger(index) && index >= 0 && index < FABRIC_WORDS.length))].slice(0, 2);
 
@@ -48,7 +63,7 @@ export function saveFabric(mission) {
 }
 
 export function collectedStations(mission) {
-  return DESTINATIONS.map((_, index) => index).filter(index => Boolean(mission.reflections[index]) || (index === 2 && cleanFabric(mission.fabricPatch).length > 0) || (index === 3 && mission.dissipatedEnergy === true));
+  return DESTINATIONS.map((_, index) => index).filter(index => Boolean(mission.reflections[index]) || (index === 2 && cleanFabric(mission.fabricPatch).length > 0) || (index === 3 && mission.dissipatedEnergy === true) || (index === 4 && cleanDarkMatter(mission.darkMatterFragments).length > 0));
 }
 
 // One persistent item; collecting it completes this station without writing.
@@ -72,6 +87,7 @@ export function tuneHomeSignal(mission, index) {
 export function isStationComplete(mission, index) {
   if (index === 2 && cleanFabric(mission.fabricPatch).length > 0) return true;
   if (index === 3 && mission.dissipatedEnergy === true) return true;
+  if (index === 4 && cleanDarkMatter(mission.darkMatterFragments).length === DARK_MATTER_FRAGMENTS.length) return true;
   return validStation(index) && Boolean(mission.reflections[index]?.trim()) && (index !== 1 || mission.homeSignals?.length === HOME_SIGNAL.signals.length);
 }
 
@@ -80,6 +96,7 @@ export function completedStations(mission) {
 }
 
 export function hasStationMaterial(mission, index) {
+  if (index === 4) return cleanDarkMatter(mission.darkMatterFragments).length === DARK_MATTER_FRAGMENTS.length;
   return index === 3 ? mission.dissipatedEnergy === true : isStationComplete(mission, index);
 }
 
@@ -113,7 +130,7 @@ export function saveReflection(mission, index, text) {
   return { ...next, reflections: { ...next.reflections, [index]: next.drafts[index] } };
 }
 
-// Station numbers keep the author's original class order, including the paused fifth entry.
+// Station numbers keep the author's original class order.
 export function cleanMission(value, legacyDiscovered = []) {
   const visited = [...new Set((Array.isArray(value?.visited) ? value.visited : legacyDiscovered)
     .filter(validStation))];
@@ -139,7 +156,10 @@ export function cleanMission(value, legacyDiscovered = []) {
   if ((fabricPatch.length || fabricDraft.length) && !visited.includes(2)) visited.push(2);
   const dissipatedEnergy = value?.dissipatedEnergy === true;
   if (dissipatedEnergy && !visited.includes(3)) visited.push(3);
-  let mission = { visited, reflections, drafts, ultravioletSignals, homeSignals, fabricDraft, fabricPatch, dissipatedEnergy, links: [] };
+  const darkMatterFragments = cleanDarkMatter(value?.darkMatterFragments);
+  const darkMatterObserved = value?.darkMatterObserved === true || darkMatterFragments.length > 0;
+  if (darkMatterObserved && !visited.includes(4)) visited.push(4);
+  let mission = { visited, reflections, drafts, ultravioletSignals, homeSignals, fabricDraft, fabricPatch, dissipatedEnergy, darkMatterObserved, darkMatterFragments, links: [] };
   for (const pair of Array.isArray(value?.links) ? value.links : []) {
     if (Array.isArray(pair) && pair.length === 2) mission = connectStars(mission, pair[0], pair[1]);
   }

@@ -1,0 +1,48 @@
+.dark-matter-encounter { margin-bottom: 38px; }
+.dark-matter-encounter .dark-matter-label { margin: 0 0 20px; font: 500 10px/1.8 'Space Grotesk',system-ui,sans-serif; letter-spacing: .14em; color: #c6c8e2; }
+.dark-matter-encounter > p { font-size: 17px; line-height: 1.85; }
+.dark-matter-encounter a { color: var(--pink); text-decoration: underline; text-underline-offset: 4px; }
+.dark-matter-viewport { margin: 28px -26px 20px; overflow: hidden; border: 1px solid #d4dcf344; border-radius: 45% 45% 24px 24px / 12% 12% 24px 24px; background: radial-gradient(ellipse at 50% 50%,#49235155,transparent 68%),#100d21; box-shadow: inset 0 0 45px #0008; }
+.dark-matter-viewport svg { display: block; width: 100%; }
+.dark-matter-viewport figcaption { padding: 0 18px 20px; text-align: center; color: var(--muted); font-size: 12px; line-height: 1.6; }
+.dark-halo-field { opacity: 0; transition: opacity 1.6s; }
+.is-observed .dark-halo-field { opacity: 1; }
+.dark-halo-field ellipse:not(:first-child) { fill: none; stroke: #c2a1e129; stroke-width: 1; stroke-dasharray: 2 10; }
+.dark-orbit-tracks { fill: none; stroke: #d4dcf331; stroke-width: 1; stroke-dasharray: 3 8; }
+.dark-orbiter { transform-origin: 0 0; animation: dark-orbit var(--orbit-duration) linear var(--orbit-start) infinite; }
+.dark-matter-region { cursor: pointer; outline: none; }
+.dark-lensing-arc { fill: none; stroke: #c8ade4; stroke-width: 2; opacity: .7; }
+.dark-region-target { stroke: transparent; stroke-width: 2; }
+.dark-matter-region:hover .dark-region-target,.dark-matter-region:focus-visible .dark-region-target { stroke: var(--yellow); stroke-dasharray: 3 8; }
+.dark-matter-region text { fill: #e9d9f3; font: 22px 'Space Grotesk',sans-serif; pointer-events: none; }
+.dark-matter-region.is-collected .dark-lensing-arc { stroke: var(--yellow); }
+.dark-disc-label { fill: var(--silver); font: 18px 'Space Grotesk',sans-serif; }
+.dark-matter-controls { display: flex; justify-content: center; margin: 18px 0; }
+.dark-matter-controls .cover-open { margin-top: 0; max-width: 100%; text-align: center; }
+.dark-matter-fragment { margin: 28px 0; padding: 24px; border-left: 2px solid #c8ade480; border-radius: 0 18px 18px 0; background: #c5a3e30a; scroll-margin-top: 110px; }
+.dark-matter-fragment h3 { margin: 0 0 18px; color: var(--pink); font-size: 15px; line-height: 1.6; }
+.dark-matter-fragment blockquote,.pocket-dark-fragment { margin: 0 0 18px; }
+.dark-matter-fragment blockquote p { font-size: 17px; line-height: 1.85; }
+.dark-matter-fragment cite,.pocket-dark-fragment cite { display: block; font-size: 13px; line-height: 1.7; font-style: normal; color: var(--muted); }
+.dark-matter-status { color: var(--yellow); font-size: 14px !important; }
+.dark-matter-flight { position: fixed; z-index: 80; width: 18px; height: 18px; margin: -9px; border-radius: 45% 55% 65% 35%; pointer-events: none; background: #cbb0ea; box-shadow: 0 0 18px 8px #ad82d870; animation: dark-fragment-flight 1.2s ease-in-out both; }
+.pocket-dark-fragment { border-left: 1px solid #c8ade460; padding: 0 0 0 16px; margin-top: 22px; }
+.story-quotation { margin: 26px 0; border-left: 2px solid #fca4bc70; padding-left: 22px; }
+.story-quotation cite { display: block; font-size: 14px; line-height: 1.8; color: var(--muted); font-style: normal; }
+.art-darkMatter .art-fill { fill: #bda1df18; }
+.art-darkMatter.is-collected .art-fill { fill: #bda1df40; stroke: #c8ade4; }
+.dark-matter-still .dark-orbiter { animation: none; }
+.dark-matter-still .dark-halo-field { transition: none; }
+@keyframes dark-orbit { to { transform: rotate(360deg); } }
+@keyframes dark-fragment-flight { 0% { transform: translate(0,0); } 100% { transform: translate(var(--fragment-x),var(--fragment-y)) scale(.1); opacity: 0; } }
+@media (max-width: 560px) {
+  .dark-matter-viewport { margin-inline: -12px; }
+  .dark-matter-encounter > p,.dark-matter-fragment blockquote p { font-size: 16px; }
+  .dark-matter-fragment { padding: 18px; }
+  .dark-disc-label { font-size: 24px; }
+  .dark-matter-viewport figcaption { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dark-orbiter,.dark-matter-flight { animation: none; }
+  .dark-halo-field { transition: none; }
+}

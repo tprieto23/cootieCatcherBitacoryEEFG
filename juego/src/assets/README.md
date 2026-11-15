@@ -25,3 +25,7 @@ Crédito indicado por la autora: simulación realizada por Tania Prieto en 2023 
 ## Lecturas de horizontalidad
 
 `lectura-horizontalidad-berkin.pdf` y `lectura-horizontalidad-briones.pdf` son copias binarias íntegras de los PDF aportados por la autora en `../../../../entrada4/`. Acompañan la cuarta entrada, se publican como archivos independientes mediante Vite y se enlazan en sus referencias. No se modificaron ni recomprimieron.
+
+## Lecturas de la quinta estación
+
+`lectura-cornejo-rufer-introduccion.pdf` copia íntegramente `entrada5/Cornejo, Inés, & Rufer, Mario  clacso horizontalidad-4-24.pdf`; `lectura-rufer-corona-apertura.pdf` copia `entrada5/Copia de Rufer, Mario, & Corona Berkin, Sarah..pdf`, ambas carpetas en el directorio padre del repositorio. Conservan los originales proporcionados por la autora, sin recomprimir. Se enlazan en las citas de la escena y en la lectura de la quinta estación.

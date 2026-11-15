@@ -48,19 +48,19 @@ El receptor se retiró por completo de la primera visita y su arquitectura se re
 | Sigue la señal de casa | Antena de relevo |
 | Aterriza en lo cotidiano | Hilo para la red de apoyo |
 | Deja que otra voz cambie el rumbo | Energía disipada |
-| Comparte el timón | Brújula compartida |
+| Comparte el timón | Dos fragmentos de materia oscura |
 | Transmite con tu propia voz | Cápsula de transmisión |
 | Busca a las que faltan en mi radar | Filamento de materia oscura |
 
-Las cuatro primeras estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. La cuarta incorpora el encuentro entre galaxias descrito abajo. Las estaciones 5–7 conservan su lectura en diálogo, con identidad y objetivo propios. El escrito de «Comparte el timón» sigue pendiente. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Este cierre está preparado para cuando las siete páginas estén disponibles; no se inventó la quinta entrada.
+Las cinco primeras estaciones comparten la página de visita. Ultravioleta ofrece lectura y reflexión; Sigue la señal de casa incorpora dos señales; Aterriza en lo cotidiano termina con una costura de retazos. La cuarta incorpora el encuentro entre galaxias descrito abajo. La quinta permite descubrir y recoger materia oscura en forma de dos citas. Las estaciones 6–7 conservan su lectura en diálogo, con identidad y objetivo propios. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Las siete entradas ya están disponibles; las estaciones con materiales propios pueden completar su estrella sin escritura adicional.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
-Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva las ocho posiciones del prototipo anterior para mantener sus datos; el mapa usa únicamente las entradas 1 a 7. La quinta estación se llama «Comparte el timón» y muestra «Página en escritura», sin inventar su texto. La entrada 8 permanece fuera de la misión actual. Las notas anteriores se conservan en `src/legacy-notes.js`.
+Los siete relatos aprobados están copiados en `juego/src/entries/`: entradas 1 a 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva las ocho posiciones del prototipo anterior para mantener sus datos; el mapa usa únicamente las entradas 1 a 7. La quinta estación, «Comparte el timón», contiene el escrito y las dos citas proporcionadas por la autora. La entrada 8 permanece fuera de la misión actual. Las notas anteriores se conservan en `src/legacy-notes.js`.
 
 Los enlaces locales se conservan en los Markdown fuente. La lectura de la primera estación se incluye íntegra como `src/assets/lectura-ultravioleta.pdf` y su enlace se publica con Vite. Las dos lecturas de la cuarta estación también se incluyen como PDF independientes de Corona Berkin y Briones. Los enlaces de otras lecturas permanecen ocultos hasta incluir sus archivos.
 
-Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. La conclusión de la autora y las interacciones propias de las estaciones 5 a 7 siguen pendientes. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
+Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. La conclusión de la autora y las interacciones propias de las estaciones 6 y 7 siguen pendientes. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
 
 ### Cuarta estación: dos galaxias cambian de rumbo
 
@@ -70,9 +70,17 @@ Después de leer una entrada disponible se puede escribir una palabra o una refl
 
 Después de recoger se abre la pregunta sobre decidir juntas y «Leer la bitácora» revela directamente *Que el asombro encuentre otras formas*, sin respuesta previa. Su texto y referencias permanecen íntegros; las lecturas locales de Corona Berkin y Briones se publican con Vite. Bolsillo y mapa siguen accesibles, con borradores intactos durante la consulta del bolsillo.
 
+### Quinta estación: recoger lo que sostiene la galaxia
+
+`#/estacion-5` abre «Comparte el timón». `src/dark-matter-encounter.jsx/css` presenta una galaxia visible pequeña, estrellas en órbitas ilustrativas y una explicación breve con enlace a [NASA](https://science.nasa.gov/dark-matter/). «Seguir la gravedad» revela un halo violeta que representa una distribución de masa inferida, más extensa que la región luminosa. La metáfora conecta ese sostén con los saberes locales y cotidianos que la academia no siempre reconoce.
+
+Dos huellas del halo abren las citas literales de Cornejo/Rufer y Rufer/Corona Berkin. Cada cita conserva su atribución y enlace al PDF aportado por la autora. «Recoger este fragmento» lo guarda; volver a tocar una huella permite releerlo sin duplicarlo. `mission.darkMatterObserved` conserva el descubrimiento y `mission.darkMatterFragments` los índices 0/1 recogidos. Con ambos se enciende la estrella de la quinta; no hay casilla de escritura. La normalización conserva progreso parcial y recuerdos anteriores. Una sola ficha del bolsillo reúne las dos frases y su procedencia.
+
+«Leer la bitácora» permanece disponible desde el principio. El escrito se conserva completo y `StoryText` representa sus citas Markdown como bloques con atribución. Las lecturas `lectura-cornejo-rufer-introduccion.pdf` y `lectura-rufer-corona-apertura.pdf` se publican con Vite. La pausa y el movimiento reducido detienen órbitas y transiciones.
+
 ## Guardado personal
 
-No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, estaciones visitadas, reflexiones, borradores, señales sintonizadas, retazos, energía disipada, conexiones de estrellas y los datos del recorrido anterior se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. Las estrellas de Ultravioleta guardadas antes de incorporar el receptor conservan su progreso mediante una migración. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
+No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, estaciones visitadas, reflexiones, borradores, señales sintonizadas, retazos, energía disipada, fragmentos de materia oscura, conexiones de estrellas y los datos del recorrido anterior se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. Las estrellas de Ultravioleta guardadas antes de incorporar el receptor conservan su progreso mediante una migración. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
 
 ## Vercel
 
