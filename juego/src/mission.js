@@ -28,7 +28,7 @@ export function tuneSignal(mission, index) {
 }
 
 export function isStationComplete(mission, index) {
-  return Boolean(mission.reflections[index]) && (index !== 0 || mission.ultravioletSignals.length === 3);
+  return validStation(index) && Boolean(mission.reflections[index]?.trim());
 }
 
 export function completedStations(mission) {

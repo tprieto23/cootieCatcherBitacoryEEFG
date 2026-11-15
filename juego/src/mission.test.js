@@ -36,12 +36,12 @@ test('the three received fragments are literal passages of the author’s first 
   for (const fragment of ULTRAVIOLET_SIGNALS) assert.ok(text.includes(fragment));
 });
 
-test('Ultravioleta needs three distinct signals and a reflection, in either order', () => {
+test('Ultravioleta completes with a saved reflection, independently of the archived receiver', () => {
   let mission = saveReflection(cleanMission(null), 0, 'Lo que reconocí.');
-  assert.equal(isStationComplete(mission, 0), false);
+  assert.equal(isStationComplete(mission, 0), true);
   for (const index of [2, 2, 0, -1, 3]) mission = tuneSignal(mission, index);
   assert.deepEqual(mission.ultravioletSignals, [2, 0]);
-  assert.equal(completedStations(mission).length, 0);
+  assert.equal(completedStations(mission).length, 1);
   mission = tuneSignal(mission, 1);
   assert.equal(completedStations(mission).length, 1);
   const edited = saveReflection(mission, 0, 'Otra mirada.');
@@ -51,6 +51,25 @@ test('Ultravioleta needs three distinct signals and a reflection, in either orde
   for (const index of [0, 1, 2]) reverse = tuneSignal(reverse, index);
   assert.equal(completedStations(reverse).length, 0);
   assert.equal(completedStations(saveReflection(reverse, 0, 'Mi voz.')).length, 1);
+  assert.equal(isStationComplete(cleanMission({ visited: [0], reflections: { 0: 'Mi estrella.' }, ultravioletSignals: [] }), 0), true);
+});
+
+test('the second station preserves its own draft and updates a single star across reloads', () => {
+  let stored;
+  const storage = { getItem: () => stored, setItem: (_, value) => { stored = value; } };
+  const first = saveReflection(cleanMission(null), 0, 'Mi primera estrella');
+  const draft = '  De voz en voz.\n\nUna conversación en casa.  ';
+  writeJourney(storage, { alias: 'Luna', mission: updateDraft(first, 1, draft) });
+  const restored = readJourney(storage).mission;
+  assert.equal(restored.drafts[1], draft);
+  assert.equal(isStationComplete(restored, 1), false);
+  const saved = saveReflection(restored, 1, draft);
+  assert.deepEqual(completedStations(saved), [0, 1]);
+  writeJourney(storage, { alias: 'Luna', mission: saveReflection(saved, 1, 'Otra conexión.\n\nCon mis propias palabras.') });
+  const edited = readJourney(storage).mission;
+  assert.equal(edited.reflections[0], first.reflections[0]);
+  assert.equal(edited.reflections[1], 'Otra conexión.\n\nCon mis propias palabras.');
+  assert.equal(Object.keys(edited.reflections).length, 2);
 });
 
 test('receiver progress survives reload and earned stars migrate without losing reflections', () => {

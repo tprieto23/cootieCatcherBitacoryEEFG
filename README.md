@@ -26,13 +26,13 @@ Al final de la introducción aparece una escena amplia con una galaxia enana a l
 
 El mapa contiene siete estaciones en el orden original de las entradas. La Guía de navegación aparece a su derecha; por debajo en pantallas de hasta 780 px. Las dos galaxias permanecen detrás del mapa. En el mapa cada estación muestra solo su figura celeste y su nombre, sin recuadros ni premisas. Los destinos combinan estrellas irregulares, un sol, planetas y nebulosas, con tonos suaves y movimiento discreto. La ruta los une con curvas. En escritorio el visor y la guía comparten altura y borde inferior. Las pistas y objetivos aparecen al seleccionar el destino. Los objetos de cada parada representan los materiales que se consiguen, no las estaciones. La vista de aproximación muestra la misma figura celeste del destino. Seleccionarla muestra el destino y su objetivo antes de aterrizar. Los estilos del visor están en `src/digital-map.css`.
 
-### Primera estación: Sintoniza Ultravioleta
+### Primeras dos estaciones: lectura y reflexión
 
-La aproximación a esta estación muestra la antena intermitente y el objetivo «Recupera un pulso de energía ultravioleta». «Aterrizar» abre `#/estacion-1`: un receptor con tres señales débiles. Cada una revela un fragmento literal de «Una voz que aprendió acompañada» e ilumina una parte de la antena. Las tres reunidas producen un pulso violeta.
+«Aterrizar» abre `#/estacion-1` (Sintoniza Ultravioleta) o `#/estacion-2` (Sigue la señal de casa). Ambas usan `src/station-visit.jsx`: título de estación, desplegable «Leer entrada», texto completo con sus citas y referencias, y una casilla con «Comparte una palabra o una reflexión después de haber leído este pasaje». La segunda usa la entrada existente «Lo que sigue conversando», sin modificar su escritura. La primera conserva su PDF de referencia.
 
-El desplegable «Leer entrada», debajo del receptor, está disponible desde el principio, sin exigir sintonizar antes. Conserva el texto íntegro, citas, referencia y PDF original. Al final, una única etiqueta invita a escribir: «Comparte una palabra o una reflexión después de haber leído este pasaje». Se puede guardar antes de terminar de sintonizar: la reflexión queda a salvo, y la recogida se completa cuando existen tres señales y reflexión guardada, en cualquier orden.
+Guardar una reflexión enciende la estrella y recoge el material, sin exigir sintonizar señales. El bolsillo reúne una sola ficha por estación, con estrella, material y palabras exactas; editar actualiza esa ficha. «Mi bolsillo» y «Volver al mapa» permanecen accesibles. Abrir el bolsillo sobre cualquiera de las dos lecturas conserva su posición y borrador. El avance sobrevive a la recarga y las estaciones completadas brillan en el mapa.
 
-El bolsillo reúne una sola ficha por visita, con estrella, material y palabras exactas. La primera contiene el pulso violeta y se actualiza al editar. Al volver al mapa aparece «Pulso recogido», con señal continua. «Mi bolsillo» permanece accesible en mapa, aproximación y visita; abrirlo sobre la lectura conserva su posición y borrador. El avance y las señales sobreviven a la recarga.
+El receptor de tres señales se retiró de la primera estación. Su arquitectura está conservada en `src/ultraviolet-receiver.jsx`, junto con sus SVG, estilos, fragmentos y datos guardados, para reutilizarla en otra experiencia. No se monta ni bloquea el recorrido actual.
 
 ### Los siete destinos
 
@@ -46,7 +46,7 @@ El bolsillo reúne una sola ficha por visita, con estrella, material y palabras 
 | Transmite con tu propia voz | Cápsula de transmisión |
 | Busca a las que faltan en mi radar | Filamento de materia oscura |
 
-La interacción propia del receptor se desarrolló para la primera estación. Las demás conservan su lectura y reflexión, con identidad y objetivo nuevos. El escrito de «Comparte el timón» sigue pendiente. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Este cierre está preparado para cuando las siete páginas estén disponibles; no se inventó la quinta entrada.
+Las dos primeras estaciones comparten la visita de lectura y reflexión. Las estaciones 3–7 conservan su lectura en diálogo, con identidad y objetivo propios. El escrito de «Comparte el timón» sigue pendiente. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Este cierre está preparado para cuando las siete páginas estén disponibles; no se inventó la quinta entrada.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
