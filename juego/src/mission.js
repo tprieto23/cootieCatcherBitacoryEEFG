@@ -29,6 +29,7 @@ export const HOME_SIGNAL = {
 };
 export const FABRIC_WORDS = ['Encuentros', 'Etnografía feminista', 'Pensamiento con cuidado', 'Reflexividad', 'Confianza', 'Escuchar', 'Afecto'];
 export const AUTHOR_FABRIC_WORD = 'Emociones situadas';
+export const OWN_VOICE_PROMPT = 'La clase nos dejó la siguiente pregunta para nuestro ejercicio de escritura: ¿Qué partes de nuestra experiencia hemos tenido que callar, traducir o dejar fuera para ser reconocidas como productoras de conocimiento? Quiero compartirla contigo para que escribas algo muy corto. Recuerda que tus palabras son energía para darle brillo a nuestras estrellas.';
 
 const cleanFabric = value => [...new Set((Array.isArray(value) ? value : []).filter(index => Number.isInteger(index) && index >= 0 && index < FABRIC_WORDS.length))].slice(0, 2);
 

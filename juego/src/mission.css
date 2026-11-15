@@ -50,6 +50,7 @@
 .reflection-form { margin-top: 35px; padding-top: 28px; border-top: 1px solid var(--line); }
 .reflection-form h3 { color: var(--pink); font: italic 35px/1.2 var(--expressive); margin: 15px 0 24px; }
 .reflection-form label { display: block; font-size: 14px; margin-bottom: 12px; }
+.reflection-form .reflection-invitation { margin: 18px 0; font-size: 17px; line-height: 1.8; color: var(--silver); }
 .reflection-form textarea { display: block; width: 100%; resize: vertical; min-height: 125px; max-height: 400px; padding: 16px; color: var(--ink); border: 1px solid #d4dcf36b; border-radius: 14px; background: #1e102d99; font: 16px/1.7 'Space Grotesk',system-ui,sans-serif; }
 .reflection-form textarea:focus-visible { outline: 3px solid var(--yellow); outline-offset: 4px; }
 .reflection-form textarea::placeholder { color: #b6b5d0; }
