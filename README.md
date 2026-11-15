@@ -36,9 +36,9 @@ El receptor se retiró por completo de la primera visita y su arquitectura se re
 
 ### Tercera estación: Aterriza en lo cotidiano
 
-`#/estacion-3` conserva la entrada completa y sus referencias en «Leer entrada». Después aparece un taller de retazos, sin pregunta ni campo de escritura. Se eligen exactamente dos palabras entre Encuentros, Etnografía feminista, Pensamiento con cuidado, Reflexividad, Confianza, Escuchar y Afecto. Al elegir la segunda, las telas se acercan y una aguja dibuja la costura; al terminar se habilita «Guardar en mi bolsillo». Con movimiento reducido o pausa se muestra directamente la pieza cosida.
+`#/estacion-3` conserva la entrada completa y sus referencias en «Leer entrada». Después aparece un taller de retazos, sin pregunta ni campo de escritura. Se eligen una o dos palabras entre Encuentros, Etnografía feminista, Pensamiento con cuidado, Reflexividad, Confianza, Escuchar y Afecto. «Descubrir el patchwork» incorpora el retazo de Tania, «Emociones situadas», y anima la costura de las dos o tres telas resultantes; al terminar se habilita «Guardar en mi bolsillo». Con movimiento reducido o pausa se muestra directamente la pieza cosida.
 
-`fabric-workshop.jsx/css` dibuja la tela, sus bordes y el hilo. La elección se guarda en `mission.fabricDraft`; la pieza guardada, en `mission.fabricPatch`. Guardarla enciende la tercera estrella y muestra ambos retazos en una única ficha del bolsillo. Se puede cambiar la elección sin perder la pieza anterior hasta guardar de nuevo. Se conservan las reflexiones de versiones anteriores y la estrella cuenta para la barrera final, aunque no exista una respuesta escrita. Abrir el bolsillo conserva la lectura y la elección.
+`fabric-workshop.jsx/css` dibuja la tela, sus bordes y el hilo. La elección se guarda en `mission.fabricDraft`; la pieza guardada, en `mission.fabricPatch`. Guardarla enciende la tercera estrella y muestra el patchwork completo, incluido el retazo de Tania, en una única ficha del bolsillo. Se puede cambiar la elección sin perder la pieza anterior hasta guardar de nuevo. Se conservan las reflexiones de versiones anteriores y la estrella cuenta para la barrera final, aunque no exista una respuesta escrita. Abrir el bolsillo conserva la lectura y la elección.
 
 ### Los siete destinos
 

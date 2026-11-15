@@ -28,6 +28,7 @@ export const HOME_SIGNAL = {
   ],
 };
 export const FABRIC_WORDS = ['Encuentros', 'Etnografía feminista', 'Pensamiento con cuidado', 'Reflexividad', 'Confianza', 'Escuchar', 'Afecto'];
+export const AUTHOR_FABRIC_WORD = 'Emociones situadas';
 
 const cleanFabric = value => [...new Set((Array.isArray(value) ? value : []).filter(index => Number.isInteger(index) && index >= 0 && index < FABRIC_WORDS.length))].slice(0, 2);
 
@@ -41,12 +42,12 @@ export function chooseFabric(mission, index) {
 
 export function saveFabric(mission) {
   const fabricPatch = cleanFabric(mission.fabricDraft);
-  if (fabricPatch.length !== 2) return mission;
+  if (!fabricPatch.length) return mission;
   return { ...mission, visited: [...new Set([...mission.visited, 2])], fabricPatch };
 }
 
 export function collectedStations(mission) {
-  return DESTINATIONS.map((_, index) => index).filter(index => Boolean(mission.reflections[index]) || (index === 2 && cleanFabric(mission.fabricPatch).length === 2));
+  return DESTINATIONS.map((_, index) => index).filter(index => Boolean(mission.reflections[index]) || (index === 2 && cleanFabric(mission.fabricPatch).length > 0));
 }
 
 const validStation = index => Number.isInteger(index) && index >= 0 && index < STATION_COUNT;
@@ -62,7 +63,7 @@ export function tuneHomeSignal(mission, index) {
 }
 
 export function isStationComplete(mission, index) {
-  if (index === 2 && cleanFabric(mission.fabricPatch).length === 2) return true;
+  if (index === 2 && cleanFabric(mission.fabricPatch).length > 0) return true;
   return validStation(index) && Boolean(mission.reflections[index]?.trim()) && (index !== 1 || mission.homeSignals?.length === HOME_SIGNAL.signals.length);
 }
 
@@ -121,7 +122,7 @@ export function cleanMission(value, legacyDiscovered = []) {
     ? [...new Set(value.homeSignals.filter(index => Number.isInteger(index) && index >= 0 && index < HOME_SIGNAL.signals.length))]
     : value && Object.hasOwn(value, 'homeSignals') ? [] : reflections[1] ? [0, 1] : [];
   const savedFabric = cleanFabric(value?.fabricPatch);
-  const fabricPatch = savedFabric.length === 2 ? savedFabric : [];
+  const fabricPatch = savedFabric;
   const fabricDraft = cleanFabric(value?.fabricDraft ?? fabricPatch);
   if ((fabricPatch.length || fabricDraft.length) && !visited.includes(2)) visited.push(2);
   let mission = { visited, reflections, drafts, ultravioletSignals, homeSignals, fabricDraft, fabricPatch, links: [] };

@@ -17,13 +17,22 @@
 .fabric-piece .fabric-scrap { min-height: 170px; clip-path: polygon(2% 3%,48% 0,98% 3%,100% 96%,53% 100%,1% 97%); }
 .fabric-piece .fabric-half-0 { transform: rotate(-1deg); }
 .fabric-piece .fabric-half-1 { transform: rotate(1deg); }
+.fabric-piece .fabric-author { transform: rotate(1deg); }
+.fabric-author small { position: relative; margin-bottom: 8px; font: 11px/1.5 'Space Grotesk',system-ui,sans-serif; }
+.fabric-piece.has-three-scraps .fabric-author { grid-column: 1 / -1; transform: rotate(-.5deg); }
 .fabric-seam { position: absolute; width: 32px; height: calc(100% - 24px); top: 12px; left: calc(50% - 16px); overflow: visible; }
+.fabric-seam.is-short { height: calc(50% - 12px); }
+.fabric-seam.is-horizontal { top: calc(50% - 16px); left: 12px; width: calc(100% - 24px); height: 32px; }
 .fabric-stitches { fill: none; stroke: var(--yellow); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 1px 1px #4a1b70); }
 .fabric-needle { opacity: 0; fill: #d4dcf3; stroke: #4a1b70; stroke-width: 1; }
 .fabric-piece.is-sewing .fabric-half-0 { animation: fabric-join-left .65s ease-out both; }
 .fabric-piece.is-sewing .fabric-half-1 { animation: fabric-join-right .65s ease-out both; }
+.fabric-piece.is-sewing .fabric-author { animation: fabric-join-right .65s ease-out both; }
+.fabric-piece.has-three-scraps.is-sewing .fabric-author { animation: fabric-join-bottom .65s ease-out both; }
 .fabric-piece.is-sewing .fabric-stitches { stroke-dasharray: 420; stroke-dashoffset: 420; animation: fabric-stitch 1.4s .65s linear forwards; }
 .fabric-piece.is-sewing .fabric-needle { animation: fabric-needle 1.4s .65s linear both; }
+.fabric-piece.is-sewing .fabric-seam.is-horizontal .fabric-stitches { animation-delay: 2.05s; }
+.fabric-piece.is-sewing .fabric-seam.is-horizontal .fabric-needle { animation-name: fabric-needle-horizontal; animation-delay: 2.05s; }
 .fabric-save { display: flex; margin: 0 auto; }
 .fabric-existing { margin-top: 18px; color: var(--muted); font-size: 13px !important; }
 .fabric-piece.is-compact { margin: 12px 0 20px; padding: 8px; }
@@ -31,7 +40,9 @@
 .fabric-piece.is-compact .fabric-scrap > span { font-size: 14px; }
 @keyframes fabric-join-left { from { transform: translateX(-30px) rotate(-9deg); opacity: .5; } to { transform: rotate(-1deg); opacity: 1; } }
 @keyframes fabric-join-right { from { transform: translateX(30px) rotate(9deg); opacity: .5; } to { transform: rotate(1deg); opacity: 1; } }
+@keyframes fabric-join-bottom { from { transform: translateY(25px) rotate(4deg); opacity: .5; } to { transform: rotate(-.5deg); opacity: 1; } }
 @keyframes fabric-stitch { to { stroke-dashoffset: 0; } }
 @keyframes fabric-needle { 0% { opacity: 1; transform: translateY(0); } 95% { opacity: 1; transform: translateY(145px); } 100% { opacity: 0; transform: translateY(155px); } }
+@keyframes fabric-needle-horizontal { 0% { opacity: 1; transform: translateX(0); } 95% { opacity: 1; transform: translateX(145px); } 100% { opacity: 0; transform: translateX(155px); } }
 @media (max-width: 480px) { .fabric-options { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 17px 12px; padding-inline: 2px; } .fabric-scrap { padding-inline: 13px; } .fabric-scrap > span { font-size: 14px; } .fabric-piece .fabric-scrap { min-height: 155px; } }
 @media (prefers-reduced-motion: reduce) { .fabric-option { transition: none; } .fabric-piece.is-sewing * { animation: none !important; } .fabric-piece.is-sewing .fabric-stitches { stroke-dashoffset: 0; } }
