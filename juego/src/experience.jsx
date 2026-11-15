@@ -7,6 +7,7 @@ import { MissionEncounter, NavigationMap, MissionReflection, MissionPocket, Pock
 import { DESTINATIONS, updateDraft, saveReflection, isStationComplete, completedStations, connectStars } from './mission.js';
 import { StationVisit } from './station-visit.jsx';
 import ultravioletReading from './assets/lectura-ultravioleta.pdf?url';
+import { CollisionScene } from './collision-scene.jsx';
 
 const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', mision: 'mission', mapa: 'game', 'estacion-1': 'ultraviolet', 'estacion-2': 'homeSignal', jugar: 'game', alias: 'alias', bolsillo: 'recap', cierre: 'recap' };
 const stations = notes.slice(0, 7).map((note, index) => ({ ...note, ...DESTINATIONS[index], text: note.available ? note.text : 'Esta página de la bitácora todavía está en escritura. Puedes continuar el viaje y volver cuando esté lista.' }));
@@ -201,7 +202,7 @@ function Introduction({ onStart, motion }) {
       </article>
       <SpaceWindow motion={motion} />
     </div>
-    <MissionEncounter scenery={<MissionGalaxies />} onAccept={onStart} motion={motion} />
+    <MissionEncounter scenery={<CollisionScene motion={motion} />} onAccept={onStart} motion={motion} />
   </section>;
 }
 
@@ -334,7 +335,7 @@ export function Experience() {
       {screen === 'about' && <AuthorPresentation onIntroduction={() => navigate('introduction')} />}
       {screen === 'introduction' && <Introduction onStart={() => setModal({ kind: 'alias' })} motion={coverMotion} />}
 
-      {['mission', 'alias'].includes(screen) && <MissionEncounter scenery={<MissionGalaxies />} onAccept={() => setModal({ kind: 'alias' })} motion={coverMotion} />}
+      {['mission', 'alias'].includes(screen) && <MissionEncounter scenery={<CollisionScene motion={coverMotion} />} onAccept={() => setModal({ kind: 'alias' })} motion={coverMotion} />}
       {screen === 'game' && <NavigationMap approaching={approaching} destinationIndex={destinationIndex} alias={alias} stations={stations} mission={mission} onOpen={selectDestination} onPocket={openPocket} scenery={<MissionGalaxies />} motion={coverMotion} />}
       {visitIndex !== null && <StationVisit key={visitIndex} note={stations[visitIndex]} heading={visitIndex === 0 ? <>Sintoniza <em>Ultravioleta</em></> : <>Sigue la señal <em>de casa</em></>} draft={mission.drafts[visitIndex] ?? mission.reflections[visitIndex] ?? ''} selected={mission.reflections[visitIndex]} onDraft={text => setMission(previous => updateDraft(previous, visitIndex, text))} onSave={text => setMission(previous => saveReflection(previous, visitIndex, text))} onPocket={openPocket} onMap={() => navigate('game')} stars={completedStations(mission).length} complete={isStationComplete(mission, visitIndex)} motion={coverMotion}><StoryText text={stations[visitIndex].text} referenceHref={visitIndex === 0 ? ultravioletReading : undefined} /></StationVisit>}
       {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onReset={() => setModal({ kind: 'reset' })} onConnect={(a, b) => setMission(previous => connectStars(previous, a, b))} />}

@@ -1,0 +1,14 @@
+.collision-scene { background: #160b28; }
+.collision-haze { position: absolute; inset: 0; background: radial-gradient(ellipse at 18% 35%,#8656ae38,transparent 43%),radial-gradient(ellipse at 78% 68%,#fca4bc21,transparent 40%),radial-gradient(ellipse at 60% 12%,#4a1b705c,transparent 52%); }
+.collision-stars { position: absolute; inset: 0; width: 100%; height: 100%; }
+.collision-moon { position: absolute; left: 11%; top: 23%; width: clamp(22px,3vw,42px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 30% 28%,#ead7e8,#977398 46%,#221331 77%); box-shadow: inset -7px -4px 8px #160b28b3,0 0 28px #fca4bc12; opacity: .65; }
+.collision-distant-planet { position: absolute; right: 12%; top: 59%; width: clamp(32px,4vw,58px); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 32% 30%,#c9bddb,#755394 45%,#241232 76%); opacity: .65; }
+.collision-distant-planet::after { content: ''; position: absolute; inset: 37% -28%; border: 1px solid #d4dcf361; border-radius: 50%; transform: rotate(-28deg); }
+.collision-video { position: absolute; left: 50%; top: 44%; width: auto; height: 108%; aspect-ratio: 1; object-fit: contain; mix-blend-mode: screen; opacity: .56; transform: translate(-50%,-50%); mask-image: radial-gradient(ellipse at center,#000 35%,#000b 60%,transparent 73%); -webkit-mask-image: radial-gradient(ellipse at center,#000 35%,#000b 60%,transparent 73%); }
+.collision-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center,transparent 20%,#160b2826 62%,#160b28b3 100%); box-shadow: inset 0 0 70px #160b28; }
+.mission-encounter:has(.collision-scene) .encounter-copy { align-self: end; padding: 0 24px 38px; background: none; }
+.mission-encounter:has(.collision-scene) .accept-mission { min-height: 60px; padding: 16px 32px; font-size: 16px; }
+@media (max-width: 560px) {
+  .collision-video { width: 145%; height: auto; }
+  .mission-encounter:has(.collision-scene) .encounter-copy { padding-bottom: 28px; }
+}
