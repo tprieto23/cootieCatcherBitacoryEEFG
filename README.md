@@ -72,7 +72,7 @@ Después de recoger se abre la pregunta sobre decidir juntas y «Leer la bitáco
 
 ### Quinta estación: recoger lo que sostiene la galaxia
 
-`#/estacion-5` abre «Comparte el timón». `src/dark-matter-encounter.jsx/css` presenta una galaxia visible pequeña, estrellas en órbitas ilustrativas y una explicación breve con enlace a [NASA](https://science.nasa.gov/dark-matter/). «Seguir la gravedad» revela un halo violeta que representa una distribución de masa inferida, más extensa que la región luminosa. La metáfora conecta ese sostén con los saberes locales y cotidianos que la academia no siempre reconoce.
+`#/estacion-5` abre «Comparte el timón». `src/dark-matter-encounter.jsx/css` presenta una galaxia visible pequeña, estrellas en órbitas ilustrativas y una explicación breve con enlace a [NASA](https://science.nasa.gov/dark-matter/). «Recoge tu materia oscura» revela un halo violeta que representa una distribución de masa inferida, más extensa que la región luminosa. La metáfora conecta ese sostén con los saberes locales y cotidianos que la academia no siempre reconoce.
 
 Dos huellas del halo abren las citas literales de Cornejo/Rufer y Rufer/Corona Berkin. Cada cita conserva su atribución y enlace al PDF aportado por la autora. «Recoger este fragmento» lo guarda; volver a tocar una huella permite releerlo sin duplicarlo. `mission.darkMatterObserved` conserva el descubrimiento y `mission.darkMatterFragments` los índices 0/1 recogidos. Con ambos se enciende la estrella de la quinta; no hay casilla de escritura. La normalización conserva progreso parcial y recuerdos anteriores. Una sola ficha del bolsillo reúne las dos frases y su procedencia.
 

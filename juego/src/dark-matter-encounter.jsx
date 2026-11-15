@@ -83,7 +83,7 @@ export function DarkMatterEncounter({ observed, fragments, onObserve, onCollect,
       </svg>
       <figcaption>{observed ? 'El halo coloreado representa materia inferida por su gravedad. Toca sus dos huellas.' : 'Vemos las estrellas. Sus movimientos nos invitan a buscar más allá de la luz.'}</figcaption>
     </figure>
-    <div className="dark-matter-controls"><button type="button" className="cover-open" onClick={onObserve} disabled={observed}>{observed ? 'Halo localizado' : 'Seguir la gravedad'}<span aria-hidden="true">↗</span></button></div>
+    <div className="dark-matter-controls"><button type="button" className="cover-open" onClick={onObserve} disabled={observed}>{observed ? 'Halo localizado' : 'Recoge tu materia oscura'}<span aria-hidden="true">↗</span></button></div>
     {fragment && <div ref={quoteRef} tabIndex={-1} className="dark-matter-fragment" aria-labelledby="dark-fragment-title">
       <h3 id="dark-fragment-title">Fragmento {active + 1} de materia oscura</h3>
       <blockquote><p>{fragment.quote}</p><cite>— {fragment.source}</cite></blockquote>
