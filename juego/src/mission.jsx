@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { REFLECTION_LIMIT } from './mission.js';
+import { REFLECTION_LIMIT, isStationComplete, completedStations } from './mission.js';
+import { StationSilhouette } from './station-art.jsx';
+import { ConstellationBuilder } from './constellation-builder.jsx';
+import './expedition.css';
 import './mission.css';
 
-const locations = [[22, 10], [68, 23], [28, 36], [73, 49], [27, 62], [68, 75], [35, 88]];
+export const locations = [[22, 7], [68, 20], [27, 33], [72, 46], [27, 59], [68, 72], [35, 85]];
 
 export function MissionEncounter({ scenery, onAccept, motion }) {
   return <section className={`mission-encounter ${motion ? '' : 'is-paused'}`} aria-labelledby="encounter-title">
@@ -13,24 +16,24 @@ export function MissionEncounter({ scenery, onAccept, motion }) {
   </section>;
 }
 
-export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scenery, motion, approaching = false }) {
-  const lights = Object.keys(mission.reflections).length;
+export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scenery, motion, approaching = false, destinationIndex = 0 }) {
+  const lights = completedStations(mission).length;
   return <section className={`navigation-universe ${motion ? '' : 'is-paused'} ${approaching ? 'is-approaching' : ''}`} aria-labelledby="map-title">
     {scenery}
-    <header className="navigation-heading"><div><span className="eyebrow">NEBULA-F23 · UNA SOLA MISIÓN</span><h1 id="map-title">Carta de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo espacial feminista <span>{lights} / 7 estrellas</span></button></header>
+    <header className="navigation-heading"><div><span className="eyebrow">NEBULA-F23 · UNA SOLA MISIÓN</span><h1 id="map-title">Carta de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo <span>{lights} / 7 estrellas</span></button></header>
     <div className="navigation-layout">
       <section className={`chart-sheet ${approaching ? 'is-approaching' : ''}`} aria-label="Mapa de las siete estaciones">
         <div className="chart-topline"><span>RUTA DE LA BITÁCORA</span><span>01 — 07</span></div>
-        <div className="chart-terrain">
+        <div className="chart-terrain" style={{ transformOrigin: `${locations[destinationIndex][0]}% ${locations[destinationIndex][1]}%` }}>
           <svg className="chart-route" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d={`M${locations.map(([x, y]) => `${x},${y}`).join(' L')}`} /></svg>
           <ol className="station-route">{stations.map((note, index) => {
-            const lit = Boolean(mission.reflections[index]);
+            const lit = isStationComplete(mission, index);
             const visited = mission.visited.includes(index);
             return <li key={note.number} style={{ left: `${locations[index][0]}%`, top: `${locations[index][1]}%` }}>
-              <button className={`station-node station-kind-${index % 3} ${lit ? 'is-lit' : ''}`} disabled={approaching} onClick={() => onOpen(index)} aria-label={`Estación ${note.number}: ${note.title}${lit ? ', reflexión guardada' : visited ? ', visitada' : ''}`}>
-                <span className="station-orb" aria-hidden="true"><span /></span>
-                <span className="station-number">{String(note.number).padStart(2, '0')} {lit ? '· ESTRELLA ENCENDIDA' : visited ? '· VISITADA' : ''}</span>
-                <span className="station-name">{note.title}</span>
+              <button className={`station-node station-kind-${index % 3} ${lit ? 'is-lit' : ''} expedition-node`} disabled={approaching} onClick={() => onOpen(index)} aria-label={`Estación ${note.number}: ${note.title}${lit ? index === 0 ? ', Pulso recogido' : ', material recogido' : visited ? ', visitada' : ''}`}>
+                <StationSilhouette kind={note.silhouette} complete={lit} />
+                <span className="station-number">{String(note.number).padStart(2, '0')} {lit ? index === 0 ? '· Pulso recogido' : '· Material recogido' : visited ? '· VISITADA' : ''}</span>
+                <span className="station-name">{note.title}</span><span className="station-hint">{note.hint}</span>
                 {!note.available && <small>Página en escritura</small>}
               </button>
             </li>;
@@ -44,8 +47,8 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
   </section>;
 }
 
-export function MissionReflection({ selected = '', onSave, onReturn, children, available }) {
-  const [draft, setDraft] = useState(selected);
+export function MissionReflection({ selected = '', savedDraft, onDraft, onSave, onReturn, children, available }) {
+  const [draft, setDraft] = useState(savedDraft ?? selected);
   const [saved, setSaved] = useState(false);
   function submit(event) {
     event.preventDefault();
@@ -58,15 +61,22 @@ export function MissionReflection({ selected = '', onSave, onReturn, children, a
     onSave(draft);
     setSaved(true);
   }
-  return <>{children}{available && <form className="reflection-form" onSubmit={submit}><span className="eyebrow">UNA ESTRELLA QUE NACE DE TU LECTURA</span><h3>¿Qué te llevas de este encuentro?</h3><label htmlFor="station-reflection">Tu reflexión</label><textarea id="station-reflection" value={draft} onChange={event => { event.target.setCustomValidity(''); setDraft(event.target.value); setSaved(false); }} rows={4} maxLength={REFLECTION_LIMIT} required placeholder="Una palabra, una idea, una duda…" /><p className="quiet-note">Se queda en tu navegador, dentro de tu bolsillo espacial feminista. Puedes volver para editarla.</p><button className="primary" type="submit">{selected ? 'Actualizar mi estrella' : 'Guardar y encender mi estrella'}</button><p className="reflection-status" role="status">{saved ? 'Tu estrella brilla. La reflexión está en tu bolsillo.' : selected ? 'Esta estrella ya guarda una reflexión tuya.' : ''}</p></form>}<button className="text-button return-to-map" onClick={onReturn}>Volver al mapa</button></>;
+  return <>{children}{available && <form className="reflection-form" onSubmit={submit}><span className="eyebrow">UNA ESTRELLA QUE NACE DE TU LECTURA</span><h3>¿Qué te llevas de este encuentro?</h3><label htmlFor="station-reflection">Tu reflexión</label><textarea id="station-reflection" value={draft} onChange={event => { event.target.setCustomValidity(''); setDraft(event.target.value); onDraft?.(event.target.value); setSaved(false); }} rows={4} maxLength={REFLECTION_LIMIT} required placeholder="Una palabra, una idea, una duda…" /><p className="quiet-note">Se queda en tu navegador, dentro de tu bolsillo espacial feminista. Puedes volver para editarla.</p><button className="primary" type="submit">{selected ? 'Actualizar mi estrella' : 'Guardar y encender mi estrella'}</button><p className="reflection-status" role="status">{saved ? 'Tu estrella brilla. La reflexión está en tu bolsillo.' : selected ? 'Esta estrella ya guarda una reflexión tuya.' : ''}</p></form>}<button className="text-button return-to-map" onClick={onReturn}>Volver al mapa</button></>;
 }
 
-export function MissionPocket({ alias, stations, mission, legacyWords, onOpen, onMap, onReset }) {
+export function MissionPocket({ alias, stations, mission, legacyWords, onOpen, onMap, onReset, onConnect }) {
   const collected = Object.entries(mission.reflections);
-  return <section className="mission-pocket" aria-labelledby="pocket-title"><span className="eyebrow">TU BOLSILLO ESPACIAL FEMINISTA</span><h1 id="pocket-title">Tus estrellas,<br /><em>{alias}.</em></h1><p>{collected.length ? 'Aquí vuelve a brillar lo que recogiste en tu viaje. Puedes regresar a cada página y editar tu reflexión.' : 'Aquí aparecerán las estrellas que enciendas con tus reflexiones.'}</p><PocketStars stations={stations} reflections={mission.reflections} onOpen={onOpen} />{Object.keys(legacyWords).length > 0 && <section className="legacy-pocket"><h2>Palabras de tu recorrido anterior</h2><div className="word-notes">{Object.entries(legacyWords).map(([index, word]) => <div className="word-note" key={index}><span>{word}</span><small>Entrada {Number(index) + 1}</small></div>)}</div></section>}<p className="quiet-note">{collected.length} de 7 estrellas encendidas. La conexión entre estrellas y la barrera protectora llegarán en la siguiente etapa de este viaje.</p><div className="recap-actions"><button className="primary" onClick={onMap}>Volver al mapa</button><button className="text-button" onClick={onReset}>Borrar mi recorrido de este navegador</button></div></section>;
+  return <section className="mission-pocket" aria-labelledby="pocket-title"><span className="eyebrow">TU BOLSILLO ESPACIAL FEMINISTA</span><h1 id="pocket-title">Tus estrellas,<br /><em>{alias}.</em></h1><p>{collected.length ? 'Aquí vuelve a brillar lo que recogiste en tu viaje. Puedes regresar a cada página y editar tu reflexión.' : 'Aquí aparecerán las estrellas que enciendas con tus reflexiones.'}</p><PocketStars stations={stations} mission={mission} onOpen={onOpen} />{Object.keys(legacyWords).length > 0 && <section className="legacy-pocket"><h2>Palabras de tu recorrido anterior</h2><div className="word-notes">{Object.entries(legacyWords).map(([index, word]) => <div className="word-note" key={index}><span>{word}</span><small>Entrada {Number(index) + 1}</small></div>)}</div></section>}<ConstellationBuilder mission={mission} stations={stations} onConnect={onConnect} /><div className="recap-actions"><button className="primary" onClick={onMap}>Volver al mapa</button><button className="text-button" onClick={onReset}>Borrar mi recorrido de este navegador</button></div></section>;
 }
 
-export function PocketStars({ stations, reflections, onOpen }) {
-  const collected = Object.entries(reflections);
-  return collected.length ? <div className="reflection-collection">{collected.map(([index, reflection]) => <article className="reflection-card" key={index}><span className="pocket-star" aria-hidden="true">✦</span><span className="eyebrow">ESTACIÓN {Number(index) + 1}</span><h2>{stations[index].title}</h2><p>{reflection}</p>{onOpen && <button className="text-button" onClick={() => onOpen(Number(index))}>Volver a esta página</button>}</article>)}</div> : <p className="empty-pocket">Aquí aparecerá tu estrella cuando guardes tu reflexión. Puedes seguir leyendo y escribiendo.</p>;
+export function PocketStars({ stations, mission, onOpen }) {
+  const collected = Object.entries(mission.reflections);
+  return collected.length ? <div className="reflection-collection">{collected.map(([index, reflection]) => {
+    const complete = isStationComplete(mission, Number(index));
+    return <article className={`reflection-card ${complete ? 'has-material' : 'awaits-material'}`} key={index}><span className="pocket-star" aria-hidden="true">✦</span><span className="eyebrow">ESTACIÓN {Number(index) + 1}</span><h2>{stations[index].title}</h2><div className={`material-memory ${Number(index) === 0 ? 'ultraviolet-memory' : ''}`}><StationSilhouette kind={Number(index) === 0 ? 'pulse' : stations[index].silhouette} complete={complete} /><div><span>{stations[index].material}</span><small>{complete ? Number(index) === 0 ? 'Pulso recogido · Estrella encendida' : 'Material recogido · Estrella encendida' : 'Por sintonizar · Tu reflexión está a salvo'}</small></div></div><p>{reflection}</p>{onOpen && <button className="text-button" onClick={() => onOpen(Number(index))}>Volver a esta página</button>}</article>;
+  })}</div> : <p className="empty-pocket">Aquí aparecerá tu recuerdo cuando guardes tu reflexión: la estrella, el material de la estación y tus propias palabras.</p>;
+}
+
+export function DestinationPreview({ note, complete, onLand, onPocket, onReturn }) {
+  return <div className="destination-preview"><StationSilhouette kind={note.silhouette} complete={complete} /><span className="eyebrow">OBJETIVO DE ESTA PARADA</span><p className="destination-objective">{note.objective}</p><p>{note.hint}</p>{!note.available && <p className="quiet-note">La página de esta estación está en escritura. Puedes visitarla y continuar explorando el mapa.</p>}<button type="button" className="primary" onClick={onLand}>Aterrizar</button><div className="destination-actions"><button type="button" className="text-button" onClick={onPocket}>Mi bolsillo</button><button type="button" className="text-button" onClick={onReturn}>Volver al mapa</button></div></div>;
 }

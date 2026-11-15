@@ -24,25 +24,37 @@ La portada centrada presenta el trabajo y permite entrar mediante el botón Tani
 
 Al final de la introducción aparece una escena amplia con una galaxia enana a la izquierda y otra mayor a la derecha. **Aceptar misión** abre una ventana de vidrio con «Astronauta, ¿cuál es tu alias?». **Entrar al mapa** confirma el alias y despliega una carta con un efecto visual de papel arrugado que se abre; no incluye sonido. La pausa y `prefers-reduced-motion` permiten ver el mapa abierto sin animación.
 
-El mapa contiene siete estaciones en el orden original de las entradas. La Guía de navegación aparece a su derecha; por debajo en pantallas de hasta 780 px. Las dos galaxias permanecen detrás del mapa. Cada estación abre su página y permite volver al mapa. Los componentes de misión están en `src/mission.jsx`, sus estilos en `src/mission.css` y la validación de los datos en `src/mission.js`.
+El mapa contiene siete estaciones en el orden original de las entradas. La Guía de navegación aparece a su derecha; por debajo en pantallas de hasta 780 px. Las dos galaxias permanecen detrás del mapa. Cada estación anuncia un nombre, una silueta SVG propia y una pista. Seleccionarla muestra la antena intermitente y el objetivo «Recupera un pulso de energía ultravioleta». «Aterrizar» abre `#/estacion-1`: un receptor con tres señales débiles. Cada una revela un fragmento literal de «Una voz que aprendió acompañada» e ilumina una parte de la antena. Las tres reunidas producen un pulso violeta.
 
-### Primera estación: Sintoniza Ultravioleta
+«Leer la bitácora» está disponible desde el principio, sin exigir sintonizar antes. Conserva el texto íntegro, citas, referencia y PDF original. Al final aparece «¿Qué pudiste reconocer al escuchar juntas las experiencias de las mujeres de Ultravioleta?». Se puede guardar antes de terminar de sintonizar: la reflexión queda a salvo, y la recogida se completa cuando existen tres señales y reflexión guardada, en cualquier orden.
 
-Seleccionarla acerca la carta a ese punto y abre `#/estacion-1`. La página conserva el texto íntegro de «Una voz que aprendió acompañada», sus citas, referencia y enlace al PDF original. La pregunta de Ultravioleta aparece al final. «Guardar en mi bolsillo» enciende una estrella y muestra «Tu estrella de Ultravioleta ya está en tu bolsillo».
+El bolsillo reúne una sola ficha por visita, con estrella, material y palabras exactas. La primera contiene el pulso violeta y se actualiza al editar. Al volver al mapa aparece «Pulso recogido», con señal continua. «Mi bolsillo» permanece accesible en mapa, aproximación y visita; abrirlo sobre la lectura conserva su posición y borrador. El avance y las señales sobreviven a la recarga.
 
-«Mi bolsillo» y «Volver al mapa» permanecen en una barra fija durante la lectura. Abrir el bolsillo superpone una ventana sin desmontar la página ni perder su posición o borrador. Al guardar se conservan los espacios y párrafos exactos; editar reemplaza la misma estrella. El borrador se guarda por separado y se recupera al recargar, aunque aún no se haya convertido en estrella. Componentes y estilos de esta visita: `src/ultraviolet.jsx` y `src/ultraviolet.css`.
+### Los siete destinos
+
+| Estación | Material anunciado |
+| --- | --- |
+| Sintoniza Ultravioleta | Pulso de energía ultravioleta |
+| Sigue la señal de casa | Antena de relevo |
+| Aterriza en lo cotidiano | Hilo para la red de apoyo |
+| Deja que otra voz cambie el rumbo | Prisma de navegación |
+| Comparte el timón | Brújula compartida |
+| Transmite con tu propia voz | Cápsula de transmisión |
+| Busca a las que faltan en mi radar | Filamento de materia oscura |
+
+La interacción propia del receptor se desarrolló para la primera estación. Las demás conservan su lectura y reflexión, con identidad y objetivo nuevos. El escrito de «Comparte el timón» sigue pendiente. Al reunir siete estrellas completas se habilita enlazarlas desde el bolsillo; una red que conecte las siete forma la barrera protectora. Las conexiones también se guardan. Este cierre está preparado para cuando las siete páginas estén disponibles; no se inventó la quinta entrada.
 
 El recorrido sigue los botones de cada estación, sin menú superior. El texto NEBULA-F23 al pie de todas las pantallas permite regresar a la portada.
 
-Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva las ocho posiciones del prototipo anterior para mantener sus datos; el mapa usa únicamente las entradas 1 a 7. La quinta estación se muestra provisionalmente como «Estación 5 · Por escribir», sin inventar un escrito. La entrada 8 permanece fuera de la misión actual. Las notas anteriores se conservan en `src/legacy-notes.js`.
+Los seis relatos aprobados están copiados íntegramente en `juego/src/entries/`: entradas 1, 2, 3, 4, 6 y 7. Sus fuentes originales permanecen en las carpetas hermanas `../entradaN/`. `src/notes.js` conserva las ocho posiciones del prototipo anterior para mantener sus datos; el mapa usa únicamente las entradas 1 a 7. La quinta estación se llama «Comparte el timón» y muestra «Página en escritura», sin inventar su texto. La entrada 8 permanece fuera de la misión actual. Las notas anteriores se conservan en `src/legacy-notes.js`.
 
 Los enlaces locales se conservan en los Markdown fuente. La lectura de la primera estación se incluye íntegra como `src/assets/lectura-ultravioleta.pdf` y su enlace se publica con Vite. Los enlaces de otras lecturas permanecen ocultos hasta incluir sus archivos.
 
-Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. La conexión manual de estrellas, la barrera protectora y la conclusión final siguen pendientes. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
+Después de leer una entrada disponible se puede escribir una palabra o una reflexión de hasta 4000 caracteres y guardarla. La estación enciende su estrella y el bolsillo reúne las reflexiones, permite releerlas y volver a editarlas. Las palabras guardadas con el prototipo anterior se conservan en un apartado propio. La conclusión de la autora y las interacciones propias de las estaciones 2 a 7 siguen pendientes. La presentación y la introducción conservan los textos proporcionados por la autora. La presentación incluye la composición de fotografías de la autora `src/assets/sobreTania.svg`: consultar `src/assets/README.md`.
 
 ## Guardado personal
 
-No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, estaciones visitadas, reflexiones, borradores de Ultravioleta y los datos del recorrido anterior se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
+No hay cuentas, contraseñas, API de respuestas ni base de datos. Alias, estaciones visitadas, reflexiones, borradores, señales sintonizadas, conexiones de estrellas y los datos del recorrido anterior se guardan en `localStorage`, bajo `bitacory.journey.v1`, en el mismo navegador y perfil. No se envían a la autora. Las estrellas de Ultravioleta guardadas antes de incorporar el receptor conservan su progreso mediante una migración. La opción Borrar mi recorrido elimina esos datos. Si el navegador impide guardarlos, se informa que el recorrido durará durante la sesión.
 
 ## Vercel
 

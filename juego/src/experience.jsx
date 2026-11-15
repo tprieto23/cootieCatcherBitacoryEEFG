@@ -3,13 +3,13 @@ import { notes } from './notes.js';
 import { eraseJourney, readJourney, writeJourney } from './journey.js';
 import portrait from './assets/sobreTania.svg';
 import luffy from './assets/Luffy2.svg';
-import { MissionEncounter, NavigationMap, MissionReflection, MissionPocket, PocketStars } from './mission.jsx';
-import { ULTRAVIOLET, updateDraft, saveReflection } from './mission.js';
+import { MissionEncounter, NavigationMap, MissionReflection, MissionPocket, PocketStars, DestinationPreview } from './mission.jsx';
+import { DESTINATIONS, updateDraft, saveReflection, tuneSignal, isStationComplete, completedStations, connectStars } from './mission.js';
 import { UltravioletVisit } from './ultraviolet.jsx';
 import ultravioletReading from './assets/lectura-ultravioleta.pdf?url';
 
 const routes = { inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', mision: 'mission', mapa: 'game', 'estacion-1': 'ultraviolet', jugar: 'game', alias: 'alias', bolsillo: 'recap', cierre: 'recap' };
-const stations = notes.slice(0, 7).map((note, index) => index === 0 ? { ...note, title: ULTRAVIOLET.title } : note.available ? note : { ...note, title: 'Estación 5 · Por escribir', text: 'Esta página de la bitácora todavía está en escritura. Puedes continuar el viaje y volver cuando esté lista.' });
+const stations = notes.slice(0, 7).map((note, index) => ({ ...note, ...DESTINATIONS[index], text: note.available ? note.text : 'Esta página de la bitácora todavía está en escritura. Puedes continuar el viaje y volver cuando esté lista.' }));
 function currentRoute() { return routes[window.location.hash.replace(/^#\/?/, '')] ?? 'home'; }
 function getStorage() { try { return window.localStorage; } catch { return null; } }
 
@@ -228,6 +228,7 @@ export function Experience() {
   const [route, setRoute] = useState(currentRoute);
   const [modal, setModal] = useState(null);
   const [approaching, setApproaching] = useState(false);
+  const [destinationIndex, setDestinationIndex] = useState(0);
   const [coverMotion, setCoverMotion] = useState(true);
   const [storageAvailable, setStorageAvailable] = useState(Boolean(storage));
   const mainRef = useRef(null);
@@ -261,20 +262,34 @@ export function Experience() {
   useEffect(() => {
     if (!approaching) return;
     const duration = !coverMotion || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 650;
-    const timeout = window.setTimeout(() => navigate('ultraviolet'), duration);
+    const timeout = window.setTimeout(() => { setApproaching(false); setModal({ kind: 'destination', index: destinationIndex }); }, duration);
     return () => window.clearTimeout(timeout);
-  }, [approaching, coverMotion]);
+  }, [approaching, coverMotion, destinationIndex]);
 
   function openNote(index) {
     if (!stations[index] || approaching) return;
     setMission(previous => ({ ...previous, visited: [...new Set([...previous.visited, index])] }));
     if (index === 0) {
       if (screen === 'ultraviolet') setModal(null);
-      else if (screen === 'game') setApproaching(true);
       else navigate('ultraviolet');
       return;
     }
     setModal({ kind: 'note', index });
+  }
+
+  function selectDestination(index) {
+    if (!stations[index] || approaching) return;
+    setDestinationIndex(index);
+    if (screen === 'game') setApproaching(true);
+    else setModal({ kind: 'destination', index });
+  }
+
+  function openPocket() {
+    setModal(previous => ({ kind: 'visitPocket', returnTo: previous?.kind === 'destination' || previous?.kind === 'note' ? previous : null }));
+  }
+
+  function closePocket() {
+    setModal(previous => previous?.returnTo ?? null);
   }
 
   function begin(event) {
@@ -318,9 +333,9 @@ export function Experience() {
       {screen === 'introduction' && <Introduction onStart={() => setModal({ kind: 'alias' })} motion={coverMotion} />}
 
       {['mission', 'alias'].includes(screen) && <MissionEncounter scenery={<MissionGalaxies />} onAccept={() => setModal({ kind: 'alias' })} motion={coverMotion} />}
-      {screen === 'game' && <NavigationMap approaching={approaching} alias={alias} stations={stations} mission={mission} onOpen={openNote} onPocket={() => navigate('recap')} scenery={<MissionGalaxies />} motion={coverMotion} />}
-      {screen === 'ultraviolet' && <UltravioletVisit draft={mission.drafts[0] ?? mission.reflections[0] ?? ''} selected={mission.reflections[0]} onDraft={text => setMission(previous => updateDraft(previous, 0, text))} onSave={text => setMission(previous => saveReflection(previous, 0, text))} onPocket={() => setModal({ kind: 'visitPocket' })} onMap={() => navigate('game')} stars={Object.keys(mission.reflections).length}><StoryText text={stations[0].text} referenceHref={ultravioletReading} /></UltravioletVisit>}
-      {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={openNote} onMap={() => navigate('game')} onReset={() => setModal({ kind: 'reset' })} />}
+      {screen === 'game' && <NavigationMap approaching={approaching} destinationIndex={destinationIndex} alias={alias} stations={stations} mission={mission} onOpen={selectDestination} onPocket={openPocket} scenery={<MissionGalaxies />} motion={coverMotion} />}
+      {screen === 'ultraviolet' && <UltravioletVisit draft={mission.drafts[0] ?? mission.reflections[0] ?? ''} selected={mission.reflections[0]} onDraft={text => setMission(previous => updateDraft(previous, 0, text))} onSave={text => setMission(previous => saveReflection(previous, 0, text))} onPocket={openPocket} onMap={() => navigate('game')} stars={completedStations(mission).length} signals={mission.ultravioletSignals} onTune={index => setMission(previous => tuneSignal(previous, index))} complete={isStationComplete(mission, 0)} motion={coverMotion}><StoryText text={stations[0].text} referenceHref={ultravioletReading} /></UltravioletVisit>}
+      {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onReset={() => setModal({ kind: 'reset' })} onConnect={(a, b) => setMission(previous => connectStars(previous, a, b))} />}
 
       {!isCover && !storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}
     </main>
@@ -328,8 +343,9 @@ export function Experience() {
     <footer><button type="button" className="footer-home" onClick={() => navigate('home')} aria-label="Volver a la portada de NEBULA-F23">NEBULA-F23</button><span>Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II · Una bitácora en construcción</span></footer>
 
     {modal?.kind === 'alias' && <Dialog title="Astronauta, ¿cuál es tu alias?" eyebrow="ANTES DE TRAZAR TU RUMBO" className="astronaut-alias" onClose={() => setModal(null)}><form className="alias-screen" onSubmit={begin}><label htmlFor="player-alias">Tu alias de astronauta</label><input autoFocus id="player-alias" name="alias" value={aliasDraft} onChange={event => { event.target.setCustomValidity(''); setAliasDraft(event.target.value); }} maxLength={40} autoComplete="off" required placeholder="Puede ser un nombre inventado" /><p className="quiet-note">Tu alias y tus reflexiones se quedan en este navegador. No se envían a Tania.</p><button className="primary" type="submit">Entrar al mapa</button></form></Dialog>}
-    {modal?.kind === 'note' && <Dialog title={stations[modal.index].title} eyebrow={`ESTACIÓN ${String(modal.index + 1).padStart(2, '0')} · PÁGINA DE LA BITÁCORA`} wide onClose={() => setModal(null)}><MissionReflection key={modal.index} available={stations[modal.index].available} selected={mission.reflections[modal.index]} onSave={text => setMission(previous => saveReflection(previous, modal.index, text))} onReturn={() => { setModal(null); navigate('game'); }}><StoryText text={stations[modal.index].text} /></MissionReflection></Dialog>}
-    {modal?.kind === 'visitPocket' && <Dialog title="Mi bolsillo" eyebrow="TU BOLSILLO ESPACIAL FEMINISTA" className="visit-pocket-modal" onClose={() => setModal(null)}><PocketStars stations={stations} reflections={mission.reflections} /><p className="quiet-note">Tus reflexiones guardadas, con tus propias palabras. Tu borrador sigue en la página.</p><button type="button" className="primary" onClick={() => setModal(null)}>Seguir leyendo</button></Dialog>}
+    {modal?.kind === 'note' && <Dialog title={stations[modal.index].title} eyebrow={`ESTACIÓN ${String(modal.index + 1).padStart(2, '0')} · PÁGINA DE LA BITÁCORA`} wide onClose={() => setModal(null)}><button type="button" className="text-button" onClick={openPocket}>Mi bolsillo</button><MissionReflection key={modal.index} available={stations[modal.index].available} savedDraft={mission.drafts[modal.index]} onDraft={text => setMission(previous => updateDraft(previous, modal.index, text))} selected={mission.reflections[modal.index]} onSave={text => setMission(previous => saveReflection(previous, modal.index, text))} onReturn={() => { setModal(null); navigate('game'); }}><StoryText text={stations[modal.index].text} /></MissionReflection></Dialog>}
+    {modal?.kind === 'destination' && <Dialog title={stations[modal.index].title} eyebrow={`DESTINO · ESTACIÓN ${modal.index + 1} DE 7`} className="destination-modal" onClose={() => setModal(null)}><DestinationPreview note={stations[modal.index]} complete={isStationComplete(mission, modal.index)} onLand={() => openNote(modal.index)} onPocket={openPocket} onReturn={() => setModal(null)} /></Dialog>}
+    {modal?.kind === 'visitPocket' && <Dialog title="Mi bolsillo" eyebrow="TU BOLSILLO ESPACIAL FEMINISTA" className="visit-pocket-modal" onClose={closePocket}><PocketStars stations={stations} mission={mission} /><p className="quiet-note">Una ficha por estación, con su estrella, su material y tus propias palabras.</p><button type="button" className="primary" onClick={closePocket}>{screen === 'ultraviolet' ? 'Seguir explorando Ultravioleta' : modal.returnTo ? 'Volver a mi destino' : 'Volver al mapa'}</button><button type="button" className="text-button" onClick={() => navigate('recap')}>Abrir la red de mis estrellas</button></Dialog>}
     {modal?.kind === 'reset' && <Dialog title="Vaciar mi bolsillo" eyebrow="TU RECORRIDO PERSONAL" onClose={() => setModal(null)}><p>Se borrarán de este navegador tu alias, tus reflexiones, tus palabras y las estaciones visitadas. Podrás empezar otra vez.</p><div className="reset-actions"><button className="primary" onClick={resetJourney}>Borrar mi recorrido</button><button className="text-button" onClick={() => setModal(null)}>Conservarlo</button></div></Dialog>}
   </>;
 }

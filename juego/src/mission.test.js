@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { cleanMission, REFLECTION_LIMIT, updateDraft, saveReflection } from './mission.js';
 import { readJourney, writeJourney } from './journey.js';
+import { readFileSync } from 'node:fs';
+import { tuneSignal, completedStations, isStationComplete, ULTRAVIOLET_SIGNALS, connectStars, hasProtectiveBarrier } from './mission.js';
 
 test('old visits and words survive the transition to the seven-station map', () => {
   let stored = JSON.stringify({ version: 1, alias: 'Luna', game: { position: 6, discovered: [0, 5, 6, 7] }, words: { 0: 'Voz', 5: 'Escucha' } });
@@ -24,8 +26,66 @@ test('a new map keeps only valid visited stations and bounded reflections', () =
   assert.equal(mission.reflections[0], '  Mi voz  ');
   assert.equal(mission.reflections[1].length, REFLECTION_LIMIT);
   assert.deepEqual(Object.keys(mission.reflections), ['0', '1']);
-  assert.deepEqual(cleanMission(null), { visited: [], reflections: {}, drafts: {} });
+  assert.deepEqual(cleanMission(null), { visited: [], reflections: {}, drafts: {}, ultravioletSignals: [], links: [] });
   assert.deepEqual(cleanMission({ visited: [], reflections: {} }, [0, 1]).visited, []);
+});
+
+test('the three received fragments are literal passages of the author’s first entry', () => {
+  const text = readFileSync(new URL('./entries/entrada-1.md', import.meta.url), 'utf8');
+  assert.equal(new Set(ULTRAVIOLET_SIGNALS).size, 3);
+  for (const fragment of ULTRAVIOLET_SIGNALS) assert.ok(text.includes(fragment));
+});
+
+test('Ultravioleta needs three distinct signals and a reflection, in either order', () => {
+  let mission = saveReflection(cleanMission(null), 0, 'Lo que reconocí.');
+  assert.equal(isStationComplete(mission, 0), false);
+  for (const index of [2, 2, 0, -1, 3]) mission = tuneSignal(mission, index);
+  assert.deepEqual(mission.ultravioletSignals, [2, 0]);
+  assert.equal(completedStations(mission).length, 0);
+  mission = tuneSignal(mission, 1);
+  assert.equal(completedStations(mission).length, 1);
+  const edited = saveReflection(mission, 0, 'Otra mirada.');
+  assert.equal(completedStations(edited).length, 1);
+  assert.deepEqual(edited.ultravioletSignals, mission.ultravioletSignals);
+  let reverse = cleanMission(null);
+  for (const index of [0, 1, 2]) reverse = tuneSignal(reverse, index);
+  assert.equal(completedStations(reverse).length, 0);
+  assert.equal(completedStations(saveReflection(reverse, 0, 'Mi voz.')).length, 1);
+});
+
+test('receiver progress survives reload and earned stars migrate without losing reflections', () => {
+  let stored;
+  const storage = { getItem: () => stored, setItem: (_, value) => { stored = value; } };
+  const mission = tuneSignal(updateDraft(cleanMission(null), 0, 'Borrador sin guardar'), 1);
+  writeJourney(storage, { alias: 'Luna', mission });
+  const restored = readJourney(storage).mission;
+  assert.deepEqual(restored.ultravioletSignals, [1]);
+  assert.equal(restored.drafts[0], 'Borrador sin guardar');
+  assert.equal(isStationComplete(restored, 0), false);
+  const old = cleanMission({ visited: [0], reflections: { 0: 'Mi estrella anterior.' } });
+  assert.equal(isStationComplete(old, 0), true);
+  assert.equal(old.reflections[0], 'Mi estrella anterior.');
+  const invalid = cleanMission({ visited: [0], reflections: { 0: 'Mi voz.' }, ultravioletSignals: ['0', 0, 0, 3], links: [[0, 8]] });
+  assert.deepEqual(invalid.ultravioletSignals, [0]);
+  assert.deepEqual(invalid.links, []);
+});
+
+test('the protective barrier needs all seven stars in one connected network and persists', () => {
+  let mission = cleanMission(null);
+  assert.strictEqual(connectStars(mission, 0, 1), mission);
+  for (let index = 0; index < 7; index++) mission = saveReflection(mission, index, `Reflexión ${index + 1}`);
+  assert.equal(hasProtectiveBarrier(mission), false);
+  for (const index of [0, 1, 2]) mission = tuneSignal(mission, index);
+  for (const [a, b] of [[0, 1], [1, 2], [2, 0], [3, 4], [4, 5], [5, 6]]) mission = connectStars(mission, a, b);
+  assert.equal(hasProtectiveBarrier(mission), false);
+  mission = connectStars(mission, 2, 3);
+  assert.equal(hasProtectiveBarrier(mission), true);
+  assert.strictEqual(connectStars(mission, 3, 2), mission);
+  assert.strictEqual(connectStars(mission, 0, 0), mission);
+  assert.strictEqual(connectStars(mission, 0, 7), mission);
+  const restored = cleanMission(JSON.parse(JSON.stringify(mission)));
+  assert.equal(hasProtectiveBarrier(restored), true);
+  assert.deepEqual(restored.links, mission.links);
 });
 
 test('a draft survives reload without creating a star, including a deliberately empty edit', () => {

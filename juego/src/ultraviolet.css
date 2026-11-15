@@ -40,11 +40,6 @@
 .visit-pocket-modal .reflection-card p { white-space: pre-wrap; overflow-wrap: anywhere; }
 .visit-pocket-modal .reflection-card .text-button { display: none; }
 .visit-pocket-modal .primary { justify-content: center; }
-.chart-sheet.is-approaching { animation: approach-ultraviolet .65s cubic-bezier(.4,0,.2,1) both; transform-origin: 22% 15%; z-index: 2; pointer-events: none; }
-.navigation-universe.is-approaching .navigation-guide { opacity: .2; transition: opacity .5s; }
-.navigation-universe.is-approaching { overflow: clip; }
-.navigation-universe.is-paused .chart-sheet.is-approaching { animation: none; }
-@keyframes approach-ultraviolet { from { transform: scale(1); opacity: 1; } to { transform: scale(3.6); opacity: .2; filter: brightness(1.4); } }
 @keyframes ultraviolet-star-birth { 0% { transform: scale(.45) rotate(-20deg); filter: drop-shadow(0 0 0 #fddd4600); } 65% { transform: scale(1.25) rotate(6deg); filter: drop-shadow(0 0 25px #fddd46); } 100% { transform: scale(1); } }
 @media (max-width: 560px) {
   .visit-toolbar { padding: 10px 13px; gap: 10px; margin-bottom: 24px; border-radius: 13px; }
@@ -60,5 +55,5 @@
   .ultraviolet-star { width: 46px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .chart-sheet.is-approaching, .ultraviolet-star.just-saved { animation: none !important; }
+  .ultraviolet-star.just-saved { animation: none !important; }
 }
