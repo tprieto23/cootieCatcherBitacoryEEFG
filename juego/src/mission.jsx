@@ -34,9 +34,7 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
             return <li key={note.number} style={{ left: `${locations[index][0]}%`, top: `${locations[index][1]}%` }}>
               <button className={`station-node station-kind-${index % 3} ${lit ? 'is-lit' : ''} expedition-node`} disabled={approaching} onClick={() => onOpen(index)} aria-label={`Estación ${note.number}: ${note.title}${lit ? index === 0 ? ', Pulso recogido' : ', material recogido' : visited ? ', visitada' : ''}`}>
                 <StationStar index={index} complete={lit} />
-                <span className="station-number">{String(note.number).padStart(2, '0')} {lit ? index === 0 ? '· Pulso recogido' : '· Material recogido' : visited ? '· VISITADA' : ''}</span>
-                <span className="station-name">{note.title}</span><span className="station-hint">{note.hint}</span>
-                {!note.available && <small>Página en escritura</small>}
+                <span className="station-name">{note.title}</span>
               </button>
             </li>;
           })}</ol>
