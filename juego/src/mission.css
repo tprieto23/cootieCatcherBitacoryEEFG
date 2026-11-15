@@ -101,3 +101,4 @@
 @media (prefers-reduced-motion: reduce) {
   .navigation-device, .device-scan, .mission-cosmos * { animation: none !important; }
 }
+.astronaut-name, #player-alias { text-transform: uppercase; }
