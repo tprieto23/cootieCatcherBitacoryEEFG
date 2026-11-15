@@ -188,7 +188,7 @@ function Introduction({ onStart, motion }) {
     <div className="transmission-heading"><span className="transmission-signal" aria-hidden="true" /><span>A BORDO · PRIMERA TRANSMISIÓN</span></div>
     <div className="departure-layout">
       <article className="transmission-page">
-        <header><span className="eyebrow">INTRODUCCIÓN</span><h1 id="introduction-title">Nébula <em>F23</em></h1></header>
+        <header><span className="eyebrow">INTRODUCCIÓN</span><h1 id="introduction-title">NEBULA-<em>F23</em></h1></header>
         <div className="transmission-text">
           <blockquote className="transmission-call">«Estación siete a estación uno. ¿Todavía me escuchas?»</blockquote>
           <p>Astronauta, te doy la bienvenida a Nébula F23, mi bitácora del Seminario de Metodología de Investigación con Perspectiva Feminista y de Género II. Para nombrarla, me inspiré en los códigos con los que se identifican las nebulosas. La F es de feminista, el lugar desde donde escribo. El 23 es un número que me ha acompañado toda la vida.</p>
