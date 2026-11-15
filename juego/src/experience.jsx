@@ -89,7 +89,7 @@ function StoryText({ text, referenceHref }) {
   return <div className="story-text">{text.split(/\n\s*\n/).map((block, index) => {
     // Only expose reference links whose reading is included in the published build.
     if (/^\[Lectura de referencia\]\(/.test(block)) return referenceHref ? <p className="reference" key={index}><a href={referenceHref} target="_blank" rel="noopener noreferrer">Lectura de referencia</a></p> : null;
-    if (/^(García-Santesmases,|Falconí Abad,|Osorio-Cabrera,|Smith,|Gregorio Gil,|Corona Berkin,|Briones,|\*\*Referencia\*\*)/.test(block)) references = true;
+    if (/^(García-Santesmases,|Falconí Abad,|Osorio-Cabrera,|Smith,|Gregorio Gil,|Corona Berkin,|Briones,|\*\*Referencia\*\*|\*\*Lectura de referencia\*\*)/.test(block)) references = true;
     return <p key={index} className={references ? 'reference' : ''}><InlineText text={block} /></p>;
   })}</div>;
 }

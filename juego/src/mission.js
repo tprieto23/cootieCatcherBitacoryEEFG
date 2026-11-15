@@ -10,9 +10,9 @@ export const DESTINATIONS = [
   { title: 'Busca a las que faltan en mi radar', hint: 'Ajusta el radar y localiza, por el rastro que deja, un filamento de materia oscura.', objective: 'Localiza un filamento de materia oscura', material: 'Filamento de materia oscura', silhouette: 'radar' },
 ];
 export const ULTRAVIOLET_SIGNALS = [
-  'Entre nosotras podía decir que tenía miedo de equivocarme y escuchar que otras también conocían ese sentimiento.',
-  'Esas palabras compartidas hicieron visible algo que atravesaba mi propia historia.',
-  'Mi voz lleva las conversaciones con otras mujeres, sus preguntas y los aprendizajes que construimos juntas.',
+  'Con mis compañeras pude hablar de lo que eso significaba para mí y escuchar cómo lo vivían ellas.',
+  'Al leer esa frase junto a mis compañeras, pude ver que hasta un buen resultado daba pie a que alguien pusiera en duda lo que sabíamos.',
+  'Cuando hoy escribo «yo tenía miedo», en ese «yo» también están las conversaciones con las mujeres que me ayudaron a preguntarme de dónde venía ese miedo.',
 ];
 export const ULTRAVIOLET = {
   title: DESTINATIONS[0].title,
