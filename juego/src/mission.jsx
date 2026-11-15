@@ -29,7 +29,7 @@ export function NavigationMap({ alias, stations, mission, onOpen, onPocket, scen
   const materials = stations.filter((_, index) => hasStationMaterial(mission, index)).length;
   return <section className={`navigation-universe ${motion ? '' : 'is-paused'} ${approaching ? 'is-approaching' : ''}`} aria-labelledby="map-title">
     {scenery}
-    <header className="navigation-heading"><div><span className="eyebrow"><BrandName /> · MISIÓN: ASTRONAUTA {alias}</span><h1 id="map-title">Mapa de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo <span>{lights} / 7 estrellas</span></button></header>
+    <header className="navigation-heading"><div><span className="eyebrow"><BrandName /> · MISIÓN COMANDADA POR ASTRONAUTA {alias}</span><h1 id="map-title">Mapa de <em>navegación</em></h1></div><button className="pocket-access" onClick={onPocket}>Mi bolsillo <span>{lights} / 7 estrellas</span></button></header>
     <div className="navigation-layout">
       <section className={`navigation-device ${approaching ? 'is-approaching' : ''}`} aria-label="Mapa de las siete estaciones">
         <div className="device-topline"><span className="device-label"><span className="device-light" aria-hidden="true" />SISTEMA DE NAVEGACIÓN</span><BrandName /></div><div className="device-viewport"><div className="device-scan" aria-hidden="true" /><div className="chart-display" tabIndex={0} role="region" aria-label="Pantalla del mapa. Desliza para explorar las siete estaciones.">
