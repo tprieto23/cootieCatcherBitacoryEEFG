@@ -127,7 +127,7 @@ export function GalacticEncounter({ collected, onCollect, onRead, motion }) {
       </svg>
       <span className="encounter-caption">Una exploración visual de un encuentro posible</span>
     </div>
-    <div className="encounter-controls"><button type="button" className="primary" onClick={start} disabled={running}>{running ? 'Las dos galaxias se acercan…' : progress > 0 ? 'Volver a observar el encuentro' : 'Acercar las galaxias'}</button></div>
+    <div className="encounter-controls"><button type="button" className="cover-open" onClick={start} disabled={running}>{running ? 'Las dos galaxias se acercan…' : progress > 0 ? 'Volver a observar el encuentro' : 'Acercar las galaxias'}<span aria-hidden="true">↗</span></button></div>
     <div className="encounter-discovery" aria-live="polite">
       {contacted && <><p>Las nubes de gas de las dos galaxias chocan. Parte de la energía de su movimiento se transforma en energía térmica: el gas se calienta. En esta simulación puedes recoger parte de esa energía disipada.</p><button type="button" className="primary collect-heat" onClick={collect} disabled={collected}>Recoger energía disipada</button>{collected && <p className="energy-confirmation" role="status">Energía disipada · Guardada en tu bolsillo</p>}</>}
     </div>

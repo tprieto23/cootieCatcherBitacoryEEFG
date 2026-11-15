@@ -19,7 +19,8 @@
 .contact-heat { animation: contact-warmth 1.8s ease-in-out infinite alternate; }
 .contact-heat path { fill: none; stroke: #fff2c0; stroke-width: 1.5; opacity: .7; }
 .contact-heat.heat-collected { opacity: .65; }
-.encounter-controls { display: flex; flex-wrap: wrap; gap: 14px; }
+.encounter-controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.encounter-controls .cover-open { margin-top: 0; max-width: 100%; text-align: center; }
 .galactic-encounter .primary { justify-content: center; max-width: 100%; text-align: center; font-size: 14px; }
 .encounter-discovery:empty { display: none; }
 .encounter-discovery { margin-top: 26px; }
