@@ -8,32 +8,18 @@
 .navigation-universe.is-paused .black-hole-disc { animation-play-state: paused; }
 .mission-farewell { position: relative; isolation: isolate; padding-bottom: 45px; }
 .farewell-page { width: min(960px,100%); margin: 0 auto; padding: clamp(28px,5vw,65px); border: 1px solid #d4dcf34d; border-radius: 12px 30px; background: linear-gradient(140deg,#522774e8,#21112fee); box-shadow: inset 0 1px 0 #fff2,0 25px 70px #16082555; }
-.farewell-heading { text-align: center; margin-bottom: 42px; }
-.farewell-heading .eyebrow { line-height: 2; }
-.farewell-heading h1 { margin: 28px 0 0; font-size: clamp(25px,3.8vw,43px); line-height: 1.6; letter-spacing: -.045em; color: var(--silver); }
-.farewell-heading h1 > .brand-name { display: inline-block; }
-.farewell-message { max-width: 39ch; margin: 22px auto 0; color: var(--pink); font: italic clamp(27px,3.4vw,40px)/1.35 var(--expressive); text-wrap: pretty; }
-.farewell-portal { display: block; width: min(390px,100%); margin: 18px auto 24px; padding: 0 12px 15px; border: 1px solid transparent; border-radius: 40%; background: transparent; color: var(--yellow); }
-.farewell-portal > span:last-child { display: inline-block; padding: 4px 0 8px; border-bottom: 1px solid #fddd4670; font-size: 14px; }
-.farewell-portal:hover { background: radial-gradient(ellipse,#fca4bc16,transparent 70%); }
-.farewell-portal:hover .black-hole { filter: drop-shadow(0 0 15px #fca4bc55); }
-.farewell-portal:focus-visible { outline: 2px solid var(--yellow); outline-offset: 6px; }
-.farewell-black-hole { width: min(360px,90%); margin: 22px auto 15px; }
-.farewell-arrival { max-width: 43ch; margin: 0 auto; font-size: 18px; line-height: 1.85; color: var(--silver); }
-.farewell-conclusion { border-top: 1px solid #fca4bc40; padding-top: 30px; }
-.farewell-conclusion h2 { margin: 0 0 28px; color: var(--pink); font-size: 22px; }
+.farewell-conclusion { padding-top: 0; }
+.farewell-conclusion h1 { margin: 0 0 28px; color: var(--pink); font-size: 22px; }
 .farewell-conclusion .story-text p { font-size: 18px; line-height: 1.95; margin-bottom: 28px; }
 .farewell-thanks { margin-top: 38px; padding-top: 22px; border-top: 1px solid #fca4bc40; text-align: center; }
 .farewell-thanks p:first-child { font: italic clamp(27px,3.7vw,38px)/1.4 var(--expressive); color: var(--pink); }
-.farewell-thanks p:last-child { color: var(--silver); font-size: 16px; line-height: 1.8; }
 .farewell-actions { display: flex; justify-content: center; }
 .farewell-actions .cover-open { max-width: 100%; text-align: center; }
-.farewell-still .black-hole-disc { animation: none; }
 @keyframes black-hole-shimmer { from { opacity: .75; transform: rotate(-2deg); } to { opacity: 1; transform: rotate(2deg); } }
 @media (max-width: 560px) {
   .map-home-exit { width: 115px; font-size: 13px; }
   .map-home-exit .black-hole { width: 105px; }
   .farewell-page { padding: 30px 23px; }
-  .farewell-conclusion .story-text p,.farewell-arrival { font-size: 16px; line-height: 1.9; }
+  .farewell-conclusion .story-text p { font-size: 16px; line-height: 1.9; }
 }
 @media (prefers-reduced-motion: reduce) { .black-hole-disc { animation: none; } }

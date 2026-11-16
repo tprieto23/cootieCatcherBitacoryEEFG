@@ -1,5 +1,4 @@
 import React, { useId } from 'react';
-import { BrandName } from './brand-name.jsx';
 import './mission-farewell.css';
 
 export function BlackHole({ className = '' }) {
@@ -24,27 +23,17 @@ export function BlackHole({ className = '' }) {
   </svg></span>;
 }
 
-export function MissionFarewell({ alias, children, onHome, onMap, onPocket, onEnter, motion }) {
-  return <section className={`mission-farewell ${motion ? '' : 'farewell-still'}`} aria-labelledby="farewell-title">
+export function MissionFarewell({ children, onMap, onPocket }) {
+  return <section className="mission-farewell" aria-labelledby="conclusion-title">
     <nav className="visit-toolbar" aria-label="Acciones de regreso a casa">
       <button type="button" className="text-button" onClick={onMap}>Volver al mapa</button>
       <span className="visit-location">ÓRBITA HOGAR</span>
       <button type="button" className="visit-pocket-button" onClick={onPocket} aria-haspopup="dialog">Mi bolsillo</button>
     </nav>
     <article className="farewell-page">
-      <header className="farewell-heading">
-        <p className="eyebrow">COMPLETASTE LA MISIÓN, ASTRONAUTA <span className="astronaut-name">{alias}</span></p>
-        <h1 id="farewell-title">Tripulaste <BrandName /></h1>
-        <p className="farewell-message">Has desafiado a los métodos de investigación de la academia tradicional, considérate parte del club que le apuesta a otras formas de construir y compartir conocimiento.</p>
-        <button type="button" className="farewell-portal" onClick={onEnter} aria-label="Entrar al agujero negro y viajar hasta los objetos de mi bolsillo">
-          <BlackHole className="farewell-black-hole" />
-          <span>Entrar al agujero negro</span>
-        </button>
-        <p className="farewell-arrival">Llegamos al final de nuestro viaje. Atraviesa este agujero negro y vuelve a encontrarte con lo que llevas en tu bolsillo espacial feminista.</p>
-      </header>
-      <section className="farewell-conclusion" aria-labelledby="conclusion-title"><h2 id="conclusion-title">Mi conclusión</h2>{children}</section>
-      <div className="farewell-thanks"><p>Gracias por viajar conmigo, por leerme y por darle un lugar a estas preguntas.</p><p>Ojalá algo de este recorrido siga conversando contigo.</p></div>
-      <div className="farewell-actions"><button type="button" className="cover-open" onClick={onHome}>Regresar a mi órbita hogar <span aria-hidden="true">↗</span></button></div>
+      <section className="farewell-conclusion" aria-labelledby="conclusion-title"><h1 id="conclusion-title">Mi conclusión</h1>{children}</section>
+      <div className="farewell-thanks"><p>Gracias por viajar conmigo, por leerme y por darle un lugar a estas preguntas.</p></div>
+      <div className="farewell-actions"><button type="button" className="cover-open" onClick={onPocket} aria-haspopup="dialog">Abrir mi bolsillo <span aria-hidden="true">↗</span></button></div>
     </article>
   </section>;
 }

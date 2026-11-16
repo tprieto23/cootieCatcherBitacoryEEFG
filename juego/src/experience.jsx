@@ -411,12 +411,8 @@ export function Experience() {
       </StationVisit>}
 
       {screen === 'farewell' && <MissionFarewell
-        alias={alias}
-        onHome={() => navigate('home')}
         onMap={() => navigate('game')}
         onPocket={openPocket}
-        onEnter={() => navigate('wormhole')}
-        motion={coverMotion}
       ><StoryText text={conclusion} /></MissionFarewell>}
 
       {screen === 'wormhole' && <WormholePassage motion={coverMotion} onArrive={() => navigate('recap', { replace: true })} />}

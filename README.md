@@ -82,15 +82,11 @@ Una huella del halo abre únicamente la cita de Cornejo y Rufer, «En diez años
 
 ### Salida de misión: agujero negro y órbita hogar
 
-Al final de la ruta del mapa aparece un agujero negro con el nombre **Órbita hogar**. Al seleccionarlo se abre `#/orbita-hogar`, con «Completaste la misión, astronauta [ALIAS]» y **«Tripulaste NEBULA-F23 satisfactoriamente»**. La nueva figura y su disco se dibujan en SVG con la paleta morada, rosa, amarilla y plateada; respetan pausa y movimiento reducido.
+Al final de la ruta del mapa aparece un agujero negro con el nombre **Órbita hogar**. Al seleccionarlo se abre `#/orbita-hogar` directamente en **«Mi conclusión»**, sin portada, mensaje de misión cumplida ni ilustración adicional. La figura del mapa mantiene su SVG y respeta pausa/movimiento reducido.
 
-`src/entries/conclusion.md` conserva los cuatro párrafos enviados por la autora. `src/mission-farewell.jsx/css` muestra la despedida y el mensaje «Has desafiado a los métodos de investigación de la academia tradicional…», con la tipografía expresiva rosa. El agujero negro es un botón accesible que abre `#/agujero-de-gusano`. Se conservan la conclusión, el agradecimiento y el regreso a portada. El bolsillo y el mapa siguen accesibles. La salida es un recurso narrativo de esta historia y está disponible desde el mapa: no añade una octava estrella, no entrega materiales ni modifica los recuerdos. Se conservan las siete estaciones, el alias y el avance al volver a casa.
+`src/entries/conclusion.md` conserva los cuatro párrafos enviados por la autora. `src/mission-farewell.jsx/css` presenta el escrito y al final el agradecimiento «Gracias por viajar conmigo, por leerme y por darle un lugar a estas preguntas.». El botón centrado **«Abrir mi bolsillo»** abre el diálogo existente, conservando el punto de lectura al cerrarlo. «Volver al mapa» y «Mi bolsillo» siguen disponibles en la barra. No se añaden premios ni se modifica el avance.
 
-### Atravesar el agujero negro y abrir los recuerdos
-
-`src/wormhole-passage.jsx/css` crea un túnel de anillos en perspectiva y estelas, en violeta, rosa, plateado y amarillo. Dura 3,6 segundos y lleva automáticamente a `#/bolsillo`; «Ir directamente a mi bolsillo» permite saltarlo. Con pausa global o movimiento reducido, la escena queda estática y la llegada tarda 0,6 segundos. El temporizador se limpia al abandonar la pantalla. La llegada reemplaza la ruta transitoria en el historial para que Atrás regrese a la despedida.
-
-El bolsillo es una página completa sobre el mismo fondo espacial, titulada «Lo que llevas contigo». Muestra los objetos y palabras existentes con `PocketStars`, sin crear ni duplicar premios, y conserva la red de estrellas. Permite volver al mapa, a la despedida o a la portada. El viaje no cambia alias, reflexiones, materiales ni conexiones y la ruta del bolsillo se puede recargar.
+El bolsillo completo `#/bolsillo`, «Lo que llevas contigo», conserva los objetos, las palabras y la red de estrellas sobre el mismo fondo espacial. La arquitectura de `wormhole-passage.jsx/css` y la ruta `#/agujero-de-gusano` se conservan, pero la despedida ya no dirige al túnel; su botón final abre directamente el bolsillo emergente.
 
 ### Visitas completas de las estaciones 6 y 7
 
