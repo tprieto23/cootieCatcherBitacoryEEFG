@@ -32,7 +32,7 @@ export function MissionFarewell({ children, onMap, onPocket }) {
     </nav>
     <article className="farewell-page">
       <section className="farewell-conclusion" aria-labelledby="conclusion-title"><h1 id="conclusion-title">Mi conclusión</h1>{children}</section>
-      <div className="farewell-thanks"><p>Gracias por viajar conmigo, por leerme y por darle un lugar a estas preguntas.</p></div>
+      <div className="farewell-thanks"><p>Gracias por leerme y por darle un lugar a estas preguntas</p></div>
       <div className="farewell-actions"><button type="button" className="cover-open" onClick={onPocket} aria-haspopup="dialog">Abrir mi bolsillo <span aria-hidden="true">↗</span></button></div>
     </article>
   </section>;

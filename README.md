@@ -84,7 +84,7 @@ Una huella del halo abre únicamente la cita de Cornejo y Rufer, «En diez años
 
 Al final de la ruta del mapa aparece un agujero negro con el nombre **Órbita hogar**. Al seleccionarlo se abre `#/orbita-hogar` directamente en **«Mi conclusión»**, sin portada, mensaje de misión cumplida ni ilustración adicional. La figura del mapa mantiene su SVG y respeta pausa/movimiento reducido.
 
-`src/entries/conclusion.md` conserva los cuatro párrafos enviados por la autora. `src/mission-farewell.jsx/css` presenta el escrito y al final el agradecimiento «Gracias por viajar conmigo, por leerme y por darle un lugar a estas preguntas.». El botón centrado **«Abrir mi bolsillo»** abre el diálogo existente, conservando el punto de lectura al cerrarlo. «Volver al mapa» y «Mi bolsillo» siguen disponibles en la barra. No se añaden premios ni se modifica el avance.
+`src/entries/conclusion.md` conserva los cuatro párrafos enviados por la autora. `src/mission-farewell.jsx/css` presenta el escrito y al final el agradecimiento «Gracias por leerme y por darle un lugar a estas preguntas». El botón centrado **«Abrir mi bolsillo»** abre el diálogo existente, conservando el punto de lectura al cerrarlo. «Volver al mapa» y «Mi bolsillo» siguen disponibles en la barra. No se añaden premios ni se modifica el avance.
 
 El bolsillo completo `#/bolsillo`, «Lo que llevas contigo», conserva los objetos, las palabras y la red de estrellas sobre el mismo fondo espacial. La arquitectura de `wormhole-passage.jsx/css` y la ruta `#/agujero-de-gusano` se conservan, pero la despedida ya no dirige al túnel; su botón final abre directamente el bolsillo emergente.
 
