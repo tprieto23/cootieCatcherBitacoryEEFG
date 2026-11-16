@@ -3,7 +3,7 @@ export const STATION_ROUTES = ['ultraviolet', 'homeSignal', 'everyday', 'horizon
 export const routes = {
   inicio: 'home', 'sobre-mi': 'about', introduccion: 'introduction', mision: 'mission',
   mapa: 'game', jugar: 'game', alias: 'alias', bolsillo: 'recap', cierre: 'recap',
-  'orbita-hogar': 'farewell',
+  'orbita-hogar': 'farewell', 'agujero-de-gusano': 'wormhole',
   ...Object.fromEntries(STATION_ROUTES.map((screen, index) => [`estacion-${index + 1}`, screen])),
 };
 

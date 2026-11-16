@@ -19,6 +19,8 @@ test('the map, homecoming and legacy routes keep their existing behavior', () =>
   assert.equal(screenForHash('#/mapa'), 'game');
   assert.equal(screenForHash('#/jugar'), 'game');
   assert.equal(screenForHash('#/orbita-hogar'), 'farewell');
+  assert.equal(screenForHash('#/agujero-de-gusano'), 'wormhole');
+  assert.equal(screenForHash('#/bolsillo'), 'recap');
   assert.equal(screenForHash('#/cierre'), 'recap');
   assert.equal(screenForHash(''), 'home');
   assert.equal(screenForHash('#/unknown'), 'home');

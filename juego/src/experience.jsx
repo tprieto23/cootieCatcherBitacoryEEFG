@@ -14,6 +14,7 @@ import { BrandName } from './brand-name.jsx';
 import { GalacticEncounter } from './galactic-encounter.jsx';
 import { DarkMatterEncounter } from './dark-matter-encounter.jsx';
 import { MissionFarewell } from './mission-farewell.jsx';
+import { WormholePassage } from './wormhole-passage.jsx';
 import conclusion from './entries/conclusion.md?raw';
 import cornejoRuferReading from './assets/lectura-cornejo-rufer-introduccion.pdf?url';
 import ruferCoronaReading from './assets/lectura-rufer-corona-apertura.pdf?url';
@@ -261,16 +262,17 @@ export function Experience() {
   const [coverMotion, setCoverMotion] = useState(true);
   const [storageAvailable, setStorageAvailable] = useState(Boolean(storage));
   const mainRef = useRef(null);
-  const screen = ['game', 'recap', 'farewell', ...STATION_ROUTES].includes(route) && !alias ? 'alias' : route;
+  const screen = ['game', 'recap', 'farewell', 'wormhole', ...STATION_ROUTES].includes(route) && !alias ? 'alias' : route;
   const visitIndex = stationIndexForScreen(screen);
   const isCover = screen === 'home';
-  const hasSpace = isCover || ['about', 'introduction', 'mission', 'alias', 'game', 'recap', 'farewell', ...STATION_ROUTES].includes(screen);
+  const hasSpace = isCover || ['about', 'introduction', 'mission', 'alias', 'game', 'recap', 'farewell', 'wormhole', ...STATION_ROUTES].includes(screen);
 
-  function navigate(next) {
+  function navigate(next, { replace = false } = {}) {
     setModal(null);
     setApproaching(false);
     const slug = Object.keys(routes).find(key => routes[key] === next) ?? 'inicio';
-    window.location.hash = `/${slug}`;
+    if (replace) window.history.replaceState(null, '', `#/${slug}`);
+    else window.location.hash = `/${slug}`;
     setRoute(next);
   }
 
@@ -334,7 +336,7 @@ export function Experience() {
   return <>
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
 
-    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : ['game', 'mission', 'alias', 'recap', 'farewell', ...STATION_ROUTES].includes(screen) ? 'mission-main' : undefined} ref={mainRef} tabIndex={-1}>
+    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : ['game', 'mission', 'alias', 'recap', 'farewell', 'wormhole', ...STATION_ROUTES].includes(screen) ? 'mission-main' : undefined} ref={mainRef} tabIndex={-1}>
       {hasSpace && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
         <DeepSpace galaxies={!['game', 'alias', 'mission', ...STATION_ROUTES].includes(screen)} />
         {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
@@ -413,10 +415,13 @@ export function Experience() {
         onHome={() => navigate('home')}
         onMap={() => navigate('game')}
         onPocket={openPocket}
+        onEnter={() => navigate('wormhole')}
         motion={coverMotion}
       ><StoryText text={conclusion} /></MissionFarewell>}
 
-      {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onReset={() => setModal({ kind: 'reset' })} onConnect={(a, b) => setMission(previous => connectStars(previous, a, b))} />}
+      {screen === 'wormhole' && <WormholePassage motion={coverMotion} onArrive={() => navigate('recap', { replace: true })} />}
+
+      {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onHome={() => navigate('home')} onFarewell={() => navigate('farewell')} onReset={() => setModal({ kind: 'reset' })} onConnect={(a, b) => setMission(previous => connectStars(previous, a, b))} />}
 
       {!isCover && !storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}
     </main>

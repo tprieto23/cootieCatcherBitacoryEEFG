@@ -12,7 +12,12 @@
 .farewell-heading .eyebrow { line-height: 2; }
 .farewell-heading h1 { margin: 28px 0 0; font-size: clamp(25px,3.8vw,43px); line-height: 1.6; letter-spacing: -.045em; color: var(--silver); }
 .farewell-heading h1 > .brand-name { display: inline-block; }
-.farewell-heading h1 em { display: block; margin-top: 10px; font-size: clamp(35px,6vw,69px); line-height: 1.2; }
+.farewell-message { max-width: 39ch; margin: 22px auto 0; color: var(--pink); font: italic clamp(27px,3.4vw,40px)/1.35 var(--expressive); text-wrap: pretty; }
+.farewell-portal { display: block; width: min(390px,100%); margin: 18px auto 24px; padding: 0 12px 15px; border: 1px solid transparent; border-radius: 40%; background: transparent; color: var(--yellow); }
+.farewell-portal > span:last-child { display: inline-block; padding: 4px 0 8px; border-bottom: 1px solid #fddd4670; font-size: 14px; }
+.farewell-portal:hover { background: radial-gradient(ellipse,#fca4bc16,transparent 70%); }
+.farewell-portal:hover .black-hole { filter: drop-shadow(0 0 15px #fca4bc55); }
+.farewell-portal:focus-visible { outline: 2px solid var(--yellow); outline-offset: 6px; }
 .farewell-black-hole { width: min(360px,90%); margin: 22px auto 15px; }
 .farewell-arrival { max-width: 43ch; margin: 0 auto; font-size: 18px; line-height: 1.85; color: var(--silver); }
 .farewell-conclusion { border-top: 1px solid #fca4bc40; padding-top: 30px; }
