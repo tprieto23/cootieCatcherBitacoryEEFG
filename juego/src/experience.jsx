@@ -421,7 +421,7 @@ export function Experience() {
 
       {screen === 'complete' && <MissionComplete alias={alias} motion={coverMotion} onNetwork={() => navigate('recap')} onPocket={openPocket} onEnter={() => navigate('pocketTunnel')} />}
 
-      {screen === 'pocketTunnel' && <WormholePassage motion={coverMotion} onArrive={() => navigate('objects', { replace: true })} />}
+      {screen === 'pocketTunnel' && <WormholePassage motion={coverMotion} onArrive={() => navigate('home', { replace: true })} />}
 
       {screen === 'objects' && <MissionPocket objectsOnly alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onNetwork={() => navigate('recap')} onHome={() => navigate('home')} onFarewell={() => navigate('complete')} onReset={() => setModal({ kind: 'reset' })} />}
 
