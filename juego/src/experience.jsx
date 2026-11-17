@@ -4,9 +4,9 @@ import { eraseJourney, readJourney, writeJourney } from './journey.js';
 import portrait from './assets/sobreTania.svg';
 import luffy from './assets/Luffy2.svg';
 import { MissionEncounter, NavigationMap, MissionPocket, PocketStars, DestinationPreview } from './mission.jsx';
-import { DESTINATIONS, updateDraft, saveReflection, tuneHomeSignal, isStationComplete, completedStations, connectStars, chooseFabric, saveFabric, collectDissipatedEnergy, OWN_VOICE_PROMPT, observeDarkMatter, collectDarkMatterFragment } from './mission.js';
+import { DESTINATIONS, updateDraft, saveReflection, tuneHomeSignal, isStationComplete, completedStations, connectStars, chooseFabric, saveFabric, collectDissipatedEnergy, OWN_VOICE_PROMPT, observeDarkMatter, collectDarkMatterFragment, hasProtectiveBarrier } from './mission.js';
 import { StationVisit } from './station-visit.jsx';
-import { routes, STATION_ROUTES, screenForHash, stationIndexForScreen } from './navigation.js';
+import { routes, STATION_ROUTES, screenForHash, screenForJourney, stationIndexForScreen } from './navigation.js';
 import { FabricWorkshop } from './fabric-workshop.jsx';
 import ultravioletReading from './assets/lectura-ultravioleta.pdf?url';
 import { CollisionScene } from './collision-scene.jsx';
@@ -14,6 +14,7 @@ import { BrandName } from './brand-name.jsx';
 import { GalacticEncounter } from './galactic-encounter.jsx';
 import { DarkMatterEncounter } from './dark-matter-encounter.jsx';
 import { MissionFarewell } from './mission-farewell.jsx';
+import { MissionComplete } from './mission-complete.jsx';
 import { WormholePassage } from './wormhole-passage.jsx';
 import conclusion from './entries/conclusion.md?raw';
 import cornejoRuferReading from './assets/lectura-cornejo-rufer-introduccion.pdf?url';
@@ -262,10 +263,10 @@ export function Experience() {
   const [coverMotion, setCoverMotion] = useState(true);
   const [storageAvailable, setStorageAvailable] = useState(Boolean(storage));
   const mainRef = useRef(null);
-  const screen = ['game', 'recap', 'farewell', 'wormhole', ...STATION_ROUTES].includes(route) && !alias ? 'alias' : route;
+  const screen = screenForJourney(route, alias, hasProtectiveBarrier(mission));
   const visitIndex = stationIndexForScreen(screen);
   const isCover = screen === 'home';
-  const hasSpace = isCover || ['about', 'introduction', 'mission', 'alias', 'game', 'recap', 'farewell', 'wormhole', ...STATION_ROUTES].includes(screen);
+  const hasSpace = isCover || ['about', 'introduction', 'mission', 'alias', 'game', 'recap', 'farewell', 'wormhole', 'complete', 'pocketTunnel', 'objects', ...STATION_ROUTES].includes(screen);
 
   function navigate(next, { replace = false } = {}) {
     setModal(null);
@@ -336,7 +337,7 @@ export function Experience() {
   return <>
     <a className="skip-link" href="#main-content">Saltar al contenido</a>
 
-    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : ['game', 'mission', 'alias', 'recap', 'farewell', 'wormhole', ...STATION_ROUTES].includes(screen) ? 'mission-main' : undefined} ref={mainRef} tabIndex={-1}>
+    <main id="main-content" className={isCover ? 'cover-main' : screen === 'about' ? 'presentation-main' : screen === 'introduction' ? 'departure-main' : ['game', 'mission', 'alias', 'recap', 'farewell', 'wormhole', 'complete', 'pocketTunnel', 'objects', ...STATION_ROUTES].includes(screen) ? 'mission-main' : undefined} ref={mainRef} tabIndex={-1}>
       {hasSpace && <div className={`cover-atmosphere ${coverMotion ? '' : 'is-paused'}`} aria-hidden="true">
         <DeepSpace galaxies={!['game', 'alias', 'mission', ...STATION_ROUTES].includes(screen)} />
         {['left', 'right'].map(side => <div key={side} className={`cover-side cover-side-${side}`}>
@@ -416,9 +417,15 @@ export function Experience() {
         onNetwork={() => navigate('recap')}
       ><StoryText text={conclusion} /></MissionFarewell>}
 
-      {screen === 'wormhole' && <WormholePassage motion={coverMotion} onArrive={() => navigate('recap', { replace: true })} />}
+      {screen === 'wormhole' && <WormholePassage motion={coverMotion} onArrive={() => navigate('complete', { replace: true })} />}
 
-      {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onHome={() => navigate('home')} onFarewell={() => navigate('farewell')} onReset={() => setModal({ kind: 'reset' })} onConnect={(a, b) => setMission(previous => connectStars(previous, a, b))} />}
+      {screen === 'complete' && <MissionComplete alias={alias} motion={coverMotion} onNetwork={() => navigate('recap')} onPocket={openPocket} onHome={() => navigate('home')} onEnter={() => navigate('pocketTunnel')} />}
+
+      {screen === 'pocketTunnel' && <WormholePassage motion={coverMotion} toPocket onArrive={() => navigate('objects', { replace: true })} />}
+
+      {screen === 'objects' && <MissionPocket objectsOnly alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onNetwork={() => navigate('recap')} onHome={() => navigate('home')} onFarewell={() => navigate('complete')} onReset={() => setModal({ kind: 'reset' })} />}
+
+      {screen === 'recap' && <MissionPocket alias={alias} stations={stations} mission={mission} legacyWords={legacy.words} onOpen={selectDestination} onMap={() => navigate('game')} onHome={() => navigate('home')} onFarewell={() => navigate('farewell')} onReset={() => setModal({ kind: 'reset' })} onConnect={(a, b) => setMission(previous => connectStars(previous, a, b))} onComplete={() => navigate('wormhole')} />}
 
       {!isCover && !storageAvailable && alias && <p className="storage-notice" role="status">Este navegador no permite guardar el recorrido. Tu bolsillo seguirá disponible mientras mantengas esta página abierta.</p>}
     </main>
@@ -427,7 +434,7 @@ export function Experience() {
 
     {modal?.kind === 'alias' && <Dialog title="Astronauta, ¿cuál es tu alias?" eyebrow="ANTES DE EMPEZAR" className="astronaut-alias" onClose={() => setModal(null)}><form className="alias-screen" onSubmit={begin}><label htmlFor="player-alias">Tu alias de astronauta</label><input autoFocus id="player-alias" name="alias" value={aliasDraft} onChange={event => { event.target.setCustomValidity(''); setAliasDraft(event.target.value); }} maxLength={40} autoComplete="off" required placeholder="Puede ser un nombre inventado" /><p className="quiet-note">Tu alias y tus reflexiones se quedan en este navegador. No se envían, ni se guardan en ningún lado.</p><button className="primary" type="submit">Entrar al mapa</button></form></Dialog>}
     {modal?.kind === 'destination' && <Dialog title={stations[modal.index].title} eyebrow={`DESTINO · ESTACIÓN ${modal.index + 1} DE 9`} className="destination-modal" onClose={() => setModal(null)}><DestinationPreview note={stations[modal.index]} complete={isStationComplete(mission, modal.index)} onLand={() => openNote(modal.index)} onPocket={openPocket} onReturn={() => setModal(null)} /></Dialog>}
-    {modal?.kind === 'visitPocket' && <Dialog title="Mi bolsillo" eyebrow="TU BOLSILLO ESPACIAL FEMINISTA" className="visit-pocket-modal" onClose={closePocket}><PocketStars stations={stations} mission={mission} /><p className="quiet-note">Cada estación reúne aquí lo que has recogido y las palabras que has guardado.</p><button type="button" className="primary" onClick={closePocket}>{screen === 'farewell' ? 'Volver a la despedida' : visitIndex === 3 || visitIndex === 4 ? 'Volver a la estación' : visitIndex !== null ? 'Volver a la lectura' : modal.returnTo ? 'Volver a mi destino' : 'Volver al mapa'}</button><button type="button" className="text-button" onClick={() => navigate('recap')}>Abrir la red de mis estrellas</button></Dialog>}
+    {modal?.kind === 'visitPocket' && <Dialog title="Mi bolsillo" eyebrow="TU BOLSILLO ESPACIAL FEMINISTA" className="visit-pocket-modal" onClose={closePocket}><PocketStars stations={stations} mission={mission} /><p className="quiet-note">Cada estación reúne aquí lo que has recogido y las palabras que has guardado.</p><button type="button" className="primary" onClick={closePocket}>{screen === 'complete' ? 'Volver al cierre de misión' : screen === 'farewell' ? 'Volver a la despedida' : visitIndex === 3 || visitIndex === 4 ? 'Volver a la estación' : visitIndex !== null ? 'Volver a la lectura' : modal.returnTo ? 'Volver a mi destino' : 'Volver al mapa'}</button><button type="button" className="text-button" onClick={() => navigate('recap')}>Abrir la red de mis estrellas</button></Dialog>}
     {modal?.kind === 'reset' && <Dialog title="Vaciar mi bolsillo" eyebrow="TU RECORRIDO PERSONAL" onClose={() => setModal(null)}><p>Se borrarán de este navegador tu alias, tus reflexiones, tus palabras y las estaciones visitadas. Podrás empezar otra vez.</p><div className="reset-actions"><button className="primary" onClick={resetJourney}>Borrar mi recorrido</button><button className="text-button" onClick={() => setModal(null)}>Conservarlo</button></div></Dialog>}
   </>;
 }

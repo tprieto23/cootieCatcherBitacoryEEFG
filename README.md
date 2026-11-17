@@ -86,7 +86,19 @@ Al final de la ruta del mapa aparece un agujero negro con el nombre **Órbita ho
 
 `src/entries/conclusion.md` conserva los cuatro párrafos enviados por la autora. `src/mission-farewell.jsx/css` presenta el escrito y al final el agradecimiento «Gracias por leerme y por darle un lugar a estas preguntas». El botón centrado **«Abrir la red de mis estrellas»** abre la vista existente `#/bolsillo`, que incluye la red para enlazar las estrellas. «Volver al mapa» y «Mi bolsillo» siguen disponibles en la barra; el bolsillo superior mantiene su diálogo emergente y conserva el punto de lectura al cerrarlo. No se añaden premios ni se modifica el avance.
 
-El bolsillo completo `#/bolsillo`, «Lo que llevas contigo», conserva los objetos, las palabras y la red de estrellas sobre el mismo fondo espacial. La arquitectura de `wormhole-passage.jsx/css` y la ruta `#/agujero-de-gusano` se conservan, pero la despedida ya no dirige al túnel; su botón final abre directamente la vista existente de la red, igual que el enlace «Abrir la red de mis estrellas» del bolsillo emergente.
+El bolsillo completo `#/bolsillo`, «Lo que llevas contigo», conserva los objetos, las palabras y la red de estrellas sobre el mismo fondo espacial. Su encabezado mantiene los textos y la tipografía sin recuadro ni fondo propio. El botón final de la conclusión abre directamente esta vista, igual que el enlace «Abrir la red de mis estrellas» del bolsillo emergente.
+
+### Red completa, agujero negro y misión completada
+
+Al reunir las siete estrellas aparece la red existente para enlazarlas. Cuando las siete pertenecen a una misma red y forman la barrera protectora, `ConstellationBuilder` muestra el botón **«MISIÓN COMPLETADA»**. No aparece con estaciones incompletas ni con estrellas todavía desconectadas.
+
+El botón abre `#/agujero-de-gusano` y reutiliza el túnel animado de `wormhole-passage.jsx/css`. Tras 3,6 segundos llega a `#/mision-completada`; con pausa o movimiento reducido muestra una escena estática durante 0,6 segundos. «Ver mi misión completada» permite saltar la transición. La llegada reemplaza la ruta del túnel en el historial y se cancela el temporizador al salir.
+
+`mission-complete.jsx/css` presenta **«MISION COMPLETADA»**, el alias y NEBULA-F23 dentro de un recuadro violeta. Debajo aparece en letra expresiva rosa el mensaje: «Has desafiado a los métodos de investigación de la academia tradicional, considérate parte del club que le apuesta a otras formas de construir y compartir conocimiento.». La figura de agujero negro es un botón con foco visible y la indicación «Entrar al agujero negro». También permite volver a la red, abrir el bolsillo emergente o regresar a portada.
+
+Al pulsar la figura abre `#/tunel-al-bolsillo`, una segunda entrada al túnel existente que muestra únicamente la animación, sin textos ni botones visibles. Tras la animación llega automáticamente a **`#/objetos-del-bolsillo`**, reemplazando la ruta del túnel en el historial. Esta página completa mantiene el fondo cósmico, la paleta y las fichas de los objetos, retazos y palabras guardadas; reutiliza `MissionPocket` con `objectsOnly` y `PocketStars`, sin volver a incluir la actividad de la red. Conserva las palabras antiguas y permite volver al mapa, a la red, al cierre o a portada. Las dos transiciones respetan pausa y movimiento reducido.
+
+El control de rutas exige alias y barrera completa para mostrar los túneles y el cierre, también al recargar una dirección directa; la página de objetos requiere alias. No se añade estado de avance ni se borran los recuerdos. La conclusión y el bolsillo superior conservan su funcionamiento.
 
 ### Visitas completas de las estaciones 6 y 7
 
