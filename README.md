@@ -92,7 +92,7 @@ El bolsillo completo `#/bolsillo`, «Lo que llevas contigo», conserva los objet
 
 Al reunir las siete estrellas aparece la red existente para enlazarlas. Cuando las siete pertenecen a una misma red y forman la barrera protectora, `ConstellationBuilder` muestra el botón **«MISIÓN COMPLETADA»**. No aparece con estaciones incompletas ni con estrellas todavía desconectadas.
 
-El botón abre `#/agujero-de-gusano` y reutiliza el túnel animado de `wormhole-passage.jsx/css`. Tras 3,6 segundos llega a `#/mision-completada`; con pausa o movimiento reducido muestra una escena estática durante 0,6 segundos. «Ver mi misión completada» permite saltar la transición. La llegada reemplaza la ruta del túnel en el historial y se cancela el temporizador al salir.
+El botón abre `#/agujero-de-gusano` y reutiliza el túnel animado de `wormhole-passage.jsx/css`, sin textos ni botones visibles. Tras 3,6 segundos llega automáticamente a `#/mision-completada`; con pausa o movimiento reducido muestra una escena estática durante 0,6 segundos. La llegada reemplaza la ruta del túnel en el historial y se cancela el temporizador al salir. Ambos túneles muestran únicamente la animación.
 
 `mission-complete.jsx/css` presenta **«MISION COMPLETADA»**, el alias y NEBULA-F23 dentro de un recuadro violeta. Debajo aparece en letra expresiva rosa el mensaje: «Has desafiado a los métodos de investigación de la academia tradicional, considérate parte del club que le apuesta a otras formas de construir y compartir conocimiento.». La figura de agujero negro es un botón con foco visible y la indicación «Entrar al agujero negro». También permite volver a la red, abrir el bolsillo emergente o regresar a portada.
 

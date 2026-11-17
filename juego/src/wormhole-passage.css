@@ -8,11 +8,6 @@
 .wormhole-dust span { position: absolute; top: 46%; left: 50%; width: 2px; height: 2px; border-radius: 50%; background: var(--silver); opacity: 0; animation: wormhole-streak 2.8s ease-in infinite; animation-delay: var(--delay); }
 .wormhole-dust span:nth-child(3n) { background: var(--yellow); }
 .wormhole-heart { position: absolute; left: 50%; top: 46%; width: 22vmax; height: 20vmax; transform: translate(-50%,-50%); border-radius: 50%; background: #10091c; box-shadow: 0 0 60px 20px #fca4bc20; filter: blur(10px); }
-.wormhole-copy { position: relative; padding: 45px 22px 85px; text-shadow: 0 2px 20px #10091c; background: radial-gradient(ellipse,#160a28ed,transparent 72%); }
-.wormhole-copy h1 { margin: 22px 0; color: var(--silver); font-size: clamp(26px,4.5vw,54px); line-height: 1.4; }
-.wormhole-copy h1 em { color: var(--pink); font-size: 1.35em; }
-.wormhole-copy p { max-width: 39ch; margin: 0 auto; font-size: 15px; color: var(--silver); line-height: 1.8; }
-.wormhole-skip { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); width: max-content; max-width: 90%; text-align: center; color: var(--yellow); }
 .wormhole-passage.is-still .wormhole-ring { animation: none; transform: translateZ(calc(var(--i) * -110px)) rotate(calc(var(--i) * 7deg)); }
 .wormhole-passage.is-still .wormhole-dust { display: none; }
 @keyframes wormhole-approach { from { opacity: 0; transform: translateZ(-2000px) rotate(-35deg); } 18% { opacity: .75; } 80% { opacity: .65; } to { opacity: 0; transform: translateZ(380px) rotate(15deg); } }
