@@ -17,7 +17,7 @@ export function MissionComplete({ alias, motion, onNetwork, onPocket, onEnter })
         <BlackHole className="mission-complete-black-hole" />
       </button>
       <p className="mission-complete-invitation">Has desafiado a los métodos de investigación de la academia tradicional, considérate parte del club que le apuesta a otras formas de construir y compartir conocimiento.</p>
-      <p className="mission-complete-screenshot-note">Antes de entrar al agujero negro toma un pantallazo</p>
+      <p className="mission-complete-screenshot-note">Antes de seguir por el agujero negro toma un pantallazo</p>
     </div>
   </section>;
 }
