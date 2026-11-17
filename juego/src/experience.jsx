@@ -413,6 +413,7 @@ export function Experience() {
       {screen === 'farewell' && <MissionFarewell
         onMap={() => navigate('game')}
         onPocket={openPocket}
+        onNetwork={() => navigate('recap')}
       ><StoryText text={conclusion} /></MissionFarewell>}
 
       {screen === 'wormhole' && <WormholePassage motion={coverMotion} onArrive={() => navigate('recap', { replace: true })} />}

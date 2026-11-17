@@ -59,7 +59,7 @@
 .return-to-map { margin-top: 22px; }
 .mission-pocket { padding: 16px 0 40px; }
 .mission-pocket > p { max-width: 65ch; color: var(--silver); }
-.pocket-homecoming { max-width: 880px; margin: 28px auto 44px; padding: clamp(25px,5vw,56px); text-align: center; border: 1px solid #d4dcf340; border-radius: 28px; background: linear-gradient(140deg,#693a8359,#25103599); backdrop-filter: blur(18px); }
+.pocket-homecoming { max-width: 880px; margin: 28px auto 44px; padding: clamp(25px,5vw,56px); text-align: center; }
 .pocket-homecoming .eyebrow { line-height: 2; }
 .pocket-homecoming h1 { margin: 22px 0; font-size: clamp(28px,4vw,48px); color: var(--silver); line-height: 1.4; }
 .pocket-homecoming h1 em { color: var(--pink); font-size: 1.5em; }

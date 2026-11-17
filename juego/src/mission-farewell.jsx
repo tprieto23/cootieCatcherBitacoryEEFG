@@ -23,7 +23,7 @@ export function BlackHole({ className = '' }) {
   </svg></span>;
 }
 
-export function MissionFarewell({ children, onMap, onPocket }) {
+export function MissionFarewell({ children, onMap, onPocket, onNetwork }) {
   return <section className="mission-farewell" aria-labelledby="conclusion-title">
     <nav className="visit-toolbar" aria-label="Acciones de regreso a casa">
       <button type="button" className="text-button" onClick={onMap}>Volver al mapa</button>
@@ -33,7 +33,7 @@ export function MissionFarewell({ children, onMap, onPocket }) {
     <article className="farewell-page">
       <section className="farewell-conclusion" aria-labelledby="conclusion-title"><h1 id="conclusion-title">Mi conclusión</h1>{children}</section>
       <div className="farewell-thanks"><p>Gracias por leerme y por darle un lugar a estas preguntas</p></div>
-      <div className="farewell-actions"><button type="button" className="cover-open" onClick={onPocket} aria-haspopup="dialog">Abrir mi bolsillo <span aria-hidden="true">↗</span></button></div>
+      <div className="farewell-actions"><button type="button" className="cover-open" onClick={onNetwork}>Abrir la red de mis estrellas <span aria-hidden="true">↗</span></button></div>
     </article>
   </section>;
 }
