@@ -419,7 +419,7 @@ export function Experience() {
 
       {screen === 'wormhole' && <WormholePassage motion={coverMotion} onArrive={() => navigate('complete', { replace: true })} />}
 
-      {screen === 'complete' && <MissionComplete alias={alias} motion={coverMotion} onNetwork={() => navigate('recap')} onPocket={openPocket} onHome={() => navigate('home')} onEnter={() => navigate('pocketTunnel')} />}
+      {screen === 'complete' && <MissionComplete alias={alias} motion={coverMotion} onNetwork={() => navigate('recap')} onPocket={openPocket} onEnter={() => navigate('pocketTunnel')} />}
 
       {screen === 'pocketTunnel' && <WormholePassage motion={coverMotion} onArrive={() => navigate('objects', { replace: true })} />}
 

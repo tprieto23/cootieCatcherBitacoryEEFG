@@ -3,7 +3,7 @@ import { BlackHole } from './mission-farewell.jsx';
 import { BrandName } from './brand-name.jsx';
 import './mission-complete.css';
 
-export function MissionComplete({ alias, motion, onNetwork, onPocket, onHome, onEnter }) {
+export function MissionComplete({ alias, motion, onNetwork, onPocket, onEnter }) {
   return <section className={`mission-complete ${motion ? '' : 'is-still'}`} aria-labelledby="mission-complete-title">
     <nav className="visit-toolbar" aria-label="Acciones de misión completada">
       <button type="button" className="text-button" onClick={onNetwork}>Volver a mi red de estrellas</button>
@@ -18,8 +18,6 @@ export function MissionComplete({ alias, motion, onNetwork, onPocket, onHome, on
         <BlackHole className="mission-complete-black-hole" />
         <span>Entrar al agujero negro</span>
       </button>
-      <p className="mission-complete-arrival">Atraviesa este agujero negro y vuelve a encontrarte con los objetos que llevas en tu bolsillo espacial feminista.</p>
-      <button type="button" className="cover-open" onClick={onHome}>Regresar a mi órbita hogar <span aria-hidden="true">↗</span></button>
     </div>
   </section>;
 }

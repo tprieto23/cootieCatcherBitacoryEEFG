@@ -9,9 +9,4 @@
 .mission-complete-portal:focus-visible { outline: 2px solid var(--yellow); outline-offset: 5px; }
 .mission-complete-portal > span:last-child { display: block; font-size: 15px; line-height: 1.6; }
 .mission-complete-black-hole { width: min(360px,90%); margin: 22px auto 15px; }
-.mission-complete-arrival { max-width: 43ch; margin: 0 auto 30px; font-size: 18px; line-height: 1.85; color: var(--silver); }
-.mission-complete-message .cover-open { max-width: 100%; text-align: center; }
 .mission-complete.is-still .black-hole-disc { animation: none; }
-@media (max-width: 560px) {
-  .mission-complete-arrival { font-size: 16px; }
-}
