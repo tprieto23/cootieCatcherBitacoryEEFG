@@ -1,12 +1,12 @@
 .mission-complete { position: relative; isolation: isolate; padding-bottom: 45px; }
-.mission-complete-message { max-width: 960px; margin: 0 auto; padding: clamp(32px,5vw,65px) clamp(20px,4vw,48px); text-align: center; border: 1px solid #d4dcf34d; border-radius: 12px 30px; background: linear-gradient(140deg,#522774e8,#21112fee); box-shadow: inset 0 1px 0 #fff2,0 25px 70px #16082555; }
+.mission-complete-message { max-width: 960px; margin: 0 auto; padding: clamp(28px,4vw,44px) clamp(20px,4vw,48px); text-align: center; border: 1px solid #d4dcf34d; border-radius: 12px 30px; background: linear-gradient(140deg,#522774e8,#21112fee); box-shadow: inset 0 1px 0 #fff2,0 25px 70px #16082555; }
 .mission-complete-message .eyebrow { line-height: 2; }
-.mission-complete-message h1 { margin: 28px 0 0; color: var(--silver); font-size: clamp(27px,4vw,46px); line-height: 1.6; }
-.mission-complete-invitation { max-width: 44ch; margin: 24px auto 12px; color: var(--pink); font: italic clamp(24px,3vw,34px)/1.5 var(--expressive); }
-.mission-complete-portal { display: block; width: min(420px,100%); margin: 12px auto 24px; padding: 12px; border: 0; border-radius: 24px; background: transparent; color: var(--silver); font: inherit; }
+.mission-complete-message h1 { margin: 16px 0 0; color: var(--silver); font-size: clamp(27px,4vw,46px); line-height: 1.25; }
+.mission-complete-invitation { max-width: 44ch; margin: 12px auto 8px; color: var(--pink); font: italic clamp(24px,3vw,34px)/1.4 var(--expressive); }
+.mission-complete-portal { display: block; width: min(420px,100%); margin: 6px auto 8px; padding: 12px; border: 0; border-radius: 24px; background: transparent; color: var(--silver); font: inherit; }
 .mission-complete-portal:hover { background: transparent; color: var(--pink); }
 .mission-complete-portal:hover .black-hole { filter: drop-shadow(0 0 12px #fca4bc55); }
 .mission-complete-portal:focus-visible { outline: 2px solid var(--yellow); outline-offset: 5px; }
-.mission-complete-black-hole { width: min(360px,90%); margin: 22px auto 15px; }
-.mission-complete-screenshot-note { max-width: 48ch; margin: 28px auto 0; color: var(--silver); font-size: 15px; line-height: 1.6; }
+.mission-complete-black-hole { width: min(324px,81%); margin: 6px auto; }
+.mission-complete-screenshot-note { max-width: 48ch; margin: 18px auto 0; color: var(--silver); font-size: 15px; line-height: 1.6; }
 .mission-complete.is-still .black-hole-disc { animation: none; }
