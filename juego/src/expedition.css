@@ -83,6 +83,8 @@ div.ultraviolet-logbook > .ultraviolet-reading { padding-top: 35px; }
 .barrier-chart > button small { color: var(--silver); }
 .barrier-chart > button[aria-pressed="true"] { border-color: var(--yellow); }
 .barrier-status { color: var(--pink); min-height: 60px; }
+.barrier-actions { display: flex; justify-content: center; margin-top: 24px; }
+.barrier-actions .primary { max-width: 100%; text-align: center; }
 .is-paused .antenna-emission, .is-paused .receiver-pulse { animation: none; }
 @keyframes violet-beacon { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
 @keyframes receiver-burst { from { transform: translate(-50%,-50%) scale(.15); opacity: .3; } 50% { opacity: 1; } to { transform: translate(-50%,-50%) scale(2); opacity: .7; } }
