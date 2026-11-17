@@ -7,6 +7,6 @@
 .mission-complete-portal:hover { background: transparent; color: var(--pink); }
 .mission-complete-portal:hover .black-hole { filter: drop-shadow(0 0 12px #fca4bc55); }
 .mission-complete-portal:focus-visible { outline: 2px solid var(--yellow); outline-offset: 5px; }
-.mission-complete-portal > span:last-child { display: block; font-size: 15px; line-height: 1.6; }
 .mission-complete-black-hole { width: min(360px,90%); margin: 22px auto 15px; }
+.mission-complete-screenshot-note { max-width: 48ch; margin: 28px auto 0; color: var(--silver); font-size: 15px; line-height: 1.6; }
 .mission-complete.is-still .black-hole-disc { animation: none; }
